@@ -12,6 +12,7 @@ jaxlib = "^0.3.2"
 jupyter = "^1.0.0"
 jupyterlab = "^3.3.2"
 jupyterlab-git = "^0.36.0"
+matplotlib = "^3.5.1"
 
 [tool.poetry.dev-dependencies]
 
