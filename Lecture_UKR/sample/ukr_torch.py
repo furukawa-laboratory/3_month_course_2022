@@ -65,7 +65,7 @@ class UKR:
             Z = self.history['z'][epoch, :, :]
             zeta = create_zeta(Z, resolution)
             Y = self.f(zeta, Z)
-            self.history['y'][epoch] = Y
+            self.history['y'][epoch] = Y.detach().numpy()
         return self.history['y']
 
 
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
     ukr.calc_approximate_f(resolution)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="tmp")
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
 

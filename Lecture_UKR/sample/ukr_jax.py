@@ -103,7 +103,7 @@ if __name__ == '__main__':
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
     ukr.calc_approximate_f(resolution)
-    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
 
