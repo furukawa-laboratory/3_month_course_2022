@@ -55,7 +55,7 @@ class UKR:
 
             # 学習過程記録用
             self.history['z'][epoch] = self.Z.detach().numpy()
-            self.history['f'] = self.f(self.Z, self.Z).detach().numpy()
+            self.history['f'][epoch] = self.f(self.Z, self.Z).detach().numpy()
             self.history['error'][epoch] = self.E(self.Z, self.X).detach().numpy()
 
     def calc_approximate_f(self, resolution):
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
 
-    epoch = 100
+    epoch = 200
     sigma = 0.2
     eta = 100
     latent_dim = 2
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
     ukr.calc_approximate_f(resolution)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="tmp")
 
 
 

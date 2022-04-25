@@ -54,13 +54,13 @@ class UKR:
 
             # 学習過程記録用
             self.history['z'][epoch] = self.Z
-            self.history['f'] = np.array(self.f(self.Z, self.Z))
+            self.history['f'][epoch] = np.array(self.f(self.Z, self.Z))
             self.history['error'][epoch] = np.array(self.E(self.Z, self.X))
 
     def calc_approximate_f(self, resolution):
         nb_epoch = self.history['z'].shape[0]
         self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
-        for epoch in range(nb_epoch):
+        for epoch in tqdm(range(nb_epoch)):
             Z = self.history['z'][epoch, :, :]
             zeta = create_zeta(Z, resolution)
             Y = self.f(zeta, Z)
@@ -87,12 +87,12 @@ if __name__ == '__main__':
     from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
 
-    epoch = 100
+    epoch = 200
     sigma = 0.2
     eta = 100
     latent_dim = 2
     resolution = 10
-    nb_samples = 100
+    nb_samples = 125
     seed = 4
     np.random.seed(seed)
 
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
     ukr.calc_approximate_f(resolution)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
 
