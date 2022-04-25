@@ -18,7 +18,8 @@ def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, fi
 
     if input_dim == 3 and latent_dim == 2:
         resolution = int(np.sqrt(Y_history.shape[1]))
-        Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
+        if Y_history.shape[1] == resolution ** 2:
+            Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
 
     observable_drawer = [None, None, draw_observable_2D,
                          draw_observable_3D][input_dim]
