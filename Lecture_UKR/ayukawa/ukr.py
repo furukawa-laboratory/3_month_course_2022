@@ -7,15 +7,15 @@ class UKR:
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
-        self.nb_samples, self.ob_dim =
-        self.sigma =
-        self.latent_dim =
+        self.nb_samples, self.ob_dim =10
+        self.sigma =10
+        self.latent_dim =10
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                Z =
+                Z =10
             else: #ガウス事前分布のとき
-                Z =
+                Z =10
         else: #Zの初期値が与えられた時
             Z = Zinit
 
