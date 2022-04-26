@@ -16,7 +16,7 @@
 - 実装した二つのプログラムをクロステストできる．(cross_test.pyをいじればできるはず！)
 
 エクストラ
-- 手動微分を数式的に導くことができる．
+- 手動微分を数式的に導くことができる．([参考資料３](https://github.com/furukawa-laboratory/KSE/blob/master/documents/folulary/kse%E5%85%AC%E5%BC%8F%E9%9B%86%E3%81%A8%E6%A4%9C%E7%AE%971.pdf)が参考になるよ！)
 - 動物データやnipsなどの実データで結果を観察できる． (動物データは[somfのここから](https://github.com/furukawa-laboratory/somf/blob/master/libs/datasets/artificial/animal.py),nipsデータはwebから読み込んでね！)
 
 ## ファイルの説明 
