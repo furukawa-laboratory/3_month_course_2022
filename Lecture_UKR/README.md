@@ -10,6 +10,7 @@
 - 各種パラメータ（カーネル幅など）やデータを変えて観察できる．
 
 スタンダード
+- fとEの計算を行列計算を使わずにfor文で実装する．
 - ukr.pyを手動微分で実装できる． ([参考資料1](https://github.com/furukawa-laboratory/rookies_workout_2021/blob/main/ukr/UKR_formula.pdf)を見ながらやってね！)
 - 人工データを独自に生成できる．(data.pyに新しい関数を追加するイメージ！）
 - 実装した二つのプログラムをクロステストできる．(cross_test.pyをいじればできるはず！)
