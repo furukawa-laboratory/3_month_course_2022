@@ -21,7 +21,7 @@ class UKR:
 
         self.history = {}
 
-    def f(self, Z1: np.ndarray, Z2: np.ndarray,): #写像の計算
+    def f(self, Z1, Z2): #写像の計算
 
 
 
@@ -29,13 +29,13 @@ class UKR:
 
         return f
 
-    def E(self, Z: np.ndarray, X: np.ndarray, alpha=0, norm=2): #目的関数の計算
+    def E(self, Z, X, alpha=0, norm=2): #目的関数の計算
 
 
 
         return E
 
-    def fit(self, nb_epoch: int, eta: float) -> np.ndarray:
+    def fit(self, nb_epoch: int, eta: float) :
         # 学習過程記録用
         self.history['z'] = np.zeros((nb_epoch, self.nb_samples, self.latent_dim))
         self.history['f'] = np.zeros((nb_epoch, self.nb_samples, self.ob_dim))
