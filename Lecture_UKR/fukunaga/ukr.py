@@ -7,8 +7,8 @@ class UKR:
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
-        self.nb_samples, self.ob_dim =
-        self.sigma =
+        self.nb_samples, self.ob_dim = 12
+        self.sigma = 2
         self.latent_dim =
 
         if Zinit is None:
