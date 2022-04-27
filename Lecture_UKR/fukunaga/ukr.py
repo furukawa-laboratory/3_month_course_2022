@@ -7,21 +7,22 @@ class UKR:
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
-        self.nb_samples, self.ob_dim = 12
-        self.sigma = 2
-        self.latent_dim =
+        self.nb_samples, self.ob_dim =X.shap[1]
+        self.sigma =0.1
+        self.latent_dim =2
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                Z =
+                Z =np.random.rand(100).reshape(100,2)
             else: #ガウス事前分布のとき
-                Z =
+                Z =np.random.nomal(100).reshape(100,2)
         else: #Zの初期値が与えられた時
             Z = Zinit
 
         self.history = {}
-
-    def f(self, Z1, Z2): #写像の計算
+    def f(self, Z1, Z2):
+        f =
+        #写像の計算
 
 
 
@@ -49,7 +50,7 @@ class UKR:
 
             # 学習過程記録用
             self.history['z'][epoch] =
-            self.history['f'] =
+            self.history['f'][epoch] =
             self.history['error'][epoch] =
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
