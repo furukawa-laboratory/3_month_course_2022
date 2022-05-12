@@ -3,7 +3,6 @@ import tensorflow as tf
 from tqdm import tqdm
 tf.keras.backend.set_floatx("float64")
 
-
 class UKR:
     def __init__(self, X, latent_dim, sigma, prior='random', Zinit=None):
         if X.ndim == 1:

@@ -13,6 +13,8 @@ class UKR:
         self.nb_samples, self.ob_dim = X.shape
         self.sigma = sigma
         self.latent_dim = latent_dim
+        self.alpha = alpha
+        self.norm = norm
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
@@ -26,21 +28,23 @@ class UKR:
         self.history = {}
 
     def f(self, Z1, Z2): #写像の計算
-        Dist = jnp.sum((Z1[:, None, :] - Z2[None, :, :]) ** 2, axis=2)
-        H = jnp.exp(-0.5*self.sigma * Dist)
+        Dist = jnp.sum((Z1[:, None, :] - Z2[None, :, :])**2, axis=2)
+        H = jnp.exp((-1* Dist)/(2*(self.sigma)**2))
         G = jnp.sum(H, axis=1)[:, None]
         R = H / G
         f = R @ self.X
         return f
 
-    def E(self,Z,X,alpha=0.1,norm=2): #目的関数の計算
+    #def E(self,Z,X,alpha=1,norm=2):
+    def E(self,Z,X,alpha,norm):#目的関数の計算
         Y = self.f(Z,Z)
+
         # e = jnp.sum((X - Y) ** 2)/self.nb_samples
         # e = (1/self.nb_samples) * jnp.sum((X - Y) ** 2)
         e = jnp.sum((X - Y) ** 2)
         r = alpha*jnp.sum(Z**norm)
-        e /= self.nb_samples
-        r /= self.nb_samples
+        e = e/self.nb_samples
+        r = r/self.nb_samples
         return e + r
 
     def fit(self, nb_epoch: int, eta: float):
@@ -51,8 +55,9 @@ class UKR:
 
         for epoch in tqdm(range(nb_epoch)):
 
-            dEdx = jax.grad(self.E,argnums=0)(self.Z,self.X)
+            dEdx = jax.grad(self.E,argnums=0)(self.Z,self.X,self.alpha,self.norm)
             self.Z = self.Z - (eta) * dEdx
+
            # Zの更新
 
 
@@ -60,7 +65,7 @@ class UKR:
             # 学習過程記録用
             self.history['z'][epoch] = self.Z
             self.history['f'][epoch] = self.f(self.Z,self.Z)
-            self.history['error'][epoch] = self.E(self.Z,self.X)
+            self.history['error'][epoch] = self.E(self.Z,self.X,self.alpha,self.norm)
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
@@ -69,9 +74,8 @@ class UKR:
         for epoch in tqdm(range(nb_epoch)):
 
             y = self.f(self.create_zeta(self.history['z'][epoch],resolution),self.Z)
-
-
             self.history['y'][epoch] = y
+
         return self.history['y']
     def create_zeta(self, Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
         a = np.linspace(np.min(Z), np.max(Z), resolution)
@@ -87,33 +91,36 @@ class UKR:
 
 
 if __name__ == '__main__':
-    from tanaka.data import create_kura
-    # from Lecture_UKR.data import create_rasen
+    # from tanaka.data import create_kura
+    from Lecture_UKR.tanaka.data import create_rasen
     # from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.5 #カーネルの幅
-    eta = 20  #学習率
-    latent_dim = 2 #潜在空間の次元
-
+    sigma = 0.001 #カーネルの幅
+    eta = 0.001  #学習率
+    latent_dim = 1 #潜在空間の次元
+    alpha = 1
+    norm = 2
     seed = 4
     np.random.seed(seed)
 
+
+
     #入力データ（詳しくはdata.pyを除いてみると良い）
-    nb_samples = 200 #データ数
-    X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
-    # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
+    nb_samples = 100 #データ数
+    # X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
+    X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
-    #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=10)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    #ukr.calc_approximate_f(resolution=10)
+    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
 

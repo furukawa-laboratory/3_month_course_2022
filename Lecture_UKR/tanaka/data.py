@@ -31,8 +31,8 @@ if __name__ == '__main__':
     from matplotlib import pyplot as plt
 
     nb_samples = 200
-    X = create_kura(nb_samples, noise_scale=0.05)
-    # X = create_rasen(nb_samples)
+    # X = create_kura(nb_samples, noise_scale=0.05)
+    X = create_rasen(nb_samples)
     # X = create_2d_sin_curve(nb_samples, noise_scale=0.01)
 
     _, D = X.shape

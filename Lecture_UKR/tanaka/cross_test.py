@@ -5,7 +5,7 @@ from Lecture_UKR.data import create_kura
 from sample.ukr_torch import UKR as ukr_sample
 
 #作ったプログラムを継承させてね(以下例)
-# from hogename.ukr import UKR as ukr
+from ukr import UKR as ukr
 
 import numpy as np
 
