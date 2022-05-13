@@ -80,4 +80,5 @@ a.fit()
 
 print('fe')
 print('どこはここです')
+print('henkou_test')
 print(basyo)
