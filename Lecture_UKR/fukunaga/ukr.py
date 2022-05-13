@@ -9,7 +9,7 @@ class UKR:
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
-        self.nb_samples, self.ob_dim =X.shape
+        self.nb_samples, self.ob_dim = X.shape
         self.sigma =sigma
         self.latent_dim =latent_dim
 
@@ -27,28 +27,28 @@ class UKR:
         H = -1*(d/(2*self.sigma**2))
         h = jnp.exp(H)
         bunshi = h@self.X
-        bunbo = np.sum(h,axis = 1,keepdims=True)
+        bunbo = np.sum(h, axis=1, keepdims=True)
 
-        f = bunshi[:, :]/bunbo[:, :]
+        f = bunshi/bunbo
         #写像の計算
 
         return f
 
-    def E(self, Z, X, alpha=0.3, norm=2): #目的関数の計算
+    def E(self, Z, X, alpha, norm): #目的関数の計算
         E = jnp.sum((X - self.f(Z,Z))**2)
         R = alpha*jnp.sum(jnp.abs(Z**norm))
         E = E/self.nb_samples + R/self.nb_samples
 
         return E
 
-    def fit(self, nb_epoch: int, eta: float) :
+    def fit(self, nb_epoch: int, eta: float, alpha: float, norm: float):
         # 学習過程記録用
         self.history['z'] = np.zeros((nb_epoch, self.nb_samples, self.latent_dim))
         self.history['f'] = np.zeros((nb_epoch, self.nb_samples, self.ob_dim))
         self.history['error'] = np.zeros(nb_epoch)
 
         for epoch in range(nb_epoch):
-            dEdx = jax.grad(self.E, argnums=0)(self.Z, self.X)
+            dEdx = jax.grad(self.E, argnums=0)(self.Z, self.X, alpha, norm)
             self.Z = self.Z -eta * dEdx
 
            # Zの更新
@@ -59,7 +59,7 @@ class UKR:
             # 学習過程記録用
             self.history['z'][epoch] =self.Z
             self.history['f'][epoch] =self.f(self.Z,self.Z)
-            self.history['error'][epoch] =self.E(self.Z,self.X)
+            self.history['error'][epoch] =self.E(self.Z,self.X, alpha, norm)
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
@@ -97,26 +97,27 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.2 #カーネルの幅
-    eta = 5 #学習率
-    latent_dim = 2 #潜在空間の次元
-
+    sigma = 0.001 #カーネルの幅
+    eta = 0.001 #学習率
+    latent_dim = 1 #潜在空間の次元
+    alpha = 1
+    norm = 2
     seed = 4
     np.random.seed(seed)
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples = 100 #データ数
-    X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
-    # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
+    # X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
+    X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 
     ukr = UKR(X, latent_dim, sigma, prior='random')
-    ukr.fit(epoch, eta)
-    #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    ukr.fit(epoch, eta, alpha, norm)
+    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=10)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    #ukr.calc_approximate_f(resolution=10)
+    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
 

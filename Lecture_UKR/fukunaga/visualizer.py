@@ -47,7 +47,7 @@ def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
     error_ax.cla()
 
     Y, Z= Y_history[epoch], Z_history[epoch]
-    colormap = X[:, 0]
+    colormap = X[:, 2]
 
     observable_drawer(input_ax, X, Y, colormap)
     latent_drawer(latent_ax, Z, colormap)
@@ -72,14 +72,14 @@ def draw_observable_2D(ax, X, Y, colormap):
 
 
 def draw_latent_2D(ax, Z, colormap):
-    ax.set_xlim(-1.1, 1.1)
-    ax.set_ylim(-1.1, 1.1)
+    ax.set_xlim(np.min(Z), np.max(Z))
+    ax.set_ylim(np.min(Z), np.max(Z))
     ax.scatter(Z[:, 0], Z[:, 1], c=colormap)
 
 
 def draw_latent_1D(ax, Z, colormap):
     ax.scatter(Z, np.zeros(Z.shape), c=colormap)
-    ax.set_ylim(-1, 1)
+    ax.set_ylim(np.min(Z), np.max(Z))
 
 def draw_error(ax, error_history, epoch):
     ax.set_title("error_function", fontsize=8)
