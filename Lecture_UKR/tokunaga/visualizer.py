@@ -82,6 +82,7 @@ def draw_latent_1D(ax, Z, colormap):
     ax.set_ylim(-1, 1)
 
 def draw_error(ax, error_history, epoch):
+    ax.set_ylim(0, np.max(error_history)+0.1)
     ax.set_title("error_function", fontsize=8)
     ax.plot(error_history, label='誤差関数')
     ax.scatter(epoch, error_history[epoch], s=55, marker="*")
