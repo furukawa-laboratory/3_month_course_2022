@@ -15,9 +15,9 @@ class UKR:
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.Z =np.random.normal(0, self.sigma*0.1, (self.nb_samples,self.latent_dim))
+                self.Z =np.random.normal(0, self.sigma*0.00001, (self.nb_samples, self.latent_dim))
             else: #ガウス事前分布のとき
-                self.Z =np.random.nomal(self.nb_samples*self.latent_dim).reshape(self.nb_samples,self.latent_dim)
+                self.Z =np.random.nomal(self.nb_samples*self.latent_dim).reshape(self.nb_samples, self.latent_dim)
         else: #Zの初期値が与えられた時
             self.Z = Zinit
 
@@ -68,25 +68,20 @@ class UKR:
         for epoch in range(nb_epoch):
             zeta = create_zeta(self.Z, resolution)
             Y = self.f(zeta, self.history['z'][epoch])
-
-
-
-
-
             self.history['y'][epoch] = Y
         return self.history['y']
 
 
 def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
-    z_x = np.linspace(np.min(Z), np.max(Z), resolution)
+    z_x = np.linspace(np.min(Z), np.max(Z), resolution).reshape(-1, 1)
     z_y = np.linspace(np.min(Z), np.max(Z), resolution)
-    XX,YY = np.meshgrid(z_x, z_y)
+    XX, YY = np.meshgrid(z_x, z_y)
     xx = XX.reshape(-1)
     yy = YY.reshape(-1)
     zeta = np.concatenate([xx[:, None], yy[:, None]], axis=1)
 
 
-    return zeta
+    return z_x
 
 
 if __name__ == '__main__':
@@ -97,10 +92,10 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.001 #カーネルの幅
-    eta = 0.001 #学習率
+    sigma = 0.02 #カーネルの幅
+    eta = 0.2 #学習率
     latent_dim = 1 #潜在空間の次元
-    alpha = 1
+    alpha = 0.1
     norm = 2
     seed = 4
     np.random.seed(seed)
@@ -108,16 +103,16 @@ if __name__ == '__main__':
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples = 100 #データ数
     # X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
-    X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
-    # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
+    #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
+    X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
-    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    #ukr.calc_approximate_f(resolution=10)
-    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    ukr.calc_approximate_f(resolution=100)
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="sin")
 
 
 

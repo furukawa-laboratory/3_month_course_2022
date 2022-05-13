@@ -5,7 +5,7 @@ from matplotlib.animation import FuncAnimation
 STEP = 150
 
 
-def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, filename="tmp"):
+def visualize_history(X: object, Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
     input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -35,7 +35,7 @@ def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, fi
                input_ax, latent_ax, error_ax, num_epoch))
     plt.show()
     if save_gif:
-        ani.save(f"{filename}.mp4", writer='ffmpeg')
+        ani.save(f"{filename}.gif", writer='pillow')
 
 
 def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
@@ -47,7 +47,7 @@ def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
     error_ax.cla()
 
     Y, Z= Y_history[epoch], Z_history[epoch]
-    colormap = X[:, 2]
+    colormap = X[:, 0]
 
     observable_drawer(input_ax, X, Y, colormap)
     latent_drawer(latent_ax, Z, colormap)
@@ -58,8 +58,8 @@ def draw_observable_3D(ax, X, Y, colormap):
     ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=colormap)
     # ax.set_zlim(-1, 1)
     if len(Y.shape) == 3:
-        ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
-        # ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
+        # ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
+        ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
     else:
         ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
 # ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
@@ -72,14 +72,14 @@ def draw_observable_2D(ax, X, Y, colormap):
 
 
 def draw_latent_2D(ax, Z, colormap):
-    ax.set_xlim(np.min(Z), np.max(Z))
-    ax.set_ylim(np.min(Z), np.max(Z))
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
     ax.scatter(Z[:, 0], Z[:, 1], c=colormap)
 
 
 def draw_latent_1D(ax, Z, colormap):
     ax.scatter(Z, np.zeros(Z.shape), c=colormap)
-    ax.set_ylim(np.min(Z), np.max(Z))
+    ax.set_ylim(-1, 1)
 
 def draw_error(ax, error_history, epoch):
     ax.set_title("error_function", fontsize=8)
