@@ -136,8 +136,8 @@ class UKR:
          self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
          #self.history['y'] = np.zeros((nb_epoch, self.X.shape[0], self.ob_dim))
          for epoch in tqdm(range(nb_epoch)):
-             zeta = create_zeta(self.history['z'][epoch], resolution)
-             #zeta = create_zeta1(self.history['z'][epoch])
+             zeta = create_zeta_2D(self.history['z'][epoch], resolution)
+             #zeta = create_zeta_1D(self.history['z'][epoch])
              Y = self.f(zeta, self.history['z'][epoch])
              self.history['y'][epoch] = Y
          return self.history['y']
@@ -164,7 +164,7 @@ class UKR:
 
         return K
 
-def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
+def create_zeta_2D(Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
     #XX, YY = np.meshgrid(np.linspace(-Z/400, Z/400, resolution), np.linspace(-Z/400, Z/400, resolution))
     zmax = np.amax(Z, axis=0)
     zmin = np.amin(Z, axis=0)
@@ -175,7 +175,7 @@ def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に�
 
     return zeta
 
-def create_zeta1(Z):
+def create_zeta_1D(Z):
     zmax = np.amax(Z)
     zmin = np.amin(Z)
     zeta = np.linspace(zmin, zmax, Z.shape[0]).reshape(-1, 1)
@@ -188,24 +188,27 @@ if __name__ == '__main__':
     from Lecture_UKR.data import create_2d_sin_curve
     from Lecture_UKR.tokunaga.data import create_big_kura
     from Lecture_UKR.tokunaga.data import create_cluster
+    from Lecture_UKR.tokunaga.load import load_data
     from visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.1 #カーネルの幅
+    sigma = 0.2 #カーネルの幅
     eta = 50 #学習率
     latent_dim = 2 #潜在空間の次元
 
     seed = 4
     np.random.seed(seed)
 
+
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples = 100 #データ数
-    X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
+    #X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
     #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     #X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     #X = create_big_kura(nb_samples)
     #X = create_cluster(nb_samples)
+    X = load_data()
 
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)

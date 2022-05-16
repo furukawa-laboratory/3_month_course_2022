@@ -1,16 +1,11 @@
 #sampleフォルダのukr_torchとクロステストするプログラム
 
-import unittest
-from Lecture_UKR.data import create_kura
-from sample.ukr_torch import UKR as ukr_sample
-
-#作ったプログラムを継承させてね(以下例)
-# from hogename.ukr import UKR as ukr
-
 import numpy as np
+from Lecture_UKR.tokunaga.ukr import UKR as ukr
+from Lecture_UKR.sample.ukr_torch import UKR as ukr_sample
+from Lecture_UKR.tokunaga.data import create_kura
 
-
-class TestUKR(unittest.TestCase):
+class TestUKR():
     def test_UKR(self):
         epoch = 100
         sigma = 0.2
@@ -46,4 +41,6 @@ class TestUKR(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    test_ukr = TestUKR()
+    test_ukr.test_UKR()
+    #unittest.main()
