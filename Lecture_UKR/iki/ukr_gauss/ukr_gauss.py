@@ -4,7 +4,8 @@ import jax,jaxlib
 import jax.numpy as jnp
 import os
 class UKR:
-    def __init__(self, X, K_num,latent_dim, resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo): # 引数はヒントになるかも！
+    def __init__(self, X, K_num,latent_dim, resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto): # 引数はヒントになるかも！
+        #引数を用いたselfの宣言
         self.X = X
         self.N, self.D = X.shape
         self.nn=int(self.N**0.5)
@@ -14,7 +15,6 @@ class UKR:
         self.resolution = resolution
         self.ZN=np.random.normal(0,0.5,(self.N,self.L))
         self.ZN= np.random.uniform(low=-self.resolution, high=self.resolution, size=(self.N,self.L))
-
         self.Y = 0
         self.sigma=sigma
         self.ramuda=ramuda
@@ -22,20 +22,25 @@ class UKR:
         self.nb_epoch=nb_epoch
         self.meyasu=meyasu
         self.x_range=x_range
+        self.sitaikoto=sitaikoto
+        self.basyo=basyo
 
-        # 学習過程記録用
+        self.loss_type=['loss','loss_mse','loss_L2'] #合計と正則項と二乗誤差
+        self.name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn', 'realx']
+        # 学習過程記録用 historyの初期化
         self.history = {}
         self.history['zn'] = np.zeros((nb_epoch, self.N, self.L))
         self.history['y_zn'] = np.zeros((nb_epoch, self.N, self.D))
         self.history['y_zk'] = np.zeros((nb_epoch, self.K, self.D))
         self.history['y_zk_wire']=np.zeros((nb_epoch,self.KK,self.KK,self.D))
-        self.history['e']=np.zeros((self.nb_epoch))
-        self.history['e_seisoku']=np.zeros((self.nb_epoch))
-        self.history['e_loss'] = np.zeros((self.nb_epoch))
-        self.e=np.zeros(1)
-        self.e_seisoku = np.zeros(1)
-        self.e_loss = np.zeros(1)
+        self.history['loss']=np.zeros((self.nb_epoch))
+        self.history['loss_mse']=np.zeros((self.nb_epoch))
+        self.history['loss_L2'] = np.zeros((self.nb_epoch))
+        self.history['realx']=np.zeros((self.N,self.D))
+        self.history['zn'][0]=self.ZN
+        self.history['realx']=self.X
 
+    def make_zk(self,):
         zn_min = np.min(self.ZN)
         zn_max = np.max(self.ZN)
         zk_x = np.linspace(zn_min, zn_max, self.KK)
@@ -43,115 +48,62 @@ class UKR:
         m_x, m_y = np.meshgrid(zk_x, zk_y)
         m_x = m_x.reshape(-1)
         m_y = m_y.reshape(-1)
-        self.zk = np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
-        self.history['zn'][0]=self.ZN
-        self.basyo=basyo
-
+        return np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
 
     def fit(self,):
 
         #テスト時に入力がznのときのyを求める関数
-        def karnel(ZN,sigma,X):
-            d = np.sum((ZN[:, None, :] - ZN[None, :, ]) ** 2, axis=2)
-            k = jnp.exp(-1 / (2 * sigma ** 2) * d)
+        def karnel_jnp(target):
+            d = np.sum((target[:, None, :] - self.ZN[None, :, ]) ** 2, axis=2)
+            k = jnp.exp(-1 / (2 * self.sigma ** 2) * d)
             KK=jnp.sum(k,axis=1)
-            Y=np.einsum('ij,jk->ik',k, X)
-            YY=Y/KK[:,None]
-            return YY
-
-        #テスト時に入力がzkのときのyを求める関数
-        def karnel2(zz,ZN,sigma,X):
-            d = np.sum((zz[:, None, :] - ZN[None, :, ]) ** 2, axis=2)
-            k = np.exp(-1 / (2 * sigma ** 2) * d)
-            KK=np.sum(k,axis=1)
-            Y=np.einsum('ij,jk->ik',k, X)
+            Y=jnp.einsum('ij,jk->ik',k, self.X)
             YY=Y/KK[:,None]
             return YY
 
         #学習時の損失を求める関数
-        def E(ZN, sigma, X,ramuda,epoch):
-            #カーネル平滑化
-            d = np.sum((ZN[:, None, :] - ZN[None, :, ]) ** 2, axis=2)
-            k = jnp.exp(-1 / (2 * sigma ** 2) * d)
-            KK=jnp.sum(k,axis=1)
-            Y= jnp.einsum('ij,jk->ik',k, X)
-            YY=Y/KK[:,None]
-            #正則化項を加えた損失計算
+        def E_jnp(target,epoch=-1):
+            YY = karnel_jnp(target)
+            loss = {}
+            loss['loss_L2'] = jnp.sum(self.ramuda * target ** 2, axis=1) / 2 / self.N
+            loss['loss_mse'] = jnp.sum((self.X - YY) ** 2, axis=1) / 2 / self.N
+            loss['loss'] = jnp.sum(loss['loss_mse'] + loss['loss_L2'])
 
-            seisoku=jnp.sum(ramuda*ZN**2,axis=1)
-            seisoku=seisoku/self.N
-
-            loss=jnp.sum((X-YY)**2,axis=1)
-            loss=loss/2/self.N
-            e=jnp.sum(loss+seisoku)
-
-            return e
-
-        def E_hozon(ZN, sigma, X,ramuda,epoch):
-            # print(567676,epoch)
-            #カーネル平滑化
-            d = np.sum((ZN[:, None, :] - ZN[None, :, ]) ** 2, axis=2)
-            k = np.exp(-1 / (2 * sigma ** 2) * d)
-            KK=np.sum(k,axis=1)
-            Y= np.einsum('ij,jk->ik',k, X)
-            YY=Y/KK[:,None]
-            #正則化項を加えた損失計算
-
-            seisoku=np.sum(ramuda*ZN**2,axis=1)
-            seisoku1=np.sum(seisoku)
-            loss=np.sum((X-YY)**2,axis=1)
-            loss1=np.sum(loss)
-            e=np.sum(loss+seisoku)
-            self.history['e_seisoku'][epoch]=seisoku1
-            self.history['e_loss'][epoch] = loss1
-            # print(seisoku1,loss1)
-            # print(self.history['e_seisoku'][epoch],self.history['e_loss'][epoch])
-            self.history['e'][epoch] = e
-
-            return e
+            if(epoch==-1):
+                return loss['loss']
+            else:
+                for i in self.loss_type:
+                    self.history[i][epoch] = jnp.sum(loss[i]) / 2 / self.N
 
         for epoch in range(self.nb_epoch):
             print('epoch='+str(epoch))
-            #損失のself.ZNでの微分
-            dx=jax.grad(E, argnums=0)(self.ZN,self.sigma,self.X,self.ramuda,epoch)
-            E_hozon(self.ZN,self.sigma,self.X,self.ramuda,epoch)
+            #損失のself.ZNでの微分1
+            dx=jax.grad(E_jnp, argnums=0)(self.ZN)
             self.ZN=self.ZN-self.eta*(dx)
-            #画像と配列の保存
+            #データの保存
             if(epoch%self.meyasu==0):
-                #znを用いて生成したYのscatter画像
-                ans=karnel(self.ZN,self.sigma,self.X)
-
+                #損失の保存
+                E_jnp(self.ZN,epoch)
+                #znを用いて生成したYの保存
+                ans=karnel_jnp(self.ZN)
                 self.history['y_zn'][epoch] =ans
-                #zkを用いて生成したYのワイヤー画像
-                zn_min=np.min(self.ZN)
-                zn_max=np.max(self.ZN)
-                zk_x = np.linspace(zn_min, zn_max, self.KK)
-                zk_y = np.linspace(zn_min, zn_max, self.KK)
-                m_x, m_y = np.meshgrid(zk_x, zk_y)
-                m_x = m_x.reshape(-1)
-                m_y = m_y.reshape(-1)
-                self.zk = np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
-                ans2 = karnel2(self.zk,self.ZN, self.sigma, self.X)
+                #zkを用いて生成したYの保存
+                zk=self.make_zk()
+                ans2 = karnel_jnp(zk)
                 resolution = ans2.reshape(self.KK, self.KK, 3)
                 self.history['y_zk'][epoch]=ans2
                 self.history['y_zk_wire'][epoch]=resolution
-
-                if(epoch!=0):
-                    self.history['zn'][epoch] = self.ZN
-
+                #潜在空間ZNの保存
+                self.history['zn'][epoch] = self.ZN
 
         #曲面
-        print(np.max(self.ZN))
-        print(np.average(self.ZN))
-        print(self.history['e'].shape,self.history['e_seisoku'].shape,self.history['e_loss'].shape)
-        np.save('data/' + str(self.nb_epoch) + '/'+str(self.basyo)+'/realx_'+str(0) , self.X)
-        np.save('data/' + str(self.nb_epoch) + '/' + str(self.basyo) + '/e' , self.history['e'])
-        np.save('data/' + str(self.nb_epoch) + '/' + str(self.basyo) + '/e_seisoku', self.history['e_seisoku'])
-        np.save('data/' + str(self.nb_epoch) + '/' + str(self.basyo) + '/e_loss', self.history['e_loss'])
-        np.save('data/' + str(self.nb_epoch) + '/' + str(self.basyo) + '/y_zn' , self.history['y_zn'])
-        np.save('data/' + str(self.nb_epoch) + '/' + str(self.basyo) + '/y_zk', self.history['y_zk'])
-        np.save('data/' + str(self.nb_epoch) + '/' + str(self.basyo) + '/y_zk_wire', self.history['y_zk_wire'])
-        np.save('data/' + str(self.nb_epoch) + '/' + str(self.basyo) + '/zn', self.history['zn'])
+        def save_data(name,data,syurui):
+            np.save(self.sitaikoto+'/' + str(self.basyo) + '/'+syurui+'/'+name, data)
 
+        data=[self.history[i] for i in self.name]
+        for i in range(len(self.name)):
+            save_data(self.name[i],data[i],'data')
+
+        print('hai')
 
 
