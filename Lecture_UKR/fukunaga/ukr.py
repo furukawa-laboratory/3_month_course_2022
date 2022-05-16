@@ -17,7 +17,7 @@ class UKR:
             if prior == 'random': #一様事前分布のとき
                 self.Z =np.random.normal(0, self.sigma*0.00001, (self.nb_samples, self.latent_dim))
             else: #ガウス事前分布のとき
-                self.Z =np.random.nomal(self.nb_samples*self.latent_dim).reshape(self.nb_samples, self.latent_dim)
+                self.Z =np.random.normal(self.nb_samples*self.latent_dim).reshape(self.nb_samples, self.latent_dim)
         else: #Zの初期値が与えられた時
             self.Z = Zinit
 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
 
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(resolution=100)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="sin")
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="sin")
 
 
 
