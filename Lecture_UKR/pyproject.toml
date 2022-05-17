@@ -6,6 +6,7 @@ authors = ["Y-ayukawa <ayukawa.yusuke893@mail.kyutech.jp>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+tqdm = "^4.64.0"
 
 [tool.poetry.dev-dependencies]
 
