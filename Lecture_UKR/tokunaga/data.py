@@ -22,7 +22,7 @@ def create_2d_sin_curve(nb_samples, noise_scale=0.01):
     z = np.random.rand(nb_samples) * 2.0 - 1.0
     X = np.zeros((nb_samples, 2))
     X[:, 0] = z
-    X[:, 1] = np.sin(z * np.pi) * 0.5
+    X[:, 1] = np.sin(z * np.pi)
     X += np.random.normal(loc=0, scale=noise_scale, size=X.shape)
     return X
 

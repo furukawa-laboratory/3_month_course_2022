@@ -26,3 +26,6 @@ def load_data(retlabel_animal=True, retlabel_feature=False):
         return_objects.append(label_feature)
 
     return return_objects
+
+if __name__ == '__main__':
+    print(load_data()[1])

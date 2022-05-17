@@ -19,7 +19,7 @@ class UKR:
             if prior == 'random': #一様事前分布のとき
                 Z = np.random.uniform(-0.001, 0.001, self.nb_samples*latent_dim).reshape(self.nb_samples,self.latent_dim)
             else: #ガウス事前分布のとき
-                Z = np.random.normal(0, 0.1, self.nb_samples*latent_dim).reshape(self.nb_samples, self.latent_dim)
+                Z = np.random.normal(0, 0.001, self.nb_samples*latent_dim).reshape(self.nb_samples, self.latent_dim)
         else: #Zの初期値が与えられた時
             Z = Zinit
         self.Z = Z
@@ -57,7 +57,7 @@ class UKR:
 
         return f
 
-    def E(self, Z, X, alpha=0.001, norm=10): #目的関数の計算
+    def E(self, Z, X, alpha=0.0001, norm=2): #目的関数の計算
         d = ((X-self.f(Z, Z))**2)/self.nb_samples
         E = jnp.sum(d)+alpha*jnp.sum(Z**norm)
         return E
@@ -185,19 +185,20 @@ def create_zeta_1D(Z):
 if __name__ == '__main__':
     from Lecture_UKR.data import create_kura
     from Lecture_UKR.data import create_rasen
-    from Lecture_UKR.data import create_2d_sin_curve
+    from Lecture_UKR.tokunaga.data import create_2d_sin_curve
     from Lecture_UKR.tokunaga.data import create_big_kura
     from Lecture_UKR.tokunaga.data import create_cluster
     from Lecture_UKR.tokunaga.load import load_data
     from visualizer import visualize_history
+    from visualizer import visualize_real_history
 
     #各種パラメータ変えて遊んでみてね．
-    epoch = 200 #学習回数
-    sigma = 0.2 #カーネルの幅
+    epoch = 300 #学習回数
+    sigma = 0.22 #カーネルの幅
     eta = 50 #学習率
-    latent_dim = 2 #潜在空間の次元
+    latent_dim = 1 #潜在空間の次元
 
-    seed = 4
+    seed = 20
     np.random.seed(seed)
 
 
@@ -208,15 +209,15 @@ if __name__ == '__main__':
     #X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     #X = create_big_kura(nb_samples)
     #X = create_cluster(nb_samples)
-    X = load_data()
-
+    X = load_data()[0]
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
+    visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
     #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=10)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    #ukr.calc_approximate_f(resolution=10)
+    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
 
