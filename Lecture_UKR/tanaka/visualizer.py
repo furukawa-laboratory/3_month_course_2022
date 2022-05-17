@@ -56,14 +56,14 @@ def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
 
 def draw_observable_3D(ax, X, Y, colormap):
     ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=colormap)
-    # ax.set_zlim(-1, 1)
+    ax.set_zlim(-1, 1)
     if len(Y.shape) == 3:
-        # ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
+         ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
          ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
     else:
         ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
 # ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
-# ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
+    ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
 
 
 def draw_observable_2D(ax, X, Y, colormap):
