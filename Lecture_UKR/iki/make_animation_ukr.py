@@ -51,6 +51,10 @@ for i in name:
     data[i]=load_data(ukr_type,sitaikoto,doko,i)
 
 
+f = open(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/settings.txt','r')
+print(f)
+settings= f.readlines()
+print(settings[8])
 
 # ##################################################################################
 # # 描画ようのメソッド
@@ -61,6 +65,7 @@ def init():
 
 def animate_y_zn(i):
     plt.cla()
+    plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     ax.set_xlabel('y_zn1')
     ax.set_ylabel('y_zn2')
     ax.set_zlabel('y_zn3')
@@ -79,7 +84,7 @@ def animate_y_zn(i):
 
 def animate_wire_zk(i):
     plt.cla()
-
+    plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     ax.set_xlabel('zk1')
     ax.set_ylabel('zk2')
     ax.set_zlabel('zk3')
@@ -103,6 +108,7 @@ def animate_wire_zk(i):
 def animate_zn(i):
     plt.cla()
     ax.axes.set_aspect('equal')
+    plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     plt.xlim(np.min(data['zn'][i*baisu,:,:]), np.max(data['zn'][i*baisu,:,:]))  # x軸の範囲
     plt.ylim(np.min(data['zn'][i*baisu,:,:]), np.max(data['zn'][i*baisu,:,:]))  # y軸の範囲
     hirosa=np.max(data['realx'][:,0])-np.min(data['realx'][:,0])
@@ -112,11 +118,14 @@ def animate_zn(i):
 
 def graph(y,name,wariai):
     plt.figure()
+    # plt.title(settings[8],settings[9],settings[10],settings[11])  # タイトル
+    plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     epoch=list(y.shape)[0]
     start=epoch//wariai
     x=np.arange(epoch)
     plt.plot(x[start:],y[start:])
     plt.savefig(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/'+name+'.png')
+
 
 
 
