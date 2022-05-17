@@ -88,6 +88,7 @@ if __name__ == '__main__':
     from visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
+    ##
     epoch = 300 #学習回数
     sigma = 0.4 #カーネルの幅
     eta = 2 #学習率
