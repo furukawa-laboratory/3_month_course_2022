@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=True):
+def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=None):
     z1 = np.linspace(-1, 1, xsamples)
     z2 = np.linspace(-1, 1, ysamples)
 

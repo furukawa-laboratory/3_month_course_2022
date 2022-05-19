@@ -99,7 +99,7 @@ def update_graph(epoch, observable_drawer, latent1_drawer, latent2_drawer, X, Y_
     error_ax.cla()
 
     Y, U, V= Y_history[epoch], U_history[epoch], V_history[epoch]
-    colormapx = X[:,:, 0]
+    colormapx = X[:, :, 0]
     colormap1 = X[:, 0, 0]
     colormap2 = X[0, :, 0]
         #X[:, 0]
@@ -117,7 +117,7 @@ def draw_observable_3D(ax, X, Y, colormap):
         ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
         # ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
     else:
-        ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
+        ax.plot(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
 # ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
 # ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
 
