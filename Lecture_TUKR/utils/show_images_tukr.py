@@ -4,11 +4,13 @@ from IPython.display import HTML
 import jax,jaxlib
 import jax.numpy as jnp
 import numpy as np
-
+import sys,os
+moto=os.getcwd()[:-5]+'iki/'
+sys.path.append(moto)
 epochs=200-1
 wariai=10
 nani='ukr_gauss'
-doko=1
+doko=0
 frame_epochs=epochs//2
 baisu=10
 k_size=10000
@@ -37,7 +39,8 @@ e_type=['loss','loss_mse','loss_L2']
 data={}
 sitaikoto='karnel_wo_tiisakusitai'
 sitaikoto='data_range_2'
-ukr_type='ukr_gauss'
+sitaikoto='sigma_small'
+ukr_type=moto+'tukr_gauss'
 ########################
 def load_data(ukr_type,sitaikoto,doko,name):
     return np.load(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/data/'+name+'.npy')
