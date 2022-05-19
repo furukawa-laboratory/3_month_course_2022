@@ -134,6 +134,4 @@ dmypy.json
 .idea/
 
 #iki
-
-/Lecture_TUKR/iki/data/
-/Lecture_TUKR/iki/pic/
+Lecture_TUKR/iki/*/sigma_small/

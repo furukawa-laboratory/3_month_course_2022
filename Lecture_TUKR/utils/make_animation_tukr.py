@@ -3,11 +3,21 @@ import numpy as np
 import os
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
+import sys
+print('jiiioji')
+
+print(sys.path)
+print(os.path.abspath(__file__))
+print(os.getcwd()[:-5])
+
+moto=os.getcwd()[:-5]+'iki/'
+sys.path.append(moto)
+print(sys.path)
+
 
 epochs=200
 wariai=10
-nani='tukr'
-doko=1
+doko=0
 frame_epochs=epochs//2
 baisu=10
 k_size=10000
@@ -39,14 +49,14 @@ sitaikoto='data_range_2'
 sitaikoto='sakou_no_ans'
 sitaikoto='sigma_large'
 sitaikoto='sigma_small'
-ukr_type='tukr'
+ukr_type=moto+'tukr_gauss'
 print('-------------------')
 if(os.path.exists(sitaikoto)):
     if (os.path.exists(sitaikoto)+'/'+str(doko)):
         print(1)
 print('=================')
 def load_data(ukr_type,sitaikoto,doko,name):
-    return np.load('../'+ukr_type+'/'+sitaikoto+'/'+str(doko)+'/data/'+name+'.npy')
+    return np.load(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/data/'+name+'.npy')
 for i in name:
     data[i]=load_data(ukr_type,sitaikoto,doko,i)
 

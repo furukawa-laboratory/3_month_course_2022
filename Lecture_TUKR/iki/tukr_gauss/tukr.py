@@ -19,7 +19,7 @@ class TUKR:
         self.sigma=sigma
         self.ramuda=ramuda
         self.eta=eta
-        self.nb_epoch=nb_epoch
+        self.nb_epoch=nb_epochq
         self.meyasu=meyasu
         self.x_range=x_range
         self.sitaikoto=sitaikoto
