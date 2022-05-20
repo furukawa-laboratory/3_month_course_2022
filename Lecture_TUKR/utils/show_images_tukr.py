@@ -7,9 +7,9 @@ import numpy as np
 import sys,os
 moto=os.getcwd()[:-5]+'iki/'
 sys.path.append(moto)
-epochs=200-1
+epochs=50-1
 wariai=10
-nani='ukr_gauss'
+nani='tukr_gauss'
 doko=0
 frame_epochs=epochs//2
 baisu=10
@@ -33,13 +33,14 @@ e_loss=np.zeros((epochs))
 
 
 data={}
-name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn', 'realx']
+name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn1','zn2', 'realx']
 e_type=['loss','loss_mse','loss_L2']
 
 data={}
 sitaikoto='karnel_wo_tiisakusitai'
 sitaikoto='data_range_2'
 sitaikoto='sigma_small'
+sitaikoto='kansei'
 ukr_type=moto+'tukr_gauss'
 ########################
 def load_data(ukr_type,sitaikoto,doko,name):
