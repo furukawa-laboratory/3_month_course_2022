@@ -4,7 +4,7 @@ import os
 
 #変数の設定
 X1_num=10
-X2_num=5
+X2_num=10
 X3_num=1
 Z1_num=X1_num
 Z2_num=X2_num
@@ -12,27 +12,29 @@ Z2_num=X2_num
 X_num=X1_num*X2_num*X3_num
 Z_num=X_num
 
-K_num=10000
+K_num=100
 d_num=3
 z_num=2
 
 sigma=np.log(X_num)
-sigma=0.1
+sigma=0.5
 # sigma=0.5
-resolution=0.000001
+resolution=0.0001
 
 
 ramuda=0.005
-eta=1
+eta=10
 nb_epoch=200
 meyasu=1
 x_range=1
 data_type='sin(X1)+sin(X2)'
 dotti='random'
 dotti='kankei_data'
+dotti='kanzen_random'
 sitaikoto='karnel_wo_tiisakusitai'
 sitaikoto='sigma_small'
 sitaikoto='kantu'
+sitaikoto='kansei'
 syurui='data'
 
 if(dotti=='random'):
@@ -50,7 +52,20 @@ elif(dotti=='kankei_data'):
     print(X1[:,None,None].shape)
     print(X2[None,:,None].shape)
     X3=X1[:,None,None]**2-X2[None,:,None]**2 #10,5
+    m_x, m_y = np.meshgrid(X1, X2)
+    m_x = m_x.reshape(-1)
+    m_y = m_y.reshape(-1)
+    X_graph_mode=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
+    print(X_graph_mode.shape,X3.reshape(-1)[:,None].shape)
+    X_graph_mode=np.concatenate((X_graph_mode,X3.reshape(-1)[:,None]),axis=1)
+    print(X1.shape,X2.shape,X3.shape,X_graph_mode.shape)
+elif(dotti=='kanzen_random'):
+    X1=np.random.uniform(low=-x_range, high=x_range, size=X_num)
+    X2=np.random.uniform(low=-x_range, high=x_range,size= X_num)
+    X3=X1**2-X2**2
 
+    X=np.concatenate([X1[:,None],X2[:,None]],axis=1) #
+    X=np.concatenate([X,X3[:,None]],axis=1)
 else:
     exit()
 # X3=X1**2-X2**2
@@ -59,13 +74,7 @@ else:
 # X=np.concatenate([X1[:,None],X2[:,None]],axis=1) #
 # X=np.concatenate([X,X3[:,None]],axis=1)
 
-m_x, m_y = np.meshgrid(X1, X2)
-m_x = m_x.reshape(-1)
-m_y = m_y.reshape(-1)
-X_graph_mode=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
-print(X_graph_mode.shape,X3.reshape(-1)[:,None].shape)
-X_graph_mode=np.concatenate((X_graph_mode,X3.reshape(-1)[:,None]),axis=1)
-print(X1.shape,X2.shape,X3.shape,X_graph_mode.shape)
+
 
 #保存用ディレクトリの作成
 def make_dict(dict_name,syurui):
@@ -137,7 +146,7 @@ with open(sitaikoto+'/'+str(basyo)+'/settings.txt', 'w') as f:
     print('data_type=',data_type,file=f)
 with open(sitaikoto+'/overview''/mokuteki.txt', 'w') as f:
     print('xの範囲を−2から2にしたい',file=f)
-a=TUKR(X3,K_num,z_num,resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto,X_graph_mode,X1_num,X2_num,X3_num)
+a=TUKR(X,K_num,z_num,resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto)
 
 
 a.fit()
@@ -148,3 +157,4 @@ print('どこはここです')
 
 
 print(basyo)
+
