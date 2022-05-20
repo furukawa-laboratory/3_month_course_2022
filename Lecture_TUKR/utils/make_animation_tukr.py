@@ -14,7 +14,7 @@ moto=os.getcwd()[:-5]+'iki/'
 sys.path.append(moto)
 print(sys.path)
 
-
+exit()
 epochs=200
 wariai=10
 doko=0
