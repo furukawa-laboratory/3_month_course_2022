@@ -43,7 +43,7 @@ class TUKR:
         f = jnp.einsum('li,kj,ijd->lkd', ku, kv, self.X)/jnp.einsum('li,kj->lk', ku, kv).reshape(nb_samples1, nb_samples2, 1)
         return f
 
-    def E(self, U, V, X, alpha=0.001, norm=2): #目的関数の計算
+    def E(self, U, V, X, alpha=0.01, norm=2): #目的関数の計算
         d = ((X-self.f(U, V))**2)/(self.nb_samples1*self.nb_samples2)
         E = jnp.sum(d)+alpha*(jnp.sum(U**norm)+jnp.sum(V**norm))
         return E
@@ -67,13 +67,13 @@ class TUKR:
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
-         nb_epoch = self.history['z'].shape[0]
-         self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
+         nb_epoch = self.history['u'].shape[0]
+         self.history['y'] = np.zeros((nb_epoch, self.nb_samples1, self.nb_samples2, self.ob_dim))
          #self.history['y'] = np.zeros((nb_epoch, self.X.shape[0], self.ob_dim))
          for epoch in tqdm(range(nb_epoch)):
-             zeta = create_zeta_2D(self.history['z'][epoch], resolution)
-             #zeta = create_zeta_1D(self.history['z'][epoch])
-             Y = self.f(zeta, self.history['z'][epoch])
+             zetau = create_zeta_1D(self.history['u'][epoch])
+             zetav = create_zeta_1D(self.history['v'][epoch])
+             Y = self.f(zetau, zetav)
              self.history['y'][epoch] = Y
          return self.history['y']
 
@@ -102,19 +102,21 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma1 = 0.2 #uのカーネルの幅
-    sigma2 = 0.2 #vのカーネル幅
-    ueta = 50 #uの学習率
-    veta = 50 #vの学習率
+    #sigma1 = 2 #uのカーネルの幅
+    #sigma2 = 3 #vのカーネル幅
+    ueta = 2 #uの学習率
+    veta = 2 #vの学習率
     latent_dim1 = 1 #潜在空間1の次元
     latent_dim2 = 1 #潜在空間2の次元
 
-    seed = 4
+    seed = 10
     np.random.seed(seed)
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples1 = 10 #潜在空間１のデータ数
     nb_samples2 = 20 #潜在空間２のデータ数
+    sigma1 = np.log(nb_samples1)/nb_samples1
+    sigma2 = np.log(nb_samples2)/nb_samples2
     X = load_kura_tsom(nb_samples1, nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
     #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     #X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
@@ -124,11 +126,11 @@ if __name__ == '__main__':
     tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random')
     tukr.fit(epoch, ueta, veta)
     #visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
-    visualize_history(X, tukr.history['f'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="sigma05")
+    #visualize_history(X, tukr.history['f'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="iikanzi")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    #ukr.calc_approximate_f(resolution=10)
-    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    tukr.calc_approximate_f(resolution=10)
+    visualize_history(X, tukr.history['y'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
 
 
 

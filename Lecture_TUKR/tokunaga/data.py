@@ -2,8 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=None):
-    z1 = np.linspace(-1, 1, xsamples)
-    z2 = np.linspace(-1, 1, ysamples)
+    # z1 = np.linspace(-1, 1, xsamples)
+    # z2 = np.linspace(-1, 1, ysamples)
+
+    z1 = np.random.uniform(-1, 1, xsamples)
+    z2 = np.random.uniform(-1, 1, ysamples)
 
     z1_repeated, z2_repeated = np.meshgrid(z1, z2, indexing='ij')
     x1 = z1_repeated
