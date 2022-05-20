@@ -6,7 +6,7 @@ import os
 class TUKR:
     def __init__(self, X, K_num,latent_dim, resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto,X_graph_mode,X1_num,X2_num,X3_num): # 引数はヒントになるかも！
         #引数を用いたselfの宣言
-        self.X = X #50,1
+        self.X = X_graph_modefff
         self.X_graph_mode=X_graph_mode #50,3
 
         self.ZN1_num,self.ZN2_num, self.D = X.shape
