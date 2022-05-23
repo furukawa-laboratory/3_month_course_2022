@@ -24,7 +24,7 @@ class UKR:
 
         self.history = {}
 
-    def kernel(self, Z1, Z2): #写像の計算
+    def kernel(self, Z1, Z2): #写像の計算 TUKRの式に変更
             Mom = jnp.sum((Z1[:, None, :] - Z2[None, :, :]) ** 2, axis=2)
             Chi = jnp.exp(-1/(2*self.sigma**2)*Mom)
             f = (Chi@self.X)/jnp.sum(Chi, axis=1, keepdims=True)
@@ -82,7 +82,7 @@ def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に�
 
 
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
+    from data_scratch.data import load_kura_tsom
     from Lecture_UKR.data import create_rasen
     from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples = 200 #データ数
-    X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
+    X = load_kura_tsom(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
     # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 
