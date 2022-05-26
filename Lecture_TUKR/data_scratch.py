@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=False):
-    z1 = np.linspace(-1, 1, xsamples)
+    z1 = np.linspace(-1, 1, xsamples) #randam関数にする
     z2 = np.linspace(-1, 1, ysamples)
 
     z1_repeated, z2_repeated = np.meshgrid(z1, z2)
@@ -25,8 +25,8 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
 
-    xsamples = 20
-    ysamples = 20
+    xsamples = 50
+    ysamples = 30
 
     x, truez = load_kura_tsom(xsamples, ysamples, retz=True)
     
@@ -35,3 +35,5 @@ if __name__ == '__main__':
     ax_x.scatter(x[:, :, 0], x[:, :, 1], x[:, :, 2])
     ax_x.set_title('Generated three-dimensional data')
     plt.show()
+
+
