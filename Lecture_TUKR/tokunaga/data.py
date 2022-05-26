@@ -36,11 +36,12 @@ def load_kura_list(xsamples, ysamples, missing_rate=None, retz=None):
     x2 = z2_repeated.reshape(-1)
     x1_num = z1_num_repeated.reshape(-1)
     x2_num = z2_num_repeated.reshape(-1)
-    x3 = x1**2 - x2**2 + np.random.uniform(-0.5, 0.5, xsamples*ysamples)
+    x3 = x1**2 - x2**2
     #ノイズを加えたい時はここをいじる,locがガウス分布の平均、scaleが分散,size何個ノイズを作るか
     #このノイズを加えることによって三次元空間のデータ点は上下に動く
 
     x = np.concatenate([x1[:, None], x2[:, None], x3[:, None]], axis=1)
+    x = x + np.random.normal(0, 0.2, (xsamples * ysamples, 3))
     x_num = np.concatenate([x1_num[:, None], x2_num[:, None]], axis=1)
 
     if missing_rate == 0 or missing_rate == None:

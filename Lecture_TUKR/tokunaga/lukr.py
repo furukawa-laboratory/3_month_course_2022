@@ -5,7 +5,7 @@ from tqdm import tqdm
 import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
-
+from jax import jit
 class List_UKR:
     def __init__(self, X, X_num, nb_samles1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random', Uinit=None, Vinit=None):
         #--------初期値を設定する．---------
@@ -114,8 +114,7 @@ if __name__ == '__main__':
     from Lecture_TUKR.tokunaga.data import load_kura_tsom
     from Lecture_TUKR.tokunaga.data import load_kura_list
     from Lecture_TUKR.tokunaga.load import load_angle_resized_data
-    from visualizer import visualize_history
-    from visualizer import visualize_real_history
+    from Lecture_TUKR.tokunaga.visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
@@ -139,11 +138,11 @@ if __name__ == '__main__':
     #print(tukr.list_f(tukr.U, tukr.V))
     lukr.fit(epoch, ueta, veta)
     #visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
-    visualize_history(X, lukr.history['f'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="recode_iikanzi")
+    #visualize_history(X, X_num, lukr.history['f'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="recode_iikanzi")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    #lukr.calc_approximate_f(resolution=10)
-    #visualize_history(X, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="random")
+    lukr.calc_approximate_f(resolution=10)
+    visualize_history(X, X_num, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="random")
 
 
 
