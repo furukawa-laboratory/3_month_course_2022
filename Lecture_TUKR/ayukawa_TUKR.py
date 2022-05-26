@@ -45,18 +45,19 @@ class TUKR:
         # 学習過程記録用
         self.history['z'] = np.zeros((nb_epoch, self.nb_xsamples, self.xlatent_dim))
         self.history['v'] = np.zeros((nb_epoch, self.nb_ysamples, self.ylatent_dim))
-        self.history['kernel'] = np.zeros((nb_epoch, self.nb_ysamples, self.ob_dim))
+        self.history['kernel'] = np.zeros((nb_epoch, self.nb_xsamples, self.nb_ysamples, self.ob_dim))
         self.history['error'] = np.zeros(nb_epoch)
 
         for epoch in tqdm(range(nb_epoch)):
             # Zの更新
             dEdx = jax.grad(self.E, argnums=0)(self.Z, self.X, alpha, norm)
             self.Z -= (eta) * dEdx
-
+            dEdy = jax.grad(self.E, argnums=0)(self.v, self.X, alpha, norm)
+            self.v -= (eta) * dEdy
 
             # 学習過程記録用
             self.history['z'][epoch] = self.Z
-            self.history['kernel'][epoch] = self.kernel(self.Z,self.Z)
+            self.history['kernel'][epoch] = self.kernel(self.Z,self.Z,self.v,self.v)
             self.history['error'][epoch] = self.E(self.Z,self.X, alpha, norm)
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
@@ -118,5 +119,5 @@ if __name__ == '__main__':
     #visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(10, epoch)
-#    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
