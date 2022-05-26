@@ -1,6 +1,6 @@
 import numpy as np
 # from tqdm import tqdm #プログレスバーを表示させてくれる
-import jax,jaxlib
+import jax, jaxlib
 import jax.numpy as jnp
 
 
@@ -12,6 +12,7 @@ class UKR:
         self.nb_samples, self.ob_dim = X.shape
         self.sigma =sigma
         self.latent_dim =latent_dim
+
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
@@ -26,10 +27,14 @@ class UKR:
         d = np.sum((Z1[:, None, :]-Z2[None, :, :])**2, axis=2)
         H = -1*(d/(2*self.sigma**2))
         h = jnp.exp(H)
+        # print(d.shape)
+        # print(h.shape)
+        # print(self.X.shape)
         bunshi = h@self.X
         bunbo = np.sum(h, axis=1, keepdims=True)
 
         f = bunshi/bunbo
+
         #写像の計算
 
         return f

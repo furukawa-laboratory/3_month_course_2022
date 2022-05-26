@@ -5,25 +5,32 @@ from matplotlib.animation import FuncAnimation
 STEP = 150
 
 
-def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, filename="tmp"):
-    input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
+def visualize_history(X, Y_history, U_history, V_history, error_history, save_gif=False, filename="tmp"):
+    input_dim, latent_dim1, latent_dim2 = X.shape[2], U_history[0].shape[1], V_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
     fig = plt.figure(figsize=(10, 8))
-    gs = fig.add_gridspec(3, 2)
+    gs = fig.add_gridspec(3, 3)
     input_ax = fig.add_subplot(gs[0:2, 0], projection=input_projection_type)
-    latent_ax = fig.add_subplot(gs[0:2, 1], aspect='equal')
+    latent_ax1 = fig.add_subplot(gs[0:2, 1], aspect='equal')
+    latent_ax2 = fig.add_subplot(gs[0:2, 2], aspect='equal')
     error_ax = fig.add_subplot(gs[2, :])
     num_epoch = len(Y_history)
 
-    if input_dim == 3 and latent_dim == 2:
-        resolution = int(np.sqrt(Y_history.shape[1]))
-        if Y_history.shape[1] == resolution ** 2:
-            Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
-
+    # if input_dim == 3 and latent_dim1 == 2:
+    #     resolution = int(np.sqrt(Y_history.shape[1]))
+    #     if Y_history.shape[1] == resolution ** 2:
+    #         Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
+    #
+    # if input_dim == 3 and latent_dim2 == 2:
+    #     resolution = int(np.sqrt(Y_history.shape[1]))
+    #     if Y_history.shape[1] == resolution ** 2:
+    #         Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
     observable_drawer = [None, None, draw_observable_2D,
                          draw_observable_3D][input_dim]
-    latent_drawer = [None, draw_latent_1D, draw_latent_2D][latent_dim]
+
+    latent_drawer1 = [None, draw_latent_1D, draw_latent_2D][latent_dim1]
+    latent_drawer2 = [None, draw_latent_1D, draw_latent_2D][latent_dim2]
 
     ani = FuncAnimation(
         fig,
@@ -31,31 +38,38 @@ def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, fi
         frames=num_epoch,  # // STEP,
         repeat=True,
         interval=50,
-        fargs=(observable_drawer, latent_drawer, X, Y_history, Z_history, error_history, fig,
-               input_ax, latent_ax, error_ax, num_epoch))
+        fargs=(observable_drawer, latent_drawer1, latent_drawer2, X, Y_history, U_history, V_history, error_history, fig,
+               input_ax, latent_ax1, latent_ax2, error_ax, num_epoch))
     plt.show()
     if save_gif:
-        ani.save(f"{filename}.mp4", writer='ffmpeg')
+        ani.save(f"{filename}.gif", writer='ffmpeg')
 
 
-def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
-                 Z_history, error_history, fig, input_ax, latent_ax, error_ax, num_epoch):
+def update_graph(epoch, observable_drawer, latent_drawer1,latent_drawer2, X, Y_history,
+                 U_history, V_history, error_history, fig, input_ax, latent_ax1, latent_ax2, error_ax, num_epoch):
     fig.suptitle(f"epoch: {epoch}")
     input_ax.cla()
     #  input_ax.view_init(azim=(epoch * 400 / num_epoch), elev=30)
-    latent_ax.cla()
+    latent_ax1.cla()
+    latent_ax2.cla()
     error_ax.cla()
 
-    Y, Z= Y_history[epoch], Z_history[epoch]
-    colormap = X[:, 0]
-    print(X.shape)
+    Y, U, V= Y_history[epoch], U_history[epoch], V_history[epoch]
+    colormap = X[:, :, 0]
+    colormap1 = U[:, 0]
+    colormap2 = V[:, 0]
+    # print(X.shape)
+
     observable_drawer(input_ax, X, Y, colormap)
-    latent_drawer(latent_ax, Z, colormap)
+    latent_drawer1(latent_ax1, U,  colormap1)
+    latent_drawer2(latent_ax2, V, colormap2)
     draw_error(error_ax, error_history, epoch)
 
 
 def draw_observable_3D(ax, X, Y, colormap):
-    ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=colormap)
+    # print(X.shape,type(colormap))
+    # print(colormap.shape)
+    ax.scatter(X[:, :, 0], X[:, :, 1], X[:, :, 2], c=colormap)
     # ax.set_zlim(-1, 1)
     if len(Y.shape) == 3:
         ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')

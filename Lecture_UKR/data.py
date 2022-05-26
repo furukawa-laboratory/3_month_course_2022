@@ -48,3 +48,29 @@ if __name__ == '__main__':
     ax.set_xlabel("x3")
 
     plt.show()
+
+
+    # 機械学習の課題
+    # import random
+    # A=0
+    # for a in range(1000000):
+    #     d = random.randint(1, 6)
+    #     if (d == 1) | (d == 2):
+    #         A+=1
+    # print(str(100*A/1000000)+"%")
+    #
+    # bag = 2  # 袋の総数
+    # bag_x = 1  # 袋Xの数
+    # bag_y = 1  # 袋Yの数
+    #
+    # ball_in_bag_x = [4, 6]  # 袋Xの中身(赤玉が4個、白玉が6個)
+    # ball_in_bag_y = [5, 2]  # 袋Yの中身(赤玉が5個、白玉が2個)
+    #
+    #
+    # def jouhou(bag, bag_sum, ball_in_bag):
+    #     ans = (ball_in_bag[0] / sum(ball_in_bag)) * (bag / bag_sum)
+    #     return ans
+    #
+    #
+    # j = jouhou(bag_x, bag, ball_in_bag_x)
+    # print(str(j*100) + "%")
