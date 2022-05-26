@@ -12,9 +12,9 @@ Z2_num=X2_num
 X_num=X1_num*X2_num*X3_num
 Z_num=X_num
 
-K_num=100
+K_num=X1_num*X2_num
 d_num=3
-z_num=2
+z_num=1
 
 sigma=np.log(X_num)
 sigma=0.1
@@ -23,8 +23,8 @@ resolution=0.000001
 
 
 ramuda=0.005
-eta=0.1
-nb_epoch=200
+eta=0.3
+nb_epoch=100
 meyasu=1
 x_range=1
 data_type='sin(X1)+sin(X2)'
@@ -89,7 +89,7 @@ elif(dotti=='record_random'):
     m_y = m_y.reshape(-1)
     z=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
 
-    X=X+np.random.uniform(low=-x_range*(0.001),high=x_range*(0.001),size=(X_num,d_num))
+    X=X+np.random.uniform(low=-x_range*(0.1),high=x_range*(0.1),size=(X_num,d_num))
 
 
     # X1=np.tile(X1,X2_num)+np.random.uniform(low=-x_range*(0.001),high=x_range*(0.001),size=X_num)

@@ -10,14 +10,14 @@ sys.path.append(moto)
 epochs=200-1
 wariai=10
 nani='tukr_gauss_record'
-doko=13
+doko=21
 frame_epochs=epochs//2
 baisu=10
 k_size=10000
 kk_size=int(k_size**0.5)
 n_size=100
 d_size=3
-l_size=2
+l_size=1
 
 y_zk=np.zeros((epochs,k_size,d_size))
 y_zn=np.zeros((epochs,n_size,d_size))
