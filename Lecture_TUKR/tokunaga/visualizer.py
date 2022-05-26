@@ -26,7 +26,7 @@ def live_history(X, Y_history, Z_history, error_history):
 
 
 def visualize_history(X, Y_history, U_history, V_history, error_history, save_gif=False, filename="tmp"):
-    input_dim, latent_dim1, latent_dim2 = X.shape[2], U_history[0].shape[1], V_history[0].shape[1]
+    input_dim, latent_dim1, latent_dim2 = X.shape[1], U_history[0].shape[1], V_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
     fig = plt.figure(figsize=(10, 8))
@@ -99,9 +99,9 @@ def update_graph(epoch, observable_drawer, latent1_drawer, latent2_drawer, X, Y_
     error_ax.cla()
 
     Y, U, V= Y_history[epoch], U_history[epoch], V_history[epoch]
-    colormapx = X[:, :, 0]
-    colormap1 = X[:, 0, 0]
-    colormap2 = X[0, :, 0]
+    colormapx = X[:, 0]
+    colormap1 = 'r'
+    colormap2 = 'b'
         #X[:, 0]
 
     observable_drawer(input_ax, X, Y, colormapx)
@@ -111,13 +111,13 @@ def update_graph(epoch, observable_drawer, latent1_drawer, latent2_drawer, X, Y_
 
 
 def draw_observable_3D(ax, X, Y, colormap):
-    ax.scatter(X[:, :, 0], X[:, :, 1], X[:, :, 2], c=colormap)
+    ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=colormap)
     # ax.set_zlim(-1, 1)
     if len(Y.shape) == 3:
         ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
         # ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
     else:
-        ax.plot(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
+        ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
 # ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
 # ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
 

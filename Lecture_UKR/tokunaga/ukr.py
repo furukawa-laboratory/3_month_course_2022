@@ -188,15 +188,16 @@ if __name__ == '__main__':
     from Lecture_UKR.tokunaga.data import create_2d_sin_curve
     from Lecture_UKR.tokunaga.data import create_big_kura
     from Lecture_UKR.tokunaga.data import create_cluster
-    from Lecture_UKR.tokunaga.load import load_data
+    from Lecture_UKR.tokunaga.load import load_animal_data
+    from Lecture_UKR.tokunaga.load import load_angle_resized_data
     from visualizer import visualize_history
     from visualizer import visualize_real_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 300 #学習回数
     sigma = 0.22 #カーネルの幅
-    eta = 50 #学習率
-    latent_dim = 1 #潜在空間の次元
+    eta = 5 #学習率
+    latent_dim = 2 #潜在空間の次元
 
     seed = 20
     np.random.seed(seed)
@@ -209,10 +210,12 @@ if __name__ == '__main__':
     #X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     #X = create_big_kura(nb_samples)
     #X = create_cluster(nb_samples)
-    X = load_data()[0]
+    #X = load_animal_data()[0]
+    X = load_angle_resized_data()
+    print(X.shape)
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
-    visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
+    visualize_real_history(X, ukr.history['z'], ukr.history['error'], save_gif=False, filename="seed20")
     #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------

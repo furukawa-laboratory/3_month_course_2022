@@ -15,6 +15,7 @@ jupyterlab-git = "^0.36.0"
 matplotlib = "^3.5.1"
 tqdm = "^4.64.0"
 torch = "^1.11.0"
+opencv-python = "^4.5.5"
 
 [tool.poetry.dev-dependencies]
 

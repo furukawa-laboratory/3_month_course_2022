@@ -7,16 +7,16 @@ import jax.numpy as jnp
 import matplotlib.pyplot as plt
 
 class TUKR:
-    def __init__(self, X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random', Uinit=None, Vinit=None):
+    def __init__(self, X, latent_dim1, latent_dim2, sigma1, sigma2, prior='random', Uinit=None, Vinit=None):
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
-        self.nb_samples1, self.nb_samples2, self.ob_dim = self.X.shape
+        self.nb_samples1, self.nb_samples2, self.ob_dim = X.shape
         self.sigma1, self.sigma2 = sigma1, sigma2
         self.latent_dim1, self.latent_dim2 = latent_dim1, latent_dim2
 
         if Uinit is None:
-            if prior == 'random': #一様事前分布のとき
+            if prior == 'normal': #一様事前分布のとき
                 U = np.random.uniform(-0.01, 0.01, self.nb_samples1*self.latent_dim1).reshape(self.nb_samples1, self.latent_dim1)
             else: #ガウス事前分布のとき
                 U = np.random.normal(0, 0.001, self.nb_samples1*self.latent_dim1).reshape(self.nb_samples1, self.latent_dim1)
@@ -24,7 +24,7 @@ class TUKR:
             U = Uinit
 
         if Vinit is None:
-            if prior == 'random':
+            if prior == 'normal':
                 V = np.random.uniform(-0.01, 0.01, self.nb_samples2 * self.latent_dim2).reshape(self.nb_samples2, self.latent_dim2)
             else:
                 V = np.random.normal(0, 0.001, self.nb_samples2 * self.latent_dim2).reshape(self.nb_samples2, self.latent_dim2)
@@ -40,7 +40,24 @@ class TUKR:
         dv = jnp.sum((V[:, None, :]-self.V[None, :, :])**2, axis=2)
         ku = jnp.exp(-1 * du / (2 * self.sigma1 ** 2))
         kv = jnp.exp(-1 * dv / (2 * self.sigma2 ** 2))
-        f = jnp.einsum('li,kj,ijd->lkd', ku, kv, self.X)/jnp.einsum('li,kj->lk', ku, kv).reshape(nb_samples1, nb_samples2, 1)
+        f = jnp.einsum('li,kj,ijd->lkd', ku, kv, self.X)/jnp.einsum('li,kj->lk', ku, kv).reshape(self.nb_samples1, self.nb_samples2, 1)
+        return f
+
+    def list_f(self, U, V):
+        du = jnp.sum((U[:, None, :] - self.U[None, :, :]) ** 2, axis=2)
+        dv = jnp.sum((V[:, None, :] - self.V[None, :, :]) ** 2, axis=2)
+        ku = jnp.exp(-1 * du / (2 * self.sigma1 ** 2))
+        kv = jnp.exp(-1 * dv / (2 * self.sigma2 ** 2))
+
+        return f
+
+    def zetaf(self, U1, U2, V1, V2):
+        du = jnp.sum((U1[:, None, :] - U2[None, :, :]) ** 2, axis=2)
+        dv = jnp.sum((V1[:, None, :] - V2[None, :, :]) ** 2, axis=2)
+        ku = jnp.exp(-1 * du / (2 * self.sigma1 ** 2))
+        kv = jnp.exp(-1 * dv / (2 * self.sigma2 ** 2))
+        f = jnp.einsum('li,kj,ijd->lkd', ku, kv, self.X) / jnp.einsum('li,kj->lk', ku, kv).reshape(nb_samples1,
+                                                                                                   nb_samples2, 1)
         return f
 
     def E(self, U, V, X, alpha=0.01, norm=2): #目的関数の計算
@@ -48,6 +65,8 @@ class TUKR:
         E = jnp.sum(d)+alpha*(jnp.sum(U**norm)+jnp.sum(V**norm))
         return E
 
+    def LE(self, U, V, X, alpha=0.01, norm=2):
+        d = (())
     def fit(self, nb_epoch: int, ueta: float, veta: float):
         # 学習過程記録用
         self.history['u'] = np.zeros((nb_epoch, self.nb_samples1, self.latent_dim1))
@@ -73,7 +92,7 @@ class TUKR:
          for epoch in tqdm(range(nb_epoch)):
              zetau = create_zeta_1D(self.history['u'][epoch])
              zetav = create_zeta_1D(self.history['v'][epoch])
-             Y = self.f(zetau, zetav)
+             Y = self.zetaf(zetau, self.history['u'][epoch], zetav, self.history['v'][epoch])
              self.history['y'][epoch] = Y
          return self.history['y']
 
@@ -97,6 +116,8 @@ def create_zeta_1D(Z):
 
 if __name__ == '__main__':
     from Lecture_TUKR.tokunaga.data import load_kura_tsom
+    from Lecture_TUKR.tokunaga.data import load_kura_list
+    from Lecture_TUKR.tokunaga.load import load_angle_resized_data
     from visualizer import visualize_history
     from visualizer import visualize_real_history
 
@@ -109,7 +130,7 @@ if __name__ == '__main__':
     latent_dim1 = 1 #潜在空間1の次元
     latent_dim2 = 1 #潜在空間2の次元
 
-    seed = 10
+    seed = 4
     np.random.seed(seed)
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
@@ -117,20 +138,23 @@ if __name__ == '__main__':
     nb_samples2 = 20 #潜在空間２のデータ数
     sigma1 = np.log(nb_samples1)/nb_samples1
     sigma2 = np.log(nb_samples2)/nb_samples2
-    X = load_kura_tsom(nb_samples1, nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
+    #X = load_kura_tsom(nb_samples1, nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
+    #X = load_kura_list(nb_samples1, nb_samples2) #record型の蔵型データ ob_dom=3, L=2
     #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     #X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     #X = create_big_kura(nb_samples)
     #X = create_cluster(nb_samples)
     #X = load_data()[0]
-    tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random')
+    X = load_angle_resized_data()
+    tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='normal')
+    #print(tukr.list_f(tukr.U, tukr.V))
     tukr.fit(epoch, ueta, veta)
     #visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
     #visualize_history(X, tukr.history['f'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="iikanzi")
 
     #----------描画部分が実装されたらコメントアウト外す----------
     tukr.calc_approximate_f(resolution=10)
-    visualize_history(X, tukr.history['y'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, tukr.history['y'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="random")
 
 
 

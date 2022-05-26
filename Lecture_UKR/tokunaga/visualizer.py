@@ -130,7 +130,7 @@ def draw_latent_2D(ax, Z, colormap, data):
         ax.annotate(data[1][i], xy=(Z[i, 0], Z[i, 1]))
 
 
-def draw_latent_1D(ax, Z, colormap):
+def draw_latent_1D(ax, Z, colormap, data):
     ax.scatter(Z, np.zeros(Z.shape), c=colormap)
     ax.set_ylim(-1, 1)
 
