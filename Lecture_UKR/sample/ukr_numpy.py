@@ -1,7 +1,6 @@
 import numpy as np
 from tqdm import tqdm
 
-
 class UKR:
     def __init__(self, X, latent_dim, sigma, prior='random', Zinit=None):
         if X.ndim == 1:
@@ -90,7 +89,7 @@ def create_zeta(Z, resolution):
 
 
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
+    from tanaka.data import create_kura
     from Lecture_UKR.data import create_rasen
     from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history

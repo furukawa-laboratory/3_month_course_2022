@@ -4,7 +4,6 @@ from matplotlib.animation import FuncAnimation
 
 STEP = 150
 
-
 def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, filename="tmp"):
     input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
