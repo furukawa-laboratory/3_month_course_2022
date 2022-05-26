@@ -132,4 +132,4 @@ dmypy.json
 *.DS_Store
 
 .idea/
-*/datastore/
+Lecture_UKR/tokunaga/datastore/
