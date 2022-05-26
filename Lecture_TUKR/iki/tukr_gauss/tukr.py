@@ -85,11 +85,13 @@ class TUKR:
     def fit(self,):
         #テスト時に入力がznのときのyを求める関数
         def kernel_f(target,type=1,jyun=-1):
-            if(type==1):
-                d = jnp.sum((target[:, None, :] - target[None, :, ]) ** 2, axis=2)
+            if(type==1):#学習時
+                d = np.sum((target[:, None, :] - target[None, :, ]) ** 2, axis=2)
                 k = jnp.exp(-1 / (2 * self.sigma ** 2) * d)
-            elif(type==2):
-                # print('fe')
+            elif(type==2):#テスト時
+
+                print('fe')
+                exit()
                 if(jyun==0):
 
                     d = np.sum((target[:, None, :] - self.ZN1[None, :, ]) ** 2, axis=2)
@@ -97,7 +99,7 @@ class TUKR:
                     # print(d.shape)
                 elif(jyun==1):
 
-                    d = np.sum((target[:, None, :] - self.ZN1[None, :, ]) ** 2, axis=2)
+                    d = np.sum((target[:, None, :] - self.ZN2[None, :, ]) ** 2, axis=2)
                     k = jnp.exp(-1 / (2 * self.sigma ** 2) * d)
                     # print(d.shape)
             return k
@@ -107,11 +109,12 @@ class TUKR:
             k2=kernel_f(target2,type,2)
             # print(target1.shape)
             # print(k1.shape,k2.shape)
-            k=jnp.einsum('ij,jk->ik',k1,k2)
+            k=jnp.einsum('ij,ij->ij',k1,k2)
+            # k=k1
             Y=jnp.einsum('ij,jk->ik',k,self.X)
 
             # print(Y.shape,k.shape,k[:,:,None].shape)
-            YY=Y/jnp.sum(k,keepdims=True)
+            YY=Y/jnp.sum(k,axis=1,keepdims=True)
             # print(YY.shape)
             return YY
         def karnel_jnp1(target1,type=1):
@@ -142,10 +145,13 @@ class TUKR:
 
             zn1=jnp.sum(self.ramuda * target1 ** 2, axis=1) / self.L
             zn2 = jnp.sum(self.ramuda * target2 ** 2, axis=1) / self.L
+            # print(zn1.shape,self.X_num,self.L)
+            # exit()
+            # zn2=jnp.zeros((self.X_num))
             loss['loss_L2'] = zn1+zn2#50,1
             loss['loss_mse'] = jnp.sum((self.X - YY) ** 2, axis=1) / 2 / self.D
 
-            loss['loss'] = (jnp.sum(loss['loss_mse'] + loss['loss_L2']))
+            loss['loss'] = jnp.sum(loss['loss_mse'] + loss['loss_L2'])/self.X_num
 
             if(epoch==-1):
                 return loss['loss']
@@ -158,6 +164,7 @@ class TUKR:
             dx1=jax.grad(E_jnp, argnums=0)(self.ZN1,self.ZN2)
 
             self.ZN1=self.ZN1-self.eta*(dx1)
+            #print(sum(self.ZN1))
             dx2 = jax.grad(E_jnp, argnums=1)(self.ZN1,self.ZN2)
 
             self.ZN2=self.ZN2-self.eta*(dx2)
@@ -178,7 +185,7 @@ class TUKR:
                 # print('zk1,zk2')
                 # print(zk1.shape,zk2.shape)
                 ans2 = karnel_jnp(zk1,zk2)
-                print(ans2.shape)
+
                 resolution = ans2.reshape(self.KK, self.KK, 3)
                 self.history['y_zk'][epoch]=ans2
                 self.history['y_zk_wire'][epoch]=resolution

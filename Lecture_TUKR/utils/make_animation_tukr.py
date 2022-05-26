@@ -17,7 +17,7 @@ print(sys.path)
 
 epochs=200
 wariai=10
-doko=13
+doko=40
 frame_epochs=epochs//2
 
 baisu=10

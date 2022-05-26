@@ -56,9 +56,11 @@ class UKR:
         def karnel_jnp(target):
             d = np.sum((target[:, None, :] - self.ZN[None, :, ]) ** 2, axis=2)
             k = jnp.exp(-1 / (2 * self.sigma ** 2) * d)
-            KK=jnp.sum(k,axis=1)
+            #KK=jnp.sum(k,axis=1)
             Y=jnp.einsum('ij,jk->ik',k, self.X)
-            YY=Y/KK[:,None]
+            #YY=Y/KK[:,None]
+            YY = Y / jnp.sum(k, axis=1,keepdims=True)
+
             return YY
 
         #学習時の損失を求める関数

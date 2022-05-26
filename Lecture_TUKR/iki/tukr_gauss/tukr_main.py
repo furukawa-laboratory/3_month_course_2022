@@ -3,8 +3,8 @@ import numpy as np
 import os
 
 #変数の設定
-X1_num=10
-X2_num=10
+X1_num=2
+X2_num=3
 X3_num=1
 Z1_num=X1_num
 Z2_num=X2_num
@@ -17,13 +17,13 @@ d_num=3
 z_num=2
 
 sigma=np.log(X_num)
-sigma=0.5
+sigma=0.1
 # sigma=0.5
-resolution=0.0001
+resolution=0.000001
 
 
 ramuda=0.005
-eta=10
+eta=1
 nb_epoch=200
 meyasu=1
 x_range=1
@@ -31,6 +31,7 @@ data_type='sin(X1)+sin(X2)'
 dotti='random'
 dotti='kankei_data'
 dotti='kanzen_random'
+dotti='record_random'
 sitaikoto='karnel_wo_tiisakusitai'
 sitaikoto='sigma_small'
 sitaikoto='kantu'
@@ -66,6 +67,29 @@ elif(dotti=='kanzen_random'):
 
     X=np.concatenate([X1[:,None],X2[:,None]],axis=1) #
     X=np.concatenate([X,X3[:,None]],axis=1)
+elif(dotti=='record_random'):
+    X1=np.random.uniform(low=-x_range,high=x_range,size=X1_num)
+    X2=np.random.uniform(low=-x_range,high=x_range,size=X2_num)
+
+    X3=X1[:,None]**2-X2[None,:]**2 #10,5
+    m_x, m_y = np.meshgrid(X1, X2)
+    m_x = m_x.reshape(-1)
+    m_y = m_y.reshape(-1)
+    X=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
+    print(X.shape,X3.shape)
+    X=np.concatenate([X,X3.reshape(-1)[:,None]],axis=1)
+    print(X)
+    X=X+np.random.uniform(low=-x_range*(0.001),high=x_range*(0.001),size=(X_num,d_num))
+    print(X.shape)
+    print(X)
+
+    # X1=np.tile(X1,X2_num)+np.random.uniform(low=-x_range*(0.001),high=x_range*(0.001),size=X_num)
+    # X2 = np.tile(X2, X1_num)+np.random.uniform(low=-x_range*(0.001),high=x_range*(0.001),size=X_num)
+
+    print(X1.shape)
+    exit()
+
+
 else:
     exit()
 # X3=X1**2-X2**2
@@ -150,7 +174,7 @@ a=TUKR(X,K_num,z_num,resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,s
 
 
 a.fit()
-exit()
+
 print('fe')
 print('どこはここです')
 

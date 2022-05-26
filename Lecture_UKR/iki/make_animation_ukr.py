@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 epochs=200
 wariai=10
 nani='ukr_gauss'
-doko=2
+doko=3
 frame_epochs=epochs//2
 baisu=10
 k_size=10000
