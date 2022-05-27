@@ -6,7 +6,7 @@ from tqdm import tqdm #プログレスバーを表示させてくれる
 
 
 class TUKR:
-    def __init__(self, X, latent_dim1, latent_dim2, sigma, prior='random', Uinit=None, Vinit=None):
+    def __init__(self, X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma, prior='random', Uinit=None, Vinit=None):
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
@@ -40,58 +40,62 @@ class TUKR:
         self.history = {}
 
     def f(self, U, V): #写像の計算
-        DistU = jnp.sum((U[:, None, :] - U[None, :, :])**2, axis=2)
+        DistU = jnp.sum((U[:, None, :] - U[None, :, :]) ** 2, axis=2)
         DistV = jnp.sum((V[:, None, :] - V[None, :, :]) ** 2, axis=2)
-        HU = jnp.exp((-1 * DistU) / (2 * (self.sigma) **2))
+        HU = jnp.exp((-1 * DistU) / (2 * (self.sigma) ** 2))
         HV = jnp.exp((-1 * DistV) / (2 * (self.sigma) ** 2))
-        GU = jnp.sum(HU, axis=1)[:, None]
-        GV = jnp.sum(HV, axis=1)[:, None]
-        RU = HU / GU
-        RV = HV / GV
-        f1 = RU @ self.X
-        f2 = RV @ self.X
-        return (f1,f2)
+        # GU = jnp.sum(HU, axis=1)[:, None]
+        # GV = jnp.sum(HV, axis=1)[:, None]
+        # RU = HU / GU
+        # RV = HV / GV
+        f = jnp.einsum('li,kj,ijd->lkd', HU, HV, self.X)
+        f1 = jnp.einsum('li,kj->lk', HU, HV)
+        f2 = f1[:, :, None]
+        return f / f2
+        # f = jnp.einsum('li,kj,ijd->lkd', HU, HV, self.X) / jnp.einsum('li,kj->lk', HU, HV).reshape(nb_samples1, nb_samples2, 1)
+        # return f
 
-    #def E(self,Z,X,alpha=1,norm=2):
-    def E(self,Z,X,alpha,norm):#目的関数の計算
-        Y = self.f(Z,Z)
-
+    def E(self,U,V,X,alpha,norm):#目的関数の計算
+        Y = self.f(U,V)
         e = jnp.sum((X - Y) ** 2)
-        r = alpha*jnp.sum(Z**norm)
-        e = e/self.nb_samples
-        r = r/self.nb_samples
+        r = alpha*(jnp.sum(U**norm)+jnp.sum(V**norm))
+        e = e/(self.nb_samples1*self.nb_samples2)
+        r = r/(self.nb_samples1*self.nb_samples2)
         return e + r
 
-    def fit(self, nb_epoch: int, eta: float):
+    def fit(self, nb_epoch: int, eta: float,alpha,norm):
         # 学習過程記録用
-        self.history['z'] = np.zeros((nb_epoch, self.nb_samples, self.latent_dim))
-        self.history['f'] = np.zeros((nb_epoch, self.nb_samples, self.ob_dim))
+        self.history['u'] = np.zeros((nb_epoch, self.nb_samples1, self.latent_dim2))
+        self.history['v'] = np.zeros((nb_epoch, self.nb_samples2, self.latent_dim1))
+        self.history['f'] = np.zeros((nb_epoch, self.nb_samples1, self.nb_samples2, self.ob_dim))
         self.history['error'] = np.zeros(nb_epoch)
 
         for epoch in tqdm(range(nb_epoch)):
 
-            dEdx = jax.grad(self.E,argnums=0)(self.Z,self.X,self.alpha,self.norm)
-            self.Z = self.Z - eta * dEdx
+            # U,Vの更新
+            dEdu = jax.grad(self.E, argnums=0)(self.U, self.V, self.X, alpha, norm) / self.nb_samples1
+            self.U = self.U - eta * dEdu
 
-           # Zの更新
-
-
+            dEdv = jax.grad(self.E, argnums=1)(self.U, self.V, self.X, alpha, norm) / self.nb_samples2
+            self.V = self.V - eta * dEdv
 
             # 学習過程記録用
-            self.history['z'][epoch] = self.Z
-            self.history['f'][epoch] = self.f(self.Z,self.Z)
-            self.history['error'][epoch] = self.E(self.Z,self.X,self.alpha,self.norm)
+            self.history['u'][epoch] = self.U
+            self.history['v'][epoch] = self.V
+            self.history['f'][epoch] = self.f(self.U, self.V)
+            self.history['error'][epoch] = self.E(self.U, self.V, self.X, alpha, norm)
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
-        nb_epoch = self.history['z'].shape[0]
-        self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
+        nb_epoch = self.history['u'].shape[0]
+        self.history['y'] = np.zeros((nb_epoch,self.nb_samples1,self.nb_samples2, self.ob_dim))
         for epoch in tqdm(range(nb_epoch)):
 
-            y = self.f(self.create_zeta(self.history['z'][epoch],resolution),self.Z)
+            y = self.f(self.create_zeta(self.history['u'][epoch],resolution),self.U)
             self.history['y'][epoch] = y
 
         return self.history['y']
+
     def create_zeta(self, Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
         a = np.linspace(np.min(Z), np.max(Z), resolution)
         b = np.linspace(np.min(Z), np.max(Z), resolution)
@@ -111,30 +115,31 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.2 #カーネルの幅
-    eta = 1  #学習率
-    latent_dim = 2 #潜在空間の次元
+    sigma = 0.05 #カーネルの幅
+    eta = 10  #学習率
+    latent_dim1 = 1 #潜在空間の次元
+    latent_dim2 = 1 #潜在空間の次元
     alpha = 0.1
     norm = 2
     seed = 4
-    resolution = 100
     np.random.seed(seed)
 
 
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
-    nb_samples = 100 #データ数
+    nb_samples1 = 10 #データ数
+    nb_samples2 = 20
     X = load_kura_tsom(nb_samples1,nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
     # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 
-    tukr = TUKR(X, latent_dim, sigma, prior='random')
-    tukr.fit(epoch, eta)
-    # visualize_history(X, tukr.history['f'], tukr.history['z'], tukr.history['error'], save_gif=False, filename="mp4")
+    tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma, prior='random')
+    tukr.fit(epoch, eta,alpha,norm)
+    visualize_history(X, tukr.history['f'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=True, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    tukr.calc_approximate_f(resolution)
-    visualize_history(X, tukr.history['y'], tukr.history['z'], tukr.history['error'], save_gif=False, filename="tmp")
+    #tukr.calc_approximate_f(resolution=10)
+    #visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
 
 
 
