@@ -6,6 +6,7 @@ import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
 from jax import jit
+
 class List_UKR:
     def __init__(self, X, X_num, nb_samles1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random', Uinit=None, Vinit=None):
         #--------初期値を設定する．---------
@@ -46,16 +47,21 @@ class List_UKR:
         f = ku * kv @ self.X / np.sum(ku * kv, axis=1, keepdims=True)
         return f
 
-    def zetaf(self, zetaU, U, zetaV, V):
-        NU = U[X_num[:, 0]]
-        NV = V[X_num[:, 1]]
-        zetaNU = zetaU[X_num[:, 0]]
-        zetaNV = zetaV[X_num[:, 1]]
-        du = jnp.sum((zetaNU[:, None, :] - NU[None, :, :]) ** 2, axis=2)
-        dv = jnp.sum((zetaNV[:, None, :] - NV[None, :, :]) ** 2, axis=2)
-        ku = jnp.exp(-1 * du / (2 * self.sigma1 ** 2))
-        kv = jnp.exp(-1 * dv / (2 * self.sigma2 ** 2))
-        f = ku * kv @ self.X / np.sum(ku * kv, axis=1, keepdims=True)
+    def zetaf(self, X, zetaU, U, zetaV, V):
+        # NU = U[X_num[:, 0]]
+        # NV = V[X_num[:, 1]]
+        # zetaNU = zetaU[X_num[:, 0]]
+        # zetaNV = zetaV[X_num[:, 1]]
+        # du = jnp.sum((zetaNU[:, None, :] - NU[None, :, :]) ** 2, axis=2)
+        # dv = jnp.sum((zetaNV[:, None, :] - NV[None, :, :]) ** 2, axis=2)
+        # ku = jnp.exp(-1 * du / (2 * self.sigma1 ** 2))
+        # kv = jnp.exp(-1 * dv / (2 * self.sigma2 ** 2))
+        # f = ku * kv @ self.X / np.sum(ku * kv, axis=1, keepdims=True)
+        du = np.sum((zetaU[:, None, :] - U[None, :, :])**2, axis=2)
+        dv = np.sum((zetaV[:, None, :] - V[None, :, :])**2, axis=2)
+        ku = np.exp(-1 * du / (2 * self.sigma1 ** 2))
+        kv = np.exp(-1 * dv / (2 * self.sigma2 ** 2))
+        f = np.einsum('li,kj,ijd->lkd', ku, kv, X) / np.einsum('li,kj->lk', ku, kv)[:, :, None]
         return f
 
     def E(self, U, V, X, alpha=0.01, norm=2): #目的関数の計算
@@ -83,12 +89,15 @@ class List_UKR:
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
          nb_epoch = self.history['u'].shape[0]
-         self.history['y'] = np.zeros((nb_epoch, self.nb_samples1*self.nb_samples2, self.ob_dim))
+         self.history['y'] = np.zeros((nb_epoch, self.nb_samples1, self.nb_samples2, self.ob_dim))
+         zetaX = np.zeros((self.nb_samples1, self.nb_samples2, self.ob_dim))
+         for n in range(self.nb_samples1*nb_samples2):
+             zetaX[X_num[n, 0], X_num[n, 1], :] = X[n, :]
          #self.history['y'] = np.zeros((nb_epoch, self.X.shape[0], self.ob_dim))
          for epoch in tqdm(range(nb_epoch)):
-             zetau = create_zeta_1D(self.history['u'][epoch])
-             zetav = create_zeta_1D(self.history['v'][epoch])
-             Y = self.zetaf(zetau, self.history['u'][epoch], zetav, self.history['v'][epoch])
+             zetau = [None, create_zeta_1D(self.history['u'][epoch]), create_zeta_2D(self.history['u'], resolution)][self.latent_dim1]
+             zetav = [None, create_zeta_1D(self.history['v'][epoch]), create_zeta_2D(self.history['v'], resolution)][self.latent_dim2]
+             Y = self.zetaf(zetaX, zetau, self.history['u'][epoch], zetav, self.history['v'][epoch])
              self.history['y'][epoch] = Y
          return self.history['y']
 
@@ -113,7 +122,7 @@ def create_zeta_1D(Z):
 if __name__ == '__main__':
     from Lecture_TUKR.tokunaga.data import load_kura_tsom
     from Lecture_TUKR.tokunaga.data import load_kura_list
-    from Lecture_TUKR.tokunaga.load import load_angle_resized_data
+    #from Lecture_TUKR.tokunaga.load import load_angle_resized_data
     from Lecture_TUKR.tokunaga.visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
@@ -142,7 +151,7 @@ if __name__ == '__main__':
 
     #----------描画部分が実装されたらコメントアウト外す----------
     lukr.calc_approximate_f(resolution=10)
-    visualize_history(X, X_num, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="random")
+    visualize_history(X, X_num, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=True, filename="record_colormap_dekitenai")
 
 
 

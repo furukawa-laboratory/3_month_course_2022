@@ -5,6 +5,7 @@ from tqdm import tqdm
 import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
+from jax import jit
 
 class TUKR:
     def __init__(self, X, latent_dim1, latent_dim2, sigma1, sigma2, prior='random', Uinit=None, Vinit=None):
@@ -60,6 +61,7 @@ class TUKR:
                                                                                                    nb_samples2, 1)
         return f
 
+    @jit
     def E(self, U, V, X, alpha=0.01, norm=2): #目的関数の計算
         d = ((X-self.f(U, V))**2)/(self.nb_samples1*self.nb_samples2)
         E = jnp.sum(d)+alpha*(jnp.sum(U**norm)+jnp.sum(V**norm))
@@ -117,9 +119,8 @@ def create_zeta_1D(Z):
 if __name__ == '__main__':
     from Lecture_TUKR.tokunaga.data import load_kura_tsom
     from Lecture_TUKR.tokunaga.data import load_kura_list
-    from Lecture_TUKR.tokunaga.load import load_angle_resized_data
+    #from Lecture_TUKR.tokunaga.load import load_angle_resized_data
     from visualizer import visualize_history
-    from visualizer import visualize_real_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
