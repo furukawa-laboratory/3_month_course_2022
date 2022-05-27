@@ -63,8 +63,8 @@ class UKR:
 
             # 学習過程記録用
             self.history['z'][epoch] =self.Z
-            self.history['f'][epoch] =self.f(self.Z,self.Z)
-            self.history['error'][epoch] =self.E(self.Z,self.X, alpha, norm)
+            self.history['f'][epoch] =self.f(self.Z, self.Z)
+            self.history['error'][epoch] =self.E(self.Z, self.X, alpha, norm)
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数

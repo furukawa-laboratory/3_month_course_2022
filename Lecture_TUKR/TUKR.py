@@ -1,5 +1,6 @@
 import numpy as np
-# from tqdm import tqdm #プログレスバーを表示させてくれる
+
+from tqdm import tqdm #プログレスバーを表示させてくれる
 import jax,jaxlib
 import jax.numpy as jnp
 
@@ -27,6 +28,7 @@ class UKR:
 
         else: #Zの初期値が与えられた時
             self.U = Uinit
+        self.history = {}
         if Vinit is None:
             if prior == 'random': #一様事前分布のとき
                 self.V = np.random.normal(0, self.sigma2, (self.ysamples, self.latent_dim))
@@ -47,7 +49,8 @@ class UKR:
         Vh = jnp.exp(VH)
 
         bunshi = jnp.einsum('KI,MJ,IJD -> KMD', Uh, Vh, self.X)
-
+        # aaa = jnp.einsum('MJ,IJD -> IMD', Vh, self.X)
+        # bunshi = jnp.einsum('KI,IMD -> KMD', Uh, aaa)
 
         bunbo = jnp.einsum('KI,MJ -> KM', Uh, Vh)
         newbunbo = bunbo[:, :, None]
@@ -58,7 +61,23 @@ class UKR:
         # print(U.shape)
         #写像の計算
         return f
+    def ff(self, U, V, epoch):
+        Ud = np.sum((U[:, None, :] - self.history['u'][epoch][None, :, :]) ** 2, axis=2)
+        UH = -1 * (Ud / (2 * self.sigma1 ** 2))
+        Uh = jnp.exp(UH)
 
+        Vd = np.sum((V[:, None, :] - self.history['v'][epoch][None, :, :]) ** 2, axis=2)
+        VH = -1 * (Vd / (2 * self.sigma2 ** 2))
+        Vh = jnp.exp(VH)
+
+        bunshi = jnp.einsum('KI,MJ,IJD -> KMD', Uh, Vh, self.X)
+        # aaa = jnp.einsum('MJ,IJD -> IMD', Vh, self.X)
+        # bunshi = jnp.einsum('KI,IMD -> KMD', Uh, aaa)
+
+        bunbo = jnp.einsum('KI,MJ -> KM', Uh, Vh)
+        newbunbo = bunbo[:, :, None]
+
+        return bunshi/newbunbo
 
     def E(self, U, V,  X, alpha, norm): #目的関数の計算
         E = jnp.sum((X - self.f(U, V))**2)
@@ -77,7 +96,7 @@ class UKR:
         self.history['f'] = np.zeros((nb_epoch, self.xsamples, self.ysamples, self.ob_dim))
         self.history['error'] = np.zeros(nb_epoch)
 
-        for epoch in range(nb_epoch):
+        for epoch in tqdm(np.arange(nb_epoch)):
             dEdu = jax.grad(self.E, argnums=0)(self.U, self.V, self.X, alpha, norm)
             self.U = self.U - eta * dEdu
             dEdv = jax.grad(self.E, argnums=1)(self.U, self.V, self.X, alpha, norm)
@@ -97,23 +116,15 @@ class UKR:
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_fu(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
         nb_epoch = self.history['u'].shape[0]
-        self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
+
+        self.history['y'] = np.zeros((nb_epoch, self.xsamples, self.ysamples, self.ob_dim))
         for epoch in range(nb_epoch):
-            uzeta = self.create_uzeta(self.U)
-            vzeta = self.create_vzeta(self.V)
-            Y = self.f(uzeta, vzeta)
+            uzeta = self.create_uzeta(self.history['u'][epoch])
+            vzeta = self.create_vzeta(self.history['v'][epoch])
+            Y = self.ff(uzeta, vzeta, epoch)
             # print(self.history['y'][epoch])
             self.history['y'][epoch] = Y
-        return self.history['y']
 
-    # def calc_approximate_fv(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
-    #     nb_epoch = self.history['v'].shape[0]
-    #     self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
-    #     for epoch in range(nb_epoch):
-    #         vzeta = create_vzeta(self.V, resolution)
-    #         Y = self.f(vzeta, self.history['v'][epoch])
-    #         self.history['y'][epoch] = Y
-    #     return self.history['y']
 
 
     def create_uzeta(self, Z): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
@@ -135,16 +146,7 @@ class UKR:
         # zeta = np.concatenate([uxx[:, None], uyy[:, None]], axis=1)
         return v_y
 
-# def create_vzeta(V, resolution):
-#     v_x = np.linspace(np.min(V), np.max(V), resolution)
-#     v_y = np.linspace(np.min(V), np.max(V), resolution)
-#     VXX, VYY = np.meshgrid(v_x, v_y)
-#     vxx = VXX.reshape(-1)
-#     vyy = VYY.reshape(-1)
-#
-#     vzeta = np.concatenate([vxx[:, None], vyy[:, None]], axis=1)
-#
-#     return vzeta
+
 
 if __name__ == '__main__':
     from Lecture_UKR.data import create_kura
@@ -159,7 +161,7 @@ if __name__ == '__main__':
     sigma2 = 0.5
     eta = 5 #学習率
     latent_dim = 1 #潜在空間の次元
-    alpha = 0.001
+    alpha = 0.00001
     norm = 2
     seed = 4
     np.random.seed(seed)
@@ -176,6 +178,6 @@ if __name__ == '__main__':
     #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    # ukr.calc_approximate_fu(resolution=10)
+    ukr.calc_approximate_fu(resolution=10)
     # ukr.calc_approximate_fv(resolution=10)
-    visualize_history(X, ukr.history['f'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR")
+    visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR")
