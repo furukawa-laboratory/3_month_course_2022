@@ -76,8 +76,8 @@ class TUKR:
         self.history['realx1'] = np.zeros((self.X1_num, self.D))
         self.history['realx2'] = np.zeros((self.X2_num, self.D))
 
-        self.history['zk1']=np.zeros((nb_epoch,self.X_num,self.L))
-        self.history['zk2'] = np.zeros((nb_epoch, self.X_num,self.L))
+        self.history['zk1']=np.zeros((nb_epoch,self.K,self.L))
+        self.history['zk2'] = np.zeros((nb_epoch, self.K,self.L))
 
         #self.history['zn'][0]=self.ZN
         self.history['realx']=self.X
@@ -99,9 +99,12 @@ class TUKR:
                     zn_min[i][j]= np.min(self.ZN2[:,j])
                     zn_max[i][j]= np.max(self.ZN2[:,j])
 
-        z1 = np.linspace(zn_min[0][0], zn_max[0][0], self.X_num)
+        z1 = np.linspace(zn_min[0][0], zn_max[0][0], int(self.K**0.5))
+        z1=np.tile(z1,int(self.K**0.5))
         z1=z1[:,None]
-        z2 = np.linspace(zn_min[1][0], zn_max[1][0], self.X_num)
+        z2 = np.linspace(zn_min[1][0], zn_max[1][0], int(self.K**0.5))
+        z2 = np.tile(z2, int(self.K ** 0.5))
+        z2=np.sort(z2)
         z2 = z2[:, None]
 
         self.history['zk1'][epoch]=z1
@@ -129,19 +132,25 @@ class TUKR:
             elif(type==1):#テスト時
 
                 if(jyun==0):
-                    print(self.ZN1.shape)
+
                     a = self.ZN1[self.ZN_nums[:,jyun]]
-                    b=np.sort(a,axis=0)
-                    b=target
-                    d = np.sum((b[:, None, :] - a[None, :, ]) ** 2, axis=2)
+                    # self.b_ue=np.sort(a,axis=0)
+                    self.bb=target
+                    # b=target[::-1]
+                    # b=a
+                    #b=a[::-1]
+                    d = np.sum((target[:, None, :] - a[None, :, ]) ** 2, axis=2)
                     k = np.exp(-1 / (2 * self.sigma ** 2) * d)
 
                 elif(jyun==1):
                     a = self.ZN2[self.ZN_nums[:, jyun]]
-                    b = np.sort(a,axis=0)[:self.X2_num]
-                    b=np.tile(b,(self.X1_num,1))
-                    b=target
-                    d = np.sum((b[:, None, :] - a[None, :, ]) ** 2, axis=2)
+                    # self.b_sita = np.sort(a,axis=0)[::self.X2_num]
+                    # self.b_sita=np.tile(self.b_sita,(self.X1_num,1))
+                    self.bbb=target
+                    # b=target[::-1]
+                    # b=a
+                    # b=a[::-1]
+                    d = np.sum((target[:, None, :] - a[None, :, ]) ** 2, axis=2)
                     k = np.exp(-1 / (2 * self.sigma ** 2) * d)
 
             return k
@@ -206,7 +215,7 @@ class TUKR:
                 zk1,zk2=self.make_zk(epoch)
                 # zk1=self.ZN1_calc
                 # zk2=self.ZN2_calc
-                print('kuso')
+
                 #ans2 = karnel_jnp(1,1,1)
                 ans2 = karnel_jnp(zk1, zk2, 1)
                 print(ans2.shape)
@@ -245,7 +254,10 @@ class TUKR:
         z2 = z2[:, None]
         print(zn_min)
         print(zn_max)
-        print('hai')
-
-
+        # print('hai')
+        print(self.bb)
+        print(self.bbb)
+        # print(self.b_ue)
+        # print(self.b_sita)
+        # exit()
 

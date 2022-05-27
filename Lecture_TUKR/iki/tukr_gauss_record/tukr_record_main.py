@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 #変数の設定
-X1_num=10
+X1_num=20
 X2_num=10
 X3_num=1
 Z1_num=X1_num
@@ -12,7 +12,7 @@ Z2_num=X2_num
 X_num=X1_num*X2_num*X3_num
 Z_num=X_num
 
-K_num=X1_num*X2_num
+K_num=100
 d_num=3
 z_num=1
 
@@ -78,9 +78,9 @@ elif(dotti=='record_random'):
     m_x = m_x.reshape(-1)
     m_y = m_y.reshape(-1)
     X3=m_x**2-m_y**2
-    X=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
+    X_sin=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
 
-    X=np.concatenate([X,X3.reshape(-1)[:,None]],axis=1)
+    X=np.concatenate([X_sin,X3.reshape(-1)[:,None]],axis=1)
 
     z1=np.arange(X1_num)
     z2 = np.arange(X2_num)
@@ -90,11 +90,26 @@ elif(dotti=='record_random'):
     z=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
 
     X=X+np.random.uniform(low=-x_range*(0.1),high=x_range*(0.1),size=(X_num,d_num))
-
-
+    import matplotlib.pyplot as plt
+    # fig=plt.figure()
+    # ax=fig.add_subplot(1,1,1,projection='3d')
+    # ax.scatter(X[:,0], X[:,1], X[:,2], color='b')
+    # plt.show()
     # X1=np.tile(X1,X2_num)+np.random.uniform(low=-x_range*(0.001),high=x_range*(0.001),size=X_num)
     # X2 = np.tile(X2, X1_num)+np.random.uniform(low=-x_range*(0.001),high=x_range*(0.001),size=X_num)
-
+    # from sklearn.preprocessing import MinMaxScaler
+    # X_std = MinMaxScaler().fit_transform(X_sin)
+    # x0 = X_std[:, 0].reshape(-1, 1)
+    # x1 = X_std[:, 1].reshape(-1, 1)
+    # rgb_array = np.concatenate((np.zeros_like(x0), np.zeros_like(x0), x1), axis=1)
+    # rgb_array2 = np.concatenate((x0, np.zeros_like(x0), np.zeros_like(x0)), axis=1)
+    # #ax.scatter(Z[:, 0], Z[:, 1], s=1, c=rgb_array)
+    # fig = plt.figure()
+    # ax = fig.add_subplot(1,2,1,projection='3d')
+    # ax2 = fig.add_subplot(1, 2, 2, projection='3d')
+    # ax.scatter(X[:,0], X[:,1], X[:,2], c=rgb_array)
+    # ax2.scatter(X[:, 0], X[:, 1], X[:, 2], c=rgb_array2)
+    # plt.show()
 
 
 

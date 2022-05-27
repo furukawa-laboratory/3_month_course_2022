@@ -14,11 +14,11 @@ moto=os.getcwd()[:-5]+'iki/'
 sys.path.append(moto)
 print(sys.path)
 
-X1_num=10
+X1_num=20
 X2_num=10
 epochs=100
 wariai=10
-doko=112
+doko=136
 frame_epochs=epochs//2
 
 baisu=10
@@ -94,6 +94,24 @@ def animate_y_zn(i):
     ax.scatter(data['y_zn'][i*baisu,:,0], data['y_zn'][i*baisu,:,1], data['y_zn'][i*baisu,:,2], color='b')
     return fig,
 
+def animate_y_zk(i):
+    plt.cla()
+    plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
+    ax.set_xlabel('y_zk1')
+    ax.set_ylabel('y_zk2')
+    ax.set_zlabel('y_zk3')
+    y_zk_hani=np.zeros((3))
+    for j in range(3):
+        re=np.max(data['realx'][:,j])-np.min(data['realx'][:,j])
+        reso=np.max(data['y_zk'][i,:,j])-np.min(data['y_zk'][i,:,j])
+        y_zk_hani[j]=np.max((re,reso))
+        y_zk_hani[j]=int(y_zk_hani[j])
+    ax.set_box_aspect((y_zk_hani[0],y_zk_hani[1] ,y_zk_hani[2]))
+
+    ax.scatter(data['realx'][:,0],data['realx'][:,1],data['realx'][:,2],color='r')
+    ax.scatter(data['y_zk'][i*baisu,:,0], data['y_zk'][i*baisu,:,1], data['y_zk'][i*baisu,:,2], color='b')
+    return fig,
+
 def animate_wire_zk(i):
     plt.cla()
     plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
@@ -110,11 +128,14 @@ def animate_wire_zk(i):
         y_zk_hani[j]=np.max((re,reso))
         y_zk_hani[j]=int(y_zk_hani[j])
     ax.set_box_aspect((y_zk_hani[0],y_zk_hani[1] ,y_zk_hani[2]))
-    hirosa=np.max(data['realx1'][:])-np.min(data['realx1'][:])
-    iro=(data['realx1'][:] - np.min(data['realx1'][:]))/hirosa
+    hirosa=np.max(data['realx2'][:])-np.min(data['realx2'][:])
+    iro=(data['realx2'][:] - np.min(data['realx2'][:]))/hirosa
+    iro=np.tile(iro,X2_num)
+
     ax.plot_wireframe(resolution[:, :, 0], resolution[:, :, 1], resolution[:, :, 2], color='b',
                       linewidth=0.3)
-    ax.scatter(data['realx'][:,0],data['realx'][:,1],data['realx'][:,2],c='r')
+    #print(data['realx'].shape,iro.shape)
+    ax.scatter(data['realx'][:,0],data['realx'][:,1],data['realx'][:,2],c=iro)
     return fig,
 
 def animate_zn1(i):
@@ -146,7 +167,7 @@ def animate_zk1(i):
     plt.ylim(np.min(data['zk1'][i*baisu,:,:]), np.max(data['zk1'][i*baisu,:,:]))  # y軸の範囲
     hirosa=np.max(data['realx1'][:])-np.min(data['realx1'][:])
     iro=(data['realx1'][:] - np.min(data['realx1'][:]))/hirosa
-    plt.scatter(data['zk1'][i*baisu,:,0],np.zeros(100),c='r')
+    plt.scatter(data['zk1'][i*baisu,:,0],np.zeros(k_size),c='r')
     return fig,
 def animate_zk2(i):
     plt.cla()
@@ -156,7 +177,7 @@ def animate_zk2(i):
     plt.ylim(np.min(data['zk2'][i*baisu,:,:]), np.max(data['zk2'][i*baisu,:,:]))  # y軸の範囲
     hirosa=np.max(data['realx2'][:])-np.min(data['realx2'][:])
     iro=(data['realx2'][:] - np.min(data['realx2'][:]))/hirosa
-    plt.scatter(data['zk2'][i*baisu,:,0],np.zeros(100),c='r')
+    plt.scatter(data['zk2'][i*baisu,:,0],np.zeros(k_size),c='r')
     return fig,
 
 def graph(y,name,wariai):
@@ -191,7 +212,14 @@ ani = animation.FuncAnimation(fig, animate_y_zn, init_func=init,
                               frames=epochs//baisu, interval=100, blit=True)
 
 ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/y_zn.mp4', writer="ffmpeg")
-#
+print('start y_zk')
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1, projection='3d')
+ani = animation.FuncAnimation(fig, animate_y_zk, init_func=init,
+                              frames=epochs//baisu, interval=100, blit=True)
+
+ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/y_zk.mp4', writer="ffmpeg")
+
 print('start zn1')
 fig = plt.figure()
 ax=fig.add_subplot(1,1,1)
