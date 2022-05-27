@@ -12,7 +12,7 @@ def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=False):
     z2 = np.random.uniform(-1, 1, ysamples)
 
 
-    z1_repeated, z2_repeated = np.meshgrid(z1, z2)
+    z1_repeated, z2_repeated = np.meshgrid(z1, z2, indexing = 'ij')
     x1 = z1_repeated
     x2 = z2_repeated
     x3 = x1**2 - x2**2
@@ -21,7 +21,7 @@ def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=False):
 
     x = np.concatenate((x1[:, :, np.newaxis], x2[:, :, np.newaxis], x3[:, :, np.newaxis]), axis=2)
     truez = np.concatenate((z2_repeated[:, :, np.newaxis], z2_repeated[:, :, np.newaxis]), axis=2)
-
+    # print(x.shape)
     if missing_rate == 0 or missing_rate == None:
         if retz:
             return x, truez
@@ -32,8 +32,8 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
 
-    xsamples = 50
-    ysamples = 30
+    xsamples = 5
+    ysamples = 3
 
     x, truez = load_kura_tsom(xsamples, ysamples, retz=True)
     
