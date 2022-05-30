@@ -15,17 +15,19 @@ sys.path.append(moto)
 print(sys.path)
 
 
-epochs=200
+epochs=10
 wariai=10
-doko=14
+doko=141
 frame_epochs=epochs//2
 
-baisu=10
-k_size=10000
+baisu=1
+k_size=100
 kk_size=int(k_size**0.5)
-n_size=100
+X1_nums=20
+X2_nums=10
+n_size=X1_nums*X2_nums
 d_size=3
-l_size=2
+l_size=1
 
 y_zk=np.zeros((epochs,k_size,d_size))
 y_zn=np.zeros((epochs,n_size,d_size))
@@ -42,6 +44,7 @@ e_loss=np.zeros((epochs))
 
 data={}
 name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn1','zn2', 'realx']
+name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk_wire', 'zn1','zn2', 'realx']
 e_type=['loss','loss_mse','loss_L2']
 
 data={}
@@ -62,6 +65,10 @@ def load_data(ukr_type,sitaikoto,doko,name):
     return np.load(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/data/'+name+'.npy')
 for i in name:
     data[i]=load_data(ukr_type,sitaikoto,doko,i)
+    print(i)
+    print(data[i].shape)
+
+# exit()
 
 
 f = open(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/settings.txt','r')
@@ -124,9 +131,14 @@ def animate_zn1(i):
     plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     plt.xlim(np.min(data['zn1'][i*baisu,:,:]), np.max(data['zn1'][i*baisu,:,:]))  # x軸の範囲
     plt.ylim(np.min(data['zn1'][i*baisu,:,:]), np.max(data['zn1'][i*baisu,:,:]))  # y軸の範囲
-    hirosa=np.max(data['realx'][:,0])-np.min(data['realx'][:,0])
-    iro=(data['realx'][:,0] - np.min(data['realx'][:, 0]))/hirosa
-    plt.scatter(data['zn1'][i*baisu,:,0],data['zn1'][i*baisu,:,1],c=iro)
+    hirosa=np.max(data['realx'][0:,0,0])-np.min(data['realx'][0:,0,0])
+    iro=(data['realx'][0:,0,0] - np.min(data['realx'][0:,0,0]))/hirosa
+    # print(data['realx'].shape)
+    # print(data['realx'][0:,0,0].shape)
+    # print(data['zn1'][i*baisu,:].shape)
+    # print(iro.shape)
+    # exit()
+    plt.scatter(data['zn1'][i*baisu,:],np.zeros(X1_nums),c=iro)
     return fig,
 def animate_zn2(i):
     plt.cla()
@@ -134,9 +146,14 @@ def animate_zn2(i):
     plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     plt.xlim(np.min(data['zn2'][i*baisu,:,:]), np.max(data['zn2'][i*baisu,:,:]))  # x軸の範囲
     plt.ylim(np.min(data['zn2'][i*baisu,:,:]), np.max(data['zn2'][i*baisu,:,:]))  # y軸の範囲
-    hirosa=np.max(data['realx'][:,0])-np.min(data['realx'][:,0])
-    iro=(data['realx'][:,0] - np.min(data['realx'][:, 0]))/hirosa
-    plt.scatter(data['zn2'][i*baisu,:,0],data['zn2'][i*baisu,:,1],c=iro)
+    hirosa=np.max(data['realx'][0,0:,1])-np.min(data['realx'][0,0:,1])
+    iro=(data['realx'][0,0:,1] - np.min(data['realx'][0,0:,1]))/hirosa
+    # print(data['realx'].shape)
+    # print(data['realx'][0:,0,0].shape)
+    # print(data['zn1'][i*baisu,:].shape)
+    # print(iro.shape)
+    # exit()
+    plt.scatter(data['zn2'][i*baisu,:],np.zeros(X2_nums),c=iro)
     return fig,
 def graph(y,name,wariai):
     plt.figure()
