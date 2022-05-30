@@ -26,8 +26,8 @@ class TUKR:
         self.history = {}
 
     def kernel(self, z1, z2, v1, v2): #写像の計算 TUKRの式に変更
-        u_u = jnp.sum((z1[:, None, :] - z2[None, :, :]) ** 2, axis=2, keepdims=True)
-        v_v = jnp.sum((v1[:, None, :] - v2[None, :, :]) ** 2, axis=2, keepdims=True)
+        u_u = jnp.sum((z1[:, None, :] - z2[None, :, :]) ** 2, axis=2)
+        v_v = jnp.sum((v1[:, None, :] - v2[None, :, :]) ** 2, axis=2)
         ku_u = jnp.exp(-1/(2*self.xsigma**2)*u_u)#(20,20)
         kv_v = jnp.exp(-1/(2*self.ysigma**2)*v_v)#(10,10)
 
@@ -35,13 +35,13 @@ class TUKR:
         # granFa = jnp.sum(kv_v, axis=0, keepdims=True)#(1,10,1)
         # f = (granMa * granFa * self.X)/(granMa * granFa)
         # f = ((Chi@self.X)*(Chi@self.X))/jnp.sum(Chiu, axis=1, keepdims=True)*jnp.sum(Childv, axis=1, keepdims=True)
-
-        f_no_ue = jnp.einsum('ui, vj, ijd -> uvd', ku_u, kv_v, self.X)#(20,10,3)
-        f_no_sh = jnp.einsum('ui, vj -> uv', ku_u, kv_v)#(20,10)
+        # print(ku_u.shape,kv_v.shape,self.X.shape)
+        f_no_ue = jnp.einsum('ui, vj, ijd -> uvd', ku_u, kv_v, self.X) #(20,10,3)
+        f_no_sh = jnp.einsum('ui, vj -> uv', ku_u, kv_v) #(20,10)
         # print(granMa.shape)
         # print(granPa.shape)
         f = f_no_ue/f_no_sh[:, :, None]
-        print(u_u.shape)
+        # print(u_u.shape)
         return f
 
     def E(self, Z, v, X, alpha, norm): #目的関数の計算
@@ -54,8 +54,8 @@ class TUKR:
 
     def fit(self, nb_epoch: int, eta: float, alpha: float, norm: float) :
         # 学習過程記録用
-        self.history['z!'] = np.zeros((nb_epoch, self.nb_xsamples, self.xlatent_dim))
-        self.history['v!'] = np.zeros((nb_epoch, self.nb_ysamples, self.ylatent_dim))
+        self.history['z'] = np.zeros((nb_epoch, self.nb_xsamples, self.xlatent_dim))
+        self.history['v'] = np.zeros((nb_epoch, self.nb_ysamples, self.ylatent_dim))
         self.history['kernel'] = np.zeros((nb_epoch, self.nb_xsamples, self.nb_ysamples, self.ob_dim))
         self.history['error'] = np.zeros(nb_epoch)
 
@@ -67,23 +67,26 @@ class TUKR:
             # self.v -= (eta) * dEdx
 
             # 学習過程記録用
-            self.history['z!'][epoch] = self.Z
-            self.history['v!'][epoch] = self.v
-            self.history['kernel'][epoch] = self.kernel(self.Z,self.Z,self.v,self.v)
-            self.history['error'][epoch] = self.E(self.Z,self.X, alpha, norm)
+            self.history['z'][epoch] = self.Z
+            self.history['v'][epoch] = self.v
+            self.history['kernel'][epoch] = self.kernel(self.Z, self.Z, self.v, self.v)
+            self.history['error'][epoch] = self.E(self.Z, self.v, self.X, alpha, norm)
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution, nb_epoch): #fのメッシュ描画用，resolution:一辺の代表点の数
-        self.history['x'] = np.zeros((nb_epoch, resolution ** self.xlatent_dim, self.ob_dim))
-
+        self.history['x'] = np.zeros((nb_epoch, resolution ** self.xlatent_dim, resolution ** self.ylatent_dim, self.ob_dim))
+        # print(resolution, self.Z.shape)
         for epoch in tqdm(range(nb_epoch)):
-            zeta = create_zeta(self.Z, resolution)
-            #X = self.kernel(zeta, self.history['z'][epoch])#
-            self.history['x'][epoch] = X
+            zeta_Z = self.create_zeta(self.Z, resolution)
+            zeta_v = self.create_zeta(self.v, resolution)
+            X_c = self.kernel(zeta_Z, self.history['z'][epoch], zeta_v, self.history['v'][epoch])
+            self.history['x'][epoch] = X_c
         return self.history['x']
 
 
-    def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
+    def create_zeta(self,Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
+        # print(Z)
+        # print(resolution)
         z_x = np.linspace(np.min(Z), np.max(Z), resolution).reshape(-1, 1)
         z_y = np.linspace(np.min(Z), np.max(Z), resolution)
         XX, YY = np.meshgrid(z_x, z_y)
@@ -102,7 +105,7 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     ##
-    epoch = 1 #学習回数
+    epoch = 100 #学習回数
     xsigma = 0.4 #カーネルの幅
     ysigma = 0.5  # カーネルの幅
     eta = 2 #学習率
