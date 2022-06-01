@@ -45,11 +45,15 @@ class TUKR:
         return f
 
     def E(self, Z, v, X, alpha, norm): #目的関数の計算
-        #E1 = jnp.sum((X - self.kernel(Z, Z, v, v))**2)
-        E1 = jnp.sum((X - 2) ** 2)
-        R = alpha * jnp.sum(jnp.abs(Z ** norm))
-        E = E1 / self.nb_xsamples + R / self.nb_ysamples
-
+        #print(X.shape)#(20,10,3)　jnp.abs(Z ** norm)(20,2)
+        #print(self.kernel(Z, Z, v, v).shape)#(20,10,3)
+        E1 = np.sum((X - self.kernel(Z, Z, v, v))**2)
+        # E1 = jnp.sum((X - 2) ** 2)
+        R_u = np.sum(jnp.abs(Z ** norm))
+        R_v = np.sum(jnp.abs(v ** norm))
+        E = E1 / (self.nb_xsamples * self.nb_ysamples) + alpha * (R_u + R_v)
+        # print(((X - self.kernel(Z, Z, v, v))).shape)
+        # print(E1.shape)
         return E
 
     def fit(self, nb_epoch: int, eta: float, alpha: float, norm: float) :
@@ -63,8 +67,8 @@ class TUKR:
             # Zの更新
             dEdx =jax.grad(self.E, argnums=0)(self.Z, self.v, self.X, alpha, norm)
             self.Z -= (eta) * dEdx
-            # dEdy = jax.grad(self.E, argnums=0)(self.v, self.X, alpha, norm)
-            # self.v -= (eta) * dEdx
+            dEdy = jax.grad(self.E, argnums=1)(self.Z, self.v, self.X, alpha, norm)
+            self.v -= (eta) * dEdy
 
             # 学習過程記録用
             self.history['z'][epoch] = self.Z
@@ -106,7 +110,7 @@ if __name__ == '__main__':
     #各種パラメータ変えて遊んでみてね．
     ##
     epoch = 100 #学習回数
-    xsigma = 0.4 #カーネルの幅
+    xsigma = 0.5 #カーネルの幅
     ysigma = 0.5  # カーネルの幅
     eta = 2 #学習率
     xlatent_dim = 2 #潜在空間の次元
@@ -120,15 +124,20 @@ if __name__ == '__main__':
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_xsamples = 20 #データ数
-    nb_ysamples = 10
+    nb_ysamples = 20
+
+    # print(TUKR.history['x'].shape)
+
     X = load_kura_tsom(nb_xsamples,nb_ysamples) #鞍型データ　ob_dim=3, 真のL=2
     # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 #(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
     ukr = TUKR(X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
-    #visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
     #----------描画部分が実装されたらコメントアウト外す----------
+    # print(X.shape)
     ukr.calc_approximate_f(10, epoch)
-    # visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    # visualize_history(X, ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
+
 

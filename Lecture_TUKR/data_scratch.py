@@ -32,8 +32,8 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
 
-    xsamples = 5
-    ysamples = 3
+    xsamples = 20
+    ysamples = 50
 
     x, truez = load_kura_tsom(xsamples, ysamples, retz=True)
     
