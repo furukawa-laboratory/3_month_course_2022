@@ -94,14 +94,15 @@ if __name__ == '__main__':
     from Lecture_UKR.data import create_rasen
     from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
+    from Lecture_UKR.fukunaga.animal import load_date
 
     #各種パラメータ変えて遊んでみてね．
-    epoch = 200 #学習回数
+    epoch = 500 #学習回数
     sigma = 0.1 #カーネルの幅
-    eta = 1 #学習率
-    latent_dim = 1 #潜在空間の次元
-    alpha = 0.1
-    norm = 2
+    eta = 0.01 #学習率
+    latent_dim = 2 #潜在空間の次元
+    alpha = 1
+    norm = 10
     seed = 4
     np.random.seed(seed)
 
@@ -109,15 +110,18 @@ if __name__ == '__main__':
     nb_samples = 100 #データ数
     # X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
     #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
-    X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
+    # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
+    X = load_date()[0]
+    animal_label = load_date(retlabel_animal=True)[1]
+    # print(load_date(retlabel_animal=True)[1])
 
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
-    #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp", label = animal_label)
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=100)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="sin")
+    #ukr.calc_approximate_f(resolution=100)
+    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="animal")
 
 
 

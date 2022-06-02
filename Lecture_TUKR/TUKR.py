@@ -157,8 +157,8 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 100 #学習回数
-    sigma1 = 0.5 #カーネルの幅
-    sigma2 = 0.5
+    sigma1 = 0.3 #カーネルの幅
+    sigma2 = 0.3
     eta = 5 #学習率
     latent_dim = 1 #潜在空間の次元
     alpha = 0.00001
@@ -180,4 +180,4 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_fu(resolution=10)
     # ukr.calc_approximate_fv(resolution=10)
-    visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR")
+    visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKRNo.2")

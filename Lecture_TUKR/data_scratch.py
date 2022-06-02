@@ -6,8 +6,8 @@ def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=False):
     z2 = np.random.normal(0, 0.5, ysamples)
 
     z1_repeated, z2_repeated = np.meshgrid(z1, z2, indexing = 'ij')
-    x1 = z1_repeated + np.random.normal(loc=0.0, scale=0.1, size=(xsamples, ysamples))
-    x2 = z2_repeated + np.random.normal(loc=0.0, scale=0.1, size=(xsamples, ysamples))
+    x1 = z1_repeated #+ np.random.normal(loc=0.0, scale=0.1, size=(xsamples, ysamples))
+    x2 = z2_repeated #+ np.random.normal(loc=0.0, scale=0.1, size=(xsamples, ysamples))
     x3 = x1**2 - x2**2
     #ノイズを加えたい時はここをいじる,locがガウス分布の平均、scaleが分散,size何個ノイズを作るか
     #このノイズを加えることによって三次元空間のデータ点は上下に動く
