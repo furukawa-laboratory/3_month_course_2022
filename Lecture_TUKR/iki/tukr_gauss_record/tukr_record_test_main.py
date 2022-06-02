@@ -15,7 +15,9 @@ Z_num=X_num
 K_num=100
 d_num=3
 z_num=1
-ccp_num=20
+
+ccp_num=100
+
 sigma=np.log(X_num)
 sigma=0.1
 # sigma=0.5
@@ -24,7 +26,7 @@ resolution=0.000001
 
 ramuda=0.005
 eta=0.3
-nb_epoch=200
+nb_epoch=1
 meyasu=1
 x_range=1
 data_type='sin(X1)+sin(X2)'
@@ -125,6 +127,7 @@ else:
 
 
 #保存用ディレクトリの作成
+
 def make_dict(dict_name,syurui):
     #sitaikoto dictがあったとき
     if(os.path.exists(dict_name)):
@@ -158,42 +161,6 @@ def make_dict(dict_name,syurui):
 
 basyo=make_dict(sitaikoto,syurui)
 
-with open(sitaikoto+'/overview''/all_settings.txt', 'a') as f:
-    print('以下の設定は@'+str(basyo)+'@===================================================',file=f)
-    print('一言コメント',file=f)
-    print('テストですよーーーーーーーー',file=f)
-    print('self.N=', X_num, file=f)
-    print('self.D=', d_num, file=f)
-    print('self.nn=', int(X_num**0.5), file=f)
-    print('self.K=', K_num, file=f)
-    print('self.KK=', int(K_num**0.5), file=f)
-    print('self.sigma=', sigma, file=f)
-    print('self.resolution=',resolution, file=f)
-    print('ramuda=', ramuda, file=f)
-    print('self.eta=',eta, file=f)
-    print('self.nb_epoch=', nb_epoch, file=f)
-    print('meyasu=', meyasu, file=f)
-    print('x_range=', x_range, file=f)
-    print('data_type=',data_type,file=f)
-with open(sitaikoto+'/'+str(basyo)+'/settings.txt', 'w') as f:
-    print('以下の設定は@'+str(basyo)+'@===================================================',file=f)
-    print('一言コメント',file=f)
-    print('テストですよーーーーーーーー',file=f)
-    print('self.N=', X_num, file=f)
-    print('self.D=', d_num, file=f)
-    print('self.nn=', int(X_num**0.5), file=f)
-    print('self.K=', K_num, file=f)
-    print('self.KK=', int(K_num**0.5), file=f)
-    print('self.sigma=', sigma, file=f)
-    print('self.resolution=',resolution, file=f)
-    print('ramuda=', ramuda, file=f)
-    print('self.eta=',eta, file=f)
-    print('self.nb_epoch=', nb_epoch, file=f)
-    print('meyasu=', meyasu, file=f)
-    print('x_range=', x_range, file=f)
-    print('data_type=',data_type,file=f)
-with open(sitaikoto+'/overview''/mokuteki.txt', 'w') as f:
-    print('xの範囲を−2から2にしたい',file=f)
 a=TUKR(X,K_num,z_num,resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto,X1_num,X2_num,X1,X2,ccp_num)
 
 

@@ -4,6 +4,9 @@ import os
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import sys
+import matplotlib.pyplot as plt
+import matplotlib.colors
+
 print('jiiioji')
 
 print(sys.path)
@@ -16,18 +19,18 @@ print(sys.path)
 
 X1_num=20
 X2_num=10
-epochs=100
+epochs=200
 wariai=10
-doko=136
+doko=17
 frame_epochs=epochs//2
 
-baisu=10
+baisu=20
 k_size=100
 kk_size=int(k_size**0.5)
 n_size=100
 d_size=3
 l_size=1
-
+ccp_num=20
 y_zk=np.zeros((epochs,k_size,d_size))
 y_zn=np.zeros((epochs,n_size,d_size))
 y_zk_wire=np.zeros((epochs,kk_size,kk_size,d_size))
@@ -42,7 +45,7 @@ e_loss=np.zeros((epochs))
 
 
 data={}
-name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn1','zn2', 'realx','realx1','realx2','zk1','zk2']
+name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn1','zn2', 'realx','realx1','realx2','zk1','zk2','y_Z']
 e_type=['loss','loss_mse','loss_L2']
 
 data={}
@@ -53,6 +56,7 @@ sitaikoto='sigma_large'
 sitaikoto='sigma_small'
 sitaikoto='kantu'
 sitaikoto='kansei'
+sitaikoto='ccp'
 ukr_type=moto+'tukr_gauss_record'
 print('-------------------')
 if(os.path.exists(sitaikoto)):
@@ -63,6 +67,8 @@ def load_data(ukr_type,sitaikoto,doko,name):
     return np.load(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/data/'+name+'.npy')
 for i in name:
     data[i]=load_data(ukr_type,sitaikoto,doko,i)
+    print(i)
+    print(data[i].shape)
 
 
 f = open(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/settings.txt','r')
@@ -126,12 +132,14 @@ def animate_wire_zk(i):
         re=np.max(data['realx'][:,j])-np.min(data['realx'][:,j])
         reso=np.max(resolution[:, :, j].reshape(-1))-np.min(resolution[:, :, j].reshape(-1))
         y_zk_hani[j]=np.max((re,reso))
-        y_zk_hani[j]=int(y_zk_hani[j])
+    print(y_zk_hani)
     ax.set_box_aspect((y_zk_hani[0],y_zk_hani[1] ,y_zk_hani[2]))
-    hirosa=np.max(data['realx2'][:])-np.min(data['realx2'][:])
-    iro=(data['realx2'][:] - np.min(data['realx2'][:]))/hirosa
+    hirosa=np.max(data['realx1'][:])-np.min(data['realx1'][:])
+    iro=(data['realx1'][:] - np.min(data['realx1'][:]))/hirosa
+    # print(iro.shape)
     iro=np.tile(iro,X2_num)
-
+    # print(iro.shape)
+    # exit()
     ax.plot_wireframe(resolution[:, :, 0], resolution[:, :, 1], resolution[:, :, 2], color='b',
                       linewidth=0.3)
     #print(data['realx'].shape,iro.shape)
@@ -146,9 +154,39 @@ def animate_zn1(i):
     plt.ylim(np.min(data['zn1'][i*baisu,:,:]), np.max(data['zn1'][i*baisu,:,:]))  # y軸の範囲
     hirosa=np.max(data['realx1'][:])-np.min(data['realx1'][:])
     iro=(data['realx1'][:] - np.min(data['realx1'][:]))/hirosa
-    plt.scatter(data['zn1'][i*baisu,:,0],np.zeros(X1_num),c=iro)
+
+    plt.scatter(data['zn1'][i*baisu,:,0],np.zeros(X1_num),c=iro,)
+    #ax.axvspan(3, 6, 0.2, 0.6, color="coral")
     return fig,
 def animate_zn2(i):
+    plt.cla()
+    ax.axes.set_aspect('equal')
+    plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
+    plt.xlim(np.min(data['zn2'][i*baisu,:,:]), np.max(data['zn2'][i*baisu,:,:]))  # x軸の範囲
+    plt.ylim(np.min(data['zn2'][i*baisu,:,:]), np.max(data['zn2'][i*baisu,:,:]))  # y軸の範囲
+    hirosa=np.max(data['realx2'][:])-np.min(data['realx2'][:])
+    iro=(data['realx2'][:] - np.min(data['realx2'][:]))/hirosa
+    plt.scatter(data['zn2'][i*baisu,:,0],np.zeros(X2_num),c=iro)
+    return fig,
+
+def animate_z1(i):
+    plt.cla()
+    ax.axes.set_aspect('equal')
+    plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
+    plt.xlim(np.min(data['zn1'][i*baisu,:,:]), np.max(data['zn1'][i*baisu,:,:]))  # x軸の範囲
+    plt.ylim(np.min(data['zn1'][i*baisu,:,:]), np.max(data['zn1'][i*baisu,:,:]))  # y軸の範囲
+
+    norm = plt.Normalize(-2, 2)
+    cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", ["red", "violet", "blue"])
+    plt.scatter(x,y,c=c, cmap=cmap, norm=norm)
+    plt.colorbar()
+    plt.show()
+    hirosa=np.max(data['realx1'][:])-np.min(data['realx1'][:])
+    iro=(data['realx1'][:] - np.min(data['realx1'][:]))/hirosa
+    plt.scatter(data['zn1'][i*baisu,:,0],np.zeros(X1_num),c=iro)
+    ax.axvspan(3, 6, 0.2, 0.6, color="coral")
+    return fig,
+def animate_z2(i):
     plt.cla()
     ax.axes.set_aspect('equal')
     plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
@@ -219,7 +257,7 @@ ani = animation.FuncAnimation(fig, animate_y_zk, init_func=init,
                               frames=epochs//baisu, interval=100, blit=True)
 
 ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/y_zk.mp4', writer="ffmpeg")
-
+exit()
 print('start zn1')
 fig = plt.figure()
 ax=fig.add_subplot(1,1,1)
@@ -233,23 +271,38 @@ ax=fig.add_subplot(1,1,1)
 ani = animation.FuncAnimation(fig, animate_zn2, init_func=init,
                               frames=epochs//baisu, interval=100, blit=True)
 ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/zn2.mp4', writer="ffmpeg")
-print('start zk1')
-fig = plt.figure()
-ax=fig.add_subplot(1,1,1)
-ani = animation.FuncAnimation(fig, animate_zk1, init_func=init,
-                              frames=epochs//baisu, interval=100, blit=True)
-ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/zk1.mp4', writer="ffmpeg")
 
-print('start zk2')
-fig = plt.figure()
-ax=fig.add_subplot(1,1,1)
-ani = animation.FuncAnimation(fig, animate_zk2, init_func=init,
-                              frames=epochs//baisu, interval=100, blit=True)
-ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/zk2.mp4', writer="ffmpeg")
-print('start e')
+# print('start z1')
+# fig = plt.figure()
+# ax=fig.add_subplot(1,1,1)
+# ani = animation.FuncAnimation(fig, animate_zn1, init_func=init,
+#                               frames=ccp_num*ccp_num, interval=100, blit=True)
+# ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/z1.mp4', writer="ffmpeg")
 #
-for i in e_type:
-    graph(data[i],i,wariai)
+# print('start z2')
+# fig = plt.figure()
+# ax=fig.add_subplot(1,1,1)
+# ani = animation.FuncAnimation(fig, animate_zn2, init_func=init,
+#                               frames=ccp_num*ccp_num, interval=100, blit=True)
+# ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/z2.mp4', writer="ffmpeg")
+
+# print('start zk1')
+# fig = plt.figure()
+# ax=fig.add_subplot(1,1,1)
+# ani = animation.FuncAnimation(fig, animate_zk1, init_func=init,
+#                               frames=epochs//baisu, interval=100, blit=True)
+# ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/zk1.mp4', writer="ffmpeg")
+#
+# print('start zk2')
+# fig = plt.figure()
+# ax=fig.add_subplot(1,1,1)
+# ani = animation.FuncAnimation(fig, animate_zk2, init_func=init,
+#                               frames=epochs//baisu, interval=100, blit=True)
+# ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/zk2.mp4', writer="ffmpeg")
+# print('start e')
+# #
+# for i in e_type:
+#     graph(data[i],i,wariai)
 
 
 

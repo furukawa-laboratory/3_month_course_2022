@@ -5,7 +5,7 @@ import jax.numpy as jnp
 
 import os
 class TUKR:
-    def __init__(self, X, K_num,latent_dim, resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto,X1_num,X2_num,X1,X2): # 引数はヒントになるかも！
+    def __init__(self, X, K_num,latent_dim, resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto,X1_num,X2_num,X1,X2,ccp_num): # 引数はヒントになるかも！
         #引数を用いたselfの宣言
         self.X = X
 
@@ -18,6 +18,7 @@ class TUKR:
         self.resolution = resolution
         self.X1_num=X1_num
         self.X2_num=X2_num
+        self.ccp_num=ccp_num
 
         self.ZN1=np.random.normal(0,0.5,(self.X_num,self.L))
         self.ZN1= np.random.uniform(low=-self.resolution, high=self.resolution, size=(self.X_num,self.L))
@@ -61,7 +62,7 @@ class TUKR:
 
 
         self.loss_type=['loss','loss_mse','loss_L2'] #合計と正則項と二乗誤差
-        self.name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn1','zn2', 'realx','realx1','realx2','zk1','zk2']
+        self.name = ['loss', 'loss_mse', 'loss_L2', 'y_zn', 'y_zk', 'y_zk_wire', 'zn1','zn2', 'realx','realx1','realx2','zk1','zk2','y_Z']
         # 学習過程記録用 historyの初期化
         self.history = {}
         self.history['zn1'] = np.zeros((nb_epoch, self.X1_num, self.L))
@@ -78,6 +79,11 @@ class TUKR:
 
         self.history['zk1']=np.zeros((nb_epoch,self.K,self.L))
         self.history['zk2'] = np.zeros((nb_epoch, self.K,self.L))
+
+
+        self.history['y_Z1']=np.zeros((nb_epoch,ccp_num,ccp_num))#ccp用のZ1空間に表示するためのy
+        self.history['y_Z2'] = np.zeros((nb_epoch, ccp_num,ccp_num))#ccp用のZ2空間に表示するためのy
+        self.history['y_Z'] = np.zeros((nb_epoch, ccp_num*ccp_num, ccp_num*ccp_num))  # ccp用のZ2空間に表示するためのy
 
         #self.history['zn'][0]=self.ZN
         self.history['realx']=self.X
@@ -106,19 +112,10 @@ class TUKR:
         z2 = np.tile(z2, int(self.K ** 0.5))
         z2=np.sort(z2)
         z2 = z2[:, None]
-
+        # print(self.ZN1.shape,self.ZN2.shape)
+        # exit()
         self.history['zk1'][epoch]=z1
         self.history['zk2'][epoch] = z2
-            #zk_x = np.linspace(zn_min[i][0], zn_max[i][0], self.K)
-            #zk_y = np.linspace(zn_min[i][1], zn_max[i][1], self.KK)
-            # m_x, m_y = np.meshgrid(zk_x, zk_x)
-            # m_x = m_x.reshape(-1)
-            # m_y = m_y.reshape(-1)
-            # if(i==0):
-            #     z1=np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
-            #     # print(z1.shape)
-            # elif(i==1):
-            #     z2 = np.concatenate((m_x[:, None], m_y[:, None]), axis=1)
         return z1,z2
 
     def fit(self,):
@@ -132,24 +129,14 @@ class TUKR:
             elif(type==1):#テスト時
 
                 if(jyun==0):
-
                     a = self.ZN1[self.ZN_nums[:,jyun]]
-                    # self.b_ue=np.sort(a,axis=0)
                     self.bb=target
-                    # b=target[::-1]
-                    # b=a
-                    #b=a[::-1]
                     d = np.sum((target[:, None, :] - a[None, :, ]) ** 2, axis=2)
                     k = np.exp(-1 / (2 * self.sigma ** 2) * d)
 
                 elif(jyun==1):
                     a = self.ZN2[self.ZN_nums[:, jyun]]
-                    # self.b_sita = np.sort(a,axis=0)[::self.X2_num]
-                    # self.b_sita=np.tile(self.b_sita,(self.X1_num,1))
                     self.bbb=target
-                    # b=target[::-1]
-                    # b=a
-                    # b=a[::-1]
                     d = np.sum((target[:, None, :] - a[None, :, ]) ** 2, axis=2)
                     k = np.exp(-1 / (2 * self.sigma ** 2) * d)
 
@@ -164,6 +151,20 @@ class TUKR:
             elif(type==1):
                 k1= kernel_f(target1,1,0)
                 k2=kernel_f(target2,1,1)
+            elif(type==2):
+                k1= kernel_f(target1,1,0)
+                k2=kernel_f(target2,1,1)
+
+                k = jnp.einsum('ij,kj->ikj', k1, k2)
+                # k=k1
+                Y = jnp.einsum('ikj,jd->ikd', k, self.X)
+                # print(k1.shape,k2.shape,k.shape)
+                # print(Y.shape)
+                # print('h')
+                # exit()
+                YY = Y / jnp.sum(k, axis=2, keepdims=True)
+
+                return YY
 
             k=jnp.einsum('ij,ij->ij',k1,k2)
             # k=k1
@@ -227,6 +228,41 @@ class TUKR:
                 self.history['zn1'][epoch] = self.ZN1
                 self.history['zn2'][epoch] = self.ZN2
 
+        def make_z():
+            zn_min = np.zeros((2, self.L))
+            zn_max = np.zeros((2, self.L))
+            for i in range(2):
+                for j in range(self.L):
+                    if (i == 0):
+                        # print(self.ZN1.shape,j)
+                        zn_min[i][j] = np.min(self.ZN1[:, j])
+                        zn_max[i][j] = np.max(self.ZN1[:, j])
+                    elif (i == 1):
+                        zn_min[i][j] = np.min(self.ZN2[:, j])
+                        zn_max[i][j] = np.max(self.ZN2[:, j])
+
+            z1 = np.linspace(zn_min[0][0], zn_max[0][0], self.ccp_num)
+            z1 = np.tile(z1, self.ccp_num)
+            z1 = z1[:, None]
+            z2 = np.linspace(zn_min[1][0], zn_max[1][0], self.ccp_num)
+            z2 = np.tile(z2, self.ccp_num)
+            z2 = np.sort(z2)
+            z2 = z2[:, None]
+
+            # self.history['z1'][epoch] = z1
+            # self.history['z2'][epoch] = z2
+            return z1, z2
+
+        def test(self,):
+            z1,z2=make_z()
+            print(z1.shape,z2.shape)
+            ans = karnel_jnp(z1, z2, 2)
+            ans=np.sum(ans,axis=2)
+            self.history['y_Z']=ans
+
+
+        test(self,)
+
         #曲面
         def save_data(name,data,syurui):
             np.save(self.sitaikoto+'/' + str(self.basyo) + '/'+syurui+'/'+name, data)
@@ -260,4 +296,5 @@ class TUKR:
         # print(self.b_ue)
         # print(self.b_sita)
         # exit()
+
 
