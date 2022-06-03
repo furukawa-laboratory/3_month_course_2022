@@ -20,7 +20,7 @@ class UKR:
 
         if Uinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.U = np.random.uniform(low=0.0, high=1.0, size=(self.xsamples, self.latent_dim))
+                self.U = np.random.uniform(low=-0.001, high=0.001, size=(self.xsamples, self.latent_dim))
 
 
             else: #ガウス事前分布のとき
@@ -31,7 +31,7 @@ class UKR:
         self.history = {}
         if Vinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.V = np.random.normal(0, self.sigma2, (self.ysamples, self.latent_dim))
+                self.V = np.random.uniform(low=-0.001, high=0.001, size=(self.ysamples, self.latent_dim))
 
             else: #ガウス事前分布のとき
                 self.V = np.random.normal(self.ysamples*self.latent_dim).reshape(self.ysamples, self.latent_dim)
@@ -154,22 +154,26 @@ if __name__ == '__main__':
     # from Lecture_UKR.data import create_2d_sin_curve
     from Lecture_TUKR.visualizer import visualize_history
     from Lecture_TUKR.data_scratch import load_kura_tsom
+    from Lecture_TUKR.animal import load_date
 
     #各種パラメータ変えて遊んでみてね．
-    epoch = 100 #学習回数
-    sigma1 = 0.3 #カーネルの幅
-    sigma2 = 0.3
-    eta = 5 #学習率
-    latent_dim = 1 #潜在空間の次元
-    alpha = 0.00001
-    norm = 2
+    epoch = 200 #学習回数
+    sigma1 = 0.1 #カーネルの幅
+    sigma2 = 0.1
+    eta = 8 #学習率
+    latent_dim = 2 #潜在空間の次元
+    alpha = 0.01
+    norm = 10
     seed = 4
     np.random.seed(seed)
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     xsamples = 20 #データ数
     ysamples = 10
-    X = load_kura_tsom(xsamples, ysamples) #鞍型データ　ob_dim=3, 真のL=2
+    # X = load_kura_tsom(xsamples, ysamples) #鞍型データ　ob_dim=3, 真のL=2
+    X = load_date()[0][:, :, None]
+    animal_label = load_date(retlabel_animal=True)[1]
+    feature_label = load_date(retlabel_feature=True)[2]
 
     #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
@@ -180,4 +184,4 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_fu(resolution=10)
     # ukr.calc_approximate_fv(resolution=10)
-    visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKRNo.2")
+    visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR動物", label1=animal_label, label2=feature_label)
