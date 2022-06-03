@@ -38,7 +38,7 @@ STEP = 150
 #     if save_gif:
 #         ani.save(f"{filename}.gif", writer='pillow')
 
-def visualize_history(X: object, Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp", label = None) -> object:
+def visualize_history(X: object, Y_history: object, Z_history: object, error_history: object, save_gif=False, object = False, filename: object = "tmp", label = None) -> object:
     input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -69,7 +69,9 @@ def visualize_history(X: object, Y_history: object, Z_history: object, error_his
 
     plt.show()
     if save_gif:
-        ani.save(f"{filename}.gif", writer='pillow')
+        ani.save(f"{filename}.mp4", writer='ffmpeg')
+
+
 def update_graph(epoch, latent_drawer, X, Y_history,
                  Z_history, error_history, fig, latent_ax, error_ax, num_epoch, label):
     fig.suptitle(f"epoch: {epoch}")

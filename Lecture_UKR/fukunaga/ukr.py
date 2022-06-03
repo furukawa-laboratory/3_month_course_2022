@@ -97,7 +97,7 @@ if __name__ == '__main__':
     from Lecture_UKR.fukunaga.animal import load_date
 
     #各種パラメータ変えて遊んでみてね．
-    epoch = 500 #学習回数
+    epoch = 300 #学習回数
     sigma = 0.1 #カーネルの幅
     eta = 0.01 #学習率
     latent_dim = 2 #潜在空間の次元
@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
-    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp", label = animal_label)
+    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR動物1", label=animal_label)
 
     #----------描画部分が実装されたらコメントアウト外す----------
     #ukr.calc_approximate_f(resolution=100)
