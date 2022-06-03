@@ -70,6 +70,10 @@ class TUKR:
             dEdy = jax.grad(self.E, argnums=1)(self.Z, self.v, self.X, alpha, norm)
             self.v -= (eta) * dEdy
 
+            # dEdx = jax.grad(self.E, argnums=0)(self.Z, self.v, self.X, alpha, norm)/self.nb_xsamples
+            # self.Z -= (eta) * dEdx
+            # dEdy = jax.grad(self.E, argnums=1)(self.Z, self.v, self.X, alpha, norm)/self.nb_ysamples
+            # self.v -= (eta) * dEdy
             # 学習過程記録用
             self.history['z'][epoch] = self.Z
             self.history['v'][epoch] = self.v
@@ -78,12 +82,16 @@ class TUKR:
 
     #--------------以下描画用(上の部分が実装できたら実装してね)---------------------
     def calc_approximate_f(self, resolution, nb_epoch): #fのメッシュ描画用，resolution:一辺の代表点の数
+
         self.history['x'] = np.zeros((nb_epoch, resolution ** self.xlatent_dim, resolution ** self.ylatent_dim, self.ob_dim))
+        # AA = self.history['z'].shape[0]
+        # self.history['x'] = np.zeros((AA, self.nb_xsamples, self.nb_ysamples, self.ob_dim))
         # print(resolution, self.Z.shape)
         for epoch in tqdm(range(nb_epoch)):
             zeta_Z = self.create_zeta(self.Z, resolution)
             zeta_v = self.create_zeta(self.v, resolution)
             X_c = self.kernel(zeta_Z, self.history['z'][epoch], zeta_v, self.history['v'][epoch])
+            # X_c = self.f(self.create_zeta(self.history['z'][epoch], resolution), self.Z)
             self.history['x'][epoch] = X_c
         return self.history['x']
 
@@ -96,7 +104,10 @@ class TUKR:
         XX, YY = np.meshgrid(z_x, z_y)
         xx = XX.reshape(-1)
         yy = YY.reshape(-1)
-        zeta = np.concatenate([xx[:, None], yy[:, None]], axis=1)
+        if self.xlatent_dim == 1:
+            zeta = z_x
+        else:
+            zeta = np.concatenate([xx[:, None], yy[:, None]], axis=1)
 
         return zeta
 
@@ -109,12 +120,12 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     ##
-    epoch = 100 #学習回数
+    epoch = 300 #学習回数
     xsigma = 0.5 #カーネルの幅
     ysigma = 0.5  # カーネルの幅
-    eta = 2 #学習率
-    xlatent_dim = 2 #潜在空間の次元
-    ylatent_dim = 2  # 潜在空間の次元
+    eta = 2 #学習率 小さい方がゆっくり学習が進む
+    xlatent_dim = 1 #潜在空間の次元
+    ylatent_dim = 1  # 潜在空間の次元
 
     alpha = 0
     norm = 10
@@ -134,10 +145,10 @@ if __name__ == '__main__':
 #(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
     ukr = TUKR(X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
-    visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
+    # visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
     #----------描画部分が実装されたらコメントアウト外す----------
     # print(X.shape)
-    ukr.calc_approximate_f(10, epoch)
-    # visualize_history(X, ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
+    ukr.calc_approximate_f(15, epoch)
+    visualize_history(X, ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
 
 

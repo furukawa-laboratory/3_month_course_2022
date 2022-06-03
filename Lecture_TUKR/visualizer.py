@@ -32,8 +32,8 @@ def visualize_history(X, Y_history, Z_history, v_history, error_history, save_gi
     print((num_epoch, int(np.sqrt(Y_history.shape[1])), int(np.sqrt(Y_history.shape[1])), input_dim))
     if input_dim == 3 and xlatent_dim == 2 and ylatent_dim == 2:
         resolution = int(np.sqrt(Y_history.shape[1]))
-        if Y_history.shape[1] == resolution ** 2:
-            Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
+        # if Y_history.shape[1] == resolution ** 2:
+            # Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
 
     # if yinput_dim == 3 and ylatent_dim == 2:
     #     resolution = int(np.sqrt(Y_history.shape[1]))
@@ -71,14 +71,15 @@ def update_graph(epoch, observable_drawer, xlatent_drawer, ylatent_drawer, X, Y_
     Y, Z, v = Y_history[epoch], Z_history[epoch], v_history[epoch]
     colormap = X[:, 0]
 
-    observable_drawer(input_ax, X, Y, colormap)
-    xlatent_drawer(xlatent_ax, Z, colormap)
-    ylatent_drawer(ylatent_ax, v, colormap)
+    observable_drawer(input_ax, X, Y, v, colormap)
+    xlatent_drawer(xlatent_ax, Z, X[:,0,0], colormap)
+    ylatent_drawer(ylatent_ax, v, X[0,:,1], colormap)
     draw_error(error_ax, error_history, epoch)
 
 
-def draw_observable_3D(ax, X, Y, colormap):
-    ax.scatter(X[:, :, 0], X[:, :, 1], X[:, :, 2], c='teal')
+def draw_observable_3D(ax, X, Y, Z, colormap):
+    Z=np.tile(X[:, :, 0],(1))#zを縦に２０回繰り返そう
+    ax.scatter(X[:, :, 0], X[:, :, 1], X[:, :, 2], c=X[:, :, 0])
     # ax.set_zlim(-1, 1)
     if len(Y.shape) == 3:
         ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
@@ -100,8 +101,10 @@ def draw_latent_2D(ax, Z, colormap):
     ax.scatter(Z[:, 0], Z[:, 1], c='blue')
 
 
-def draw_latent_1D(ax, Z, colormap):
-    ax.scatter(Z, np.zeros(Z.shape), c='yellow')
+def draw_latent_1D(ax, Z, X, colormap):
+    # ax.scatter(Z, np.zeros(Z.shape), c='blueviolet')
+
+    ax.scatter(Z, np.zeros(Z.shape), c=X)
     ax.set_ylim(-1, 1)
 
 def draw_error(ax, error_history, epoch):
