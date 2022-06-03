@@ -4,7 +4,7 @@ import os
 import cv2
 
 
-def load_animal_data(retlabel_animal=True, retlabel_feature=False):
+def load_animal_data(retlabel_animal=False, retlabel_feature=True):
     datastore_name = 'datastore/animal'
     file_name = 'features.txt'
 
@@ -26,6 +26,24 @@ def load_animal_data(retlabel_animal=True, retlabel_feature=False):
         label_path = os.path.join(directory_path, label_name)
         label_feature = np.genfromtxt(label_path, dtype=str)
         return_objects.append(label_feature)
+
+    return return_objects
+
+def load_coffee_data():
+    datastore_name = 'datastore/coffee'
+    file_name = 'features.txt'
+
+    directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
+    file_path = os.path.join(directory_path, file_name)
+
+    x = np.loadtxt(file_path)
+
+    return_objects = [x]
+
+    label_name = 'labels.txt'
+    label_path = os.path.join(directory_path, label_name)
+    label = np.genfromtxt(label_path, dtype=str)
+    return_objects.append(label)
 
     return return_objects
 

@@ -19,7 +19,7 @@ class List_UKR:
 
         if Uinit is None:
             if prior == 'normal': #一様事前分布のとき
-                U = np.random.uniform(-0.01, 0.01, self.nb_samples1 * self.latent_dim1).reshape(self.nb_samples1, self.latent_dim1)
+                U = np.random.uniform(-0.001, 0.001, self.nb_samples1 * self.latent_dim1).reshape(self.nb_samples1, self.latent_dim1)
             else: #ガウス事前分布のとき
                 U = np.random.normal(0, 0.001, self.nb_samples1 * self.latent_dim1).reshape(self.nb_samples1, self.latent_dim1)
         else: #Zの初期値が与えられた時
@@ -27,7 +27,7 @@ class List_UKR:
 
         if Vinit is None:
             if prior == 'normal':
-                V = np.random.uniform(-0.01, 0.01, self.nb_samples2 * self.latent_dim2).reshape(self.nb_samples2, self.latent_dim2)
+                V = np.random.uniform(-0.001, 0.001, self.nb_samples2 * self.latent_dim2).reshape(self.nb_samples2, self.latent_dim2)
             else:
                 V = np.random.normal(0, 0.001, self.nb_samples2 * self.latent_dim2).reshape(self.nb_samples2, self.latent_dim2)
         else:
@@ -65,7 +65,7 @@ class List_UKR:
         return f
 
     def E(self, U, V, X, alpha=0.01, norm=2): #目的関数の計算
-        d = ((X-self.f(U, V))**2)/(self.nb_samples1*self.nb_samples2)
+        d = ((X-self.f(U, V))**2)/(X.shape[0])
         E = jnp.sum(d)+alpha*(jnp.sum(U**norm)+jnp.sum(V**norm))
         return E
 
@@ -73,7 +73,7 @@ class List_UKR:
         # 学習過程記録用
         self.history['u'] = np.zeros((nb_epoch, self.nb_samples1, self.latent_dim1))
         self.history['v'] = np.zeros((nb_epoch, self.nb_samples2, self.latent_dim2))
-        self.history['f'] = np.zeros((nb_epoch, self.nb_samples1 * self.nb_samples2, self.ob_dim))
+        self.history['f'] = np.zeros((nb_epoch, self.X.shape[0], self.ob_dim))
         self.history['error'] = np.zeros(nb_epoch)
 
         for epoch in tqdm(range(nb_epoch)):
@@ -90,8 +90,10 @@ class List_UKR:
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
          nb_epoch = self.history['u'].shape[0]
          self.history['y'] = np.zeros((nb_epoch, self.nb_samples1, self.nb_samples2, self.ob_dim))
+         self.history['zetau'] = np.zeros((nb_epoch, self.nb_samples1, self.latent_dim1))
+         self.history['zetav'] = np.zeros((nb_epoch, self.nb_samples2, self.latent_dim2))
          zetaX = np.zeros((self.nb_samples1, self.nb_samples2, self.ob_dim))
-         for n in range(self.nb_samples1*nb_samples2):
+         for n in range(self.X.shape[0]):
              zetaX[X_num[n, 0], X_num[n, 1], :] = X[n, :]
          #self.history['y'] = np.zeros((nb_epoch, self.X.shape[0], self.ob_dim))
          for epoch in tqdm(range(nb_epoch)):
@@ -123,14 +125,15 @@ if __name__ == '__main__':
     from Lecture_TUKR.tokunaga.data import load_kura_tsom
     from Lecture_TUKR.tokunaga.data import load_kura_list
     #from Lecture_TUKR.tokunaga.load import load_angle_resized_data
-    from Lecture_TUKR.tokunaga.visualizer import visualize_history
+    from Lecture_TUKR.tokunaga.l_visualizer import visualize_history
+    from Lecture_TUKR.tokunaga.data import load_kura_lost_list
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
     #sigma1 = 2 #uのカーネルの幅
     #sigma2 = 3 #vのカーネル幅
     ueta = 1 #uの学習率
-    veta = 1 #vの学習率
+    veta = 2 #vの学習率
     latent_dim1 = 1 #潜在空間1の次元
     latent_dim2 = 1 #潜在空間2の次元
 
@@ -139,19 +142,20 @@ if __name__ == '__main__':
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples1 = 10 #潜在空間１のデータ数
-    nb_samples2 = 20 #潜在空間２のデータ数
+    nb_samples2 = 15 #潜在空間２のデータ数
     sigma1 = np.log(nb_samples1)/nb_samples1
     sigma2 = np.log(nb_samples2)/nb_samples2
-    X, X_num = load_kura_list(nb_samples1, nb_samples2) #record型の蔵型データ ob_dom=3, L=2
+    #X, X_num = load_kura_list(nb_samples1, nb_samples2) #record型の蔵型データ ob_dom=3, L=2
+    X, X_num = load_kura_lost_list(nb_samples1, nb_samples2)
     lukr = List_UKR(X, X_num, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='normal')
     #print(tukr.list_f(tukr.U, tukr.V))
     lukr.fit(epoch, ueta, veta)
     #visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
-    #visualize_history(X, X_num, lukr.history['f'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="recode_iikanzi")
+    visualize_history(X, lukr.history['f'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="recode_iikanzi")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    lukr.calc_approximate_f(resolution=10)
-    visualize_history(X, X_num, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=True, filename="record_colormap_dekitenai")
+    #lukr.calc_approximate_f(resolution=10)
+    #visualize_history(X, X_num, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="record_colormap_dekitenai")
 
 
 

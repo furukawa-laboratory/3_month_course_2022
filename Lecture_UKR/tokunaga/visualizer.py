@@ -123,8 +123,8 @@ def draw_observable_2D(ax, X, Y, colormap):
 def draw_latent_2D(ax, Z, colormap, data):
     Z_max=np.amax(Z, axis=0)
     Z_min=np.amin(Z, axis=0)
-    ax.set_xlim(Z_min[0] - 1, Z_max[0] + 1)
-    ax.set_ylim(Z_min[1] - 1, Z_max[1] + 1)
+    ax.set_xlim(min(Z_min[0]*1.2, -0.2), max(Z_max[0]*1.2, 0.2))
+    ax.set_ylim(min(Z_min[1]*1.2, -0.2), max(Z_max[1]*1.2, 0.2))
     ax.scatter(Z[:, 0], Z[:, 1], c=colormap)
     for (i) in range(Z.shape[0]):
         ax.annotate(data[1][i], xy=(Z[i, 0], Z[i, 1]))

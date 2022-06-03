@@ -4,7 +4,7 @@ import os
 import cv2
 
 
-def load_animal_data(retlabel_animal=True, retlabel_feature=False):
+def load_animal_data(retlabel_animal=True, retlabel_feature=True):
     datastore_name = 'datastore/animal'
     file_name = 'features.txt'
 

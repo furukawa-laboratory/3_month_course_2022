@@ -57,7 +57,7 @@ class UKR:
 
         return f
 
-    def E(self, Z, X, alpha=0.0001, norm=2): #目的関数の計算
+    def E(self, Z, X, alpha=0.0, norm=2): #目的関数の計算
         d = ((X-self.f(Z, Z))**2)/self.nb_samples
         E = jnp.sum(d)+alpha*jnp.sum(Z**norm)
         return E
@@ -183,23 +183,24 @@ def create_zeta_1D(Z):
     return zeta
 
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
-    from Lecture_UKR.data import create_rasen
+    from Lecture_UKR.tokunaga.data import create_kura
+    #from Lecture_UKR.data import create_rasen
     from Lecture_UKR.tokunaga.data import create_2d_sin_curve
     from Lecture_UKR.tokunaga.data import create_big_kura
     from Lecture_UKR.tokunaga.data import create_cluster
     from Lecture_UKR.tokunaga.load import load_animal_data
+    from Lecture_UKR.tokunaga.load import load_coffee_data
     from Lecture_UKR.tokunaga.load import load_angle_resized_data
     from visualizer import visualize_history
     from visualizer import visualize_real_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 300 #学習回数
-    sigma = 0.22 #カーネルの幅
-    eta = 5 #学習率
+    sigma = 0.2 #カーネルの幅
+    eta = 2 #学習率
     latent_dim = 2 #潜在空間の次元
 
-    seed = 20
+    seed = 4
     np.random.seed(seed)
 
 
@@ -210,16 +211,16 @@ if __name__ == '__main__':
     #X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     #X = create_big_kura(nb_samples)
     #X = create_cluster(nb_samples)
+    #X = load_animal_data()[0].T
     #X = load_animal_data()[0]
-    X = load_angle_resized_data()
-    print(X.shape)
-    ukr = UKR(X, latent_dim, sigma, prior='random')
+    X = load_coffee_data()
+    ukr = UKR(X[0], latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
     visualize_real_history(X, ukr.history['z'], ukr.history['error'], save_gif=False, filename="seed20")
     #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    #ukr.calc_approximate_f(resolution=10)
+    #ukr.calc_approximate_f(resolution=15)
     #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
