@@ -84,7 +84,7 @@ def images_wire_zk(i,y_zk_wire,realx,):
     ax.plot_wireframe(resolution[:,:, 0], resolution[:,:, 1], resolution[:,:, 2], color='b',
                       linewidth=0.3)
     print('reso')
-    ax.scatter(realx[:,0],realx[:,1],realx[:,2],c='r')
+    ax.scatter(realx[:,:,0],realx[:,:,1],realx[:,:,2],c='r')
 
 def images_y_zn(i,y_zn,realx,):
     fig=plt.figure()

@@ -6,13 +6,15 @@ import os
 X1_num=20
 X2_num=10
 X3_num=1
+uk_num=15
+vk_num=5
 Z1_num=X1_num
 Z2_num=X2_num
 
 X_num=X1_num*X2_num*X3_num
 Z_num=X_num
 
-K_num=100
+K_num=25
 d_num=3
 z_num=1
 
@@ -24,7 +26,7 @@ resolution=0.000001
 
 ramuda=0.005
 eta=0.3
-nb_epoch=200
+nb_epoch=100
 meyasu=1
 x_range=1
 data_type='sin(X1)+sin(X2)'
@@ -90,10 +92,13 @@ elif(dotti=='tensor_random'):
     # print(X[:,:,0])
     # print(X)
     X=np.concatenate([X,X3[:,:,None]],axis=2)
+    X=X+np.random.uniform(low=-x_range*(0.1),high=x_range*(0.1),size=(X1_num,X2_num,d_num))
     print(X.shape)
-    # exit()
+    print(X)
+
     # print(X.shape)
     # exit()
+
 
 
 else:
@@ -176,7 +181,7 @@ with open(sitaikoto+'/'+str(basyo)+'/settings.txt', 'w') as f:
     print('data_type=',data_type,file=f)
 with open(sitaikoto+'/overview''/mokuteki.txt', 'w') as f:
     print('xの範囲を−2から2にしたい',file=f)
-a=TUKR(X,K_num,z_num,resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto)
+a=TUKR(X,K_num,z_num,resolution,ramuda,eta,sigma,nb_epoch,meyasu,x_range,basyo,sitaikoto,uk_num,vk_num)
 
 
 a.fit()

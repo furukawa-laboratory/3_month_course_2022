@@ -15,24 +15,24 @@ sys.path.append(moto)
 print(sys.path)
 
 
-epochs=10
+epochs=100
 wariai=10
-doko=141
+doko=166
 frame_epochs=epochs//2
 
-baisu=1
-k_size=100
-kk_size=int(k_size**0.5)
+baisu=10
+# k_size=100
+# kk_size=int(k_size**0.5)
+
+uk_num=15
+vk_num=5
+
 X1_nums=20
 X2_nums=10
 n_size=X1_nums*X2_nums
 d_size=3
 l_size=1
 
-y_zk=np.zeros((epochs,k_size,d_size))
-y_zn=np.zeros((epochs,n_size,d_size))
-y_zk_wire=np.zeros((epochs,kk_size,kk_size,d_size))
-zn=np.zeros((epochs,n_size,l_size))
 
 realx=np.zeros((epochs,n_size,d_size))
 e=np.zeros((epochs))
@@ -67,6 +67,7 @@ for i in name:
     data[i]=load_data(ukr_type,sitaikoto,doko,i)
     print(i)
     print(data[i].shape)
+# exit()
 
 # exit()
 
@@ -94,11 +95,12 @@ def animate_y_zn(i):
         re=np.max(data['realx'][:,j])-np.min(data['realx'][:,j])
         reso=np.max(data['y_zn'][i,:,j])-np.min(data['y_zn'][i,:,j])
         y_zk_hani[j]=np.max((re,reso))
-        y_zk_hani[j]=int(y_zk_hani[j])
+        # y_zk_hani[j]=int(y_zk_hani[j])
 
     ax.set_box_aspect((y_zk_hani[0],y_zk_hani[1] ,y_zk_hani[2]))
-
-    ax.scatter(data['realx'][:,0],data['realx'][:,1],data['realx'][:,2],color='r')
+    hirosa=np.max(data['realx'][:,:,0])-np.min(data['realx'][:,:,0])
+    iro=(data['realx'][:,:,0] - np.min(data['realx'][:,:,0]))/hirosa
+    ax.scatter(data['realx'][:,:,0],data['realx'][:,:,1],data['realx'][:,:,2],c=iro)
     ax.scatter(data['y_zn'][i*baisu,:,0], data['y_zn'][i*baisu,:,1], data['y_zn'][i*baisu,:,2], color='b')
     return fig,
 
@@ -116,13 +118,13 @@ def animate_wire_zk(i):
         re=np.max(data['realx'][:,j])-np.min(data['realx'][:,j])
         reso=np.max(resolution[:, :, j].reshape(-1))-np.min(resolution[:, :, j].reshape(-1))
         y_zk_hani[j]=np.max((re,reso))
-        y_zk_hani[j]=int(y_zk_hani[j])
+        # y_zk_hani[j]=int(y_zk_hani[j])
     ax.set_box_aspect((y_zk_hani[0],y_zk_hani[1] ,y_zk_hani[2]))
-    hirosa=np.max(data['realx'][:,0])-np.min(data['realx'][:,0])
-    iro=(data['realx'][:,0] - np.min(data['realx'][:, 0]))/hirosa
+    hirosa=np.max(data['realx'][:,:,0])-np.min(data['realx'][:,:,0])
+    iro=(data['realx'][:,:,0] - np.min(data['realx'][:,:,0]))/hirosa
     ax.plot_wireframe(resolution[:, :, 0], resolution[:, :, 1], resolution[:, :, 2], color='b',
                       linewidth=0.3)
-    ax.scatter(data['realx'][:,0],data['realx'][:,1],data['realx'][:,2],c=iro)
+    ax.scatter(data['realx'][:,:,0],data['realx'][:,:,1],data['realx'][:,:,2],c=iro)
     return fig,
 
 def animate_zn1(i):

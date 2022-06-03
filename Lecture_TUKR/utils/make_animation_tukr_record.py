@@ -18,19 +18,21 @@ X1_num=20
 X2_num=10
 epochs=100
 wariai=10
-doko=136
+doko=153
 frame_epochs=epochs//2
 
 baisu=10
-k_size=100
-kk_size=int(k_size**0.5)
+# k_size=100
+# kk_size=int(k_size**0.5)
+uk_num=9
+vk_num=8
 n_size=100
 d_size=3
 l_size=1
 
-y_zk=np.zeros((epochs,k_size,d_size))
+y_zk=np.zeros((epochs,uk_num*vk_num,d_size))
 y_zn=np.zeros((epochs,n_size,d_size))
-y_zk_wire=np.zeros((epochs,kk_size,kk_size,d_size))
+y_zk_wire=np.zeros((epochs,uk_num,vk_num,d_size))
 zn=np.zeros((epochs,n_size,l_size))
 
 realx=np.zeros((epochs,n_size,d_size))
