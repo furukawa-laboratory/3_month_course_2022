@@ -3,6 +3,8 @@ import jax,jaxlib
 import jax.numpy as jnp
 import tensorflow as tf
 from tqdm import tqdm #プログレスバーを表示させてくれる
+from sklearn.datasets import load_iris
+
 
 
 class TUKR:
@@ -52,8 +54,20 @@ class TUKR:
         f1 = jnp.einsum('li,kj->lk', HU, HV)
         f2 = f1[:, :, None]
         return f / f2
-        # f = jnp.einsum('li,kj,ijd->lkd', HU, HV, self.X) / jnp.einsum('li,kj->lk', HU, HV).reshape(nb_samples1, nb_samples2, 1)
-        # return f
+
+    def ff(self, U, V, epoch): #写像の計算
+        DistU = jnp.sum((U[:, None, :] - self.history['u'][epoch][None, :, :]) ** 2, axis=2)
+        DistV = jnp.sum((V[:, None, :] - self.history['v'][epoch][None, :, :]) ** 2, axis=2)
+        HU = jnp.exp((-1 * DistU) / (2 * (self.sigma) ** 2))
+        HV = jnp.exp((-1 * DistV) / (2 * (self.sigma) ** 2))
+        # GU = jnp.sum(HU, axis=1)[:, None]
+        # GV = jnp.sum(HV, axis=1)[:, None]
+        # RU = HU / GU
+        # RV = HV / GV
+        f = jnp.einsum('li,kj,ijd->lkd', HU, HV, self.X)
+        f1 = jnp.einsum('li,kj->lk', HU, HV)
+        f2 = f1[:, :, None]
+        return f / f2
 
     def E(self,U,V,X,alpha,norm):#目的関数の計算
         Y = self.f(U,V)
@@ -90,21 +104,21 @@ class TUKR:
         nb_epoch = self.history['u'].shape[0]
         self.history['y'] = np.zeros((nb_epoch,self.nb_samples1,self.nb_samples2, self.ob_dim))
         for epoch in tqdm(range(nb_epoch)):
+            Uzeta = self.create_Uzeta(self.history['u'][epoch],resolution)
+            Vzeta = self.create_Vzeta(self.history['v'][epoch],resolution)
 
-            y = self.f(self.create_zeta(self.history['u'][epoch],resolution),self.U)
+            y = self.ff(Uzeta,Vzeta,epoch)
             self.history['y'][epoch] = y
 
-        return self.history['y']
+    def create_Uzeta(self, U, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
+        Uzeta = np.linspace(np.min(U), np.max(U),self.nb_samples1).reshape(-1,1)
 
-    def create_zeta(self, Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
-        a = np.linspace(np.min(Z), np.max(Z), resolution)
-        b = np.linspace(np.min(Z), np.max(Z), resolution)
-        A,B = np.meshgrid(a,b)
-        aa = A.reshape(-1)
-        bb = B.reshape(-1)
-        zeta = np.concatenate([aa[:,None],bb[:,None]],axis=1)
+        return Uzeta
 
-        return zeta
+    def create_Vzeta(self, V, resolution):  # fのメッシュの描画用に潜在空間に代表点zetaを作る．
+        Vzeta = np.linspace(np.min(V), np.max(V),self.nb_samples2).reshape(-1,1)
+
+        return Vzeta
 
 
 if __name__ == '__main__':
@@ -115,7 +129,7 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.05 #カーネルの幅
+    sigma = 0.1 #カーネルの幅
     eta = 10  #学習率
     latent_dim1 = 1 #潜在空間の次元
     latent_dim2 = 1 #潜在空間の次元
@@ -129,17 +143,18 @@ if __name__ == '__main__':
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples1 = 10 #データ数
     nb_samples2 = 20
-    X = load_kura_tsom(nb_samples1,nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
+    # X = load_iris()
+    # X = load_kura_tsom(nb_samples1,nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
     # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 
     tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma, prior='random')
     tukr.fit(epoch, eta,alpha,norm)
-    visualize_history(X, tukr.history['f'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=True, filename="tmp")
+    # visualize_history(X, tukr.history['f'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    #tukr.calc_approximate_f(resolution=10)
-    #visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
+    tukr.calc_approximate_f(resolution=10)
+    visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
 
 
 
