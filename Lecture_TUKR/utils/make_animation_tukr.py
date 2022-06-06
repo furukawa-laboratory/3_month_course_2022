@@ -15,16 +15,16 @@ sys.path.append(moto)
 print(sys.path)
 
 
-epochs=50
+epochs=100
 wariai=epochs*2+1
-doko=165
+doko=0
 frame_epochs=epochs//2
 
-baisu=1
+baisu=10
 # k_size=100
 # kk_size=int(k_size**0.5)
 
-uk_num=15
+uk_num=5
 vk_num=5
 
 X1_nums=20
@@ -55,6 +55,7 @@ sitaikoto='sigma_large'
 sitaikoto='sigma_small'
 sitaikoto='kantu'
 sitaikoto='kansei'
+sitaikoto='tensor_kakunin'
 ukr_type=moto+'tukr_gauss'
 print('-------------------')
 if(os.path.exists(sitaikoto)):
