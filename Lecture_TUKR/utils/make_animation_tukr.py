@@ -15,12 +15,12 @@ sys.path.append(moto)
 print(sys.path)
 
 
-epochs=100
-wariai=10
-doko=166
+epochs=50
+wariai=epochs*2+1
+doko=165
 frame_epochs=epochs//2
 
-baisu=10
+baisu=1
 # k_size=100
 # kk_size=int(k_size**0.5)
 
@@ -133,6 +133,8 @@ def animate_zn1(i):
     plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     plt.xlim(np.min(data['zn1'][i*baisu,:,:]), np.max(data['zn1'][i*baisu,:,:]))  # x軸の範囲
     plt.ylim(np.min(data['zn1'][i*baisu,:,:]), np.max(data['zn1'][i*baisu,:,:]))  # y軸の範囲
+    plt.xlim(-1,1)  # x軸の範囲
+    plt.ylim(-1,1)  # y軸の範囲
     hirosa=np.max(data['realx'][0:,0,0])-np.min(data['realx'][0:,0,0])
     iro=(data['realx'][0:,0,0] - np.min(data['realx'][0:,0,0]))/hirosa
     # print(data['realx'].shape)
@@ -148,6 +150,8 @@ def animate_zn2(i):
     plt.suptitle(settings[8]+settings[9]+settings[10]+settings[11],fontsize='8')  # タイトル
     plt.xlim(np.min(data['zn2'][i*baisu,:,:]), np.max(data['zn2'][i*baisu,:,:]))  # x軸の範囲
     plt.ylim(np.min(data['zn2'][i*baisu,:,:]), np.max(data['zn2'][i*baisu,:,:]))  # y軸の範囲
+    plt.xlim(-1,1)  # x軸の範囲
+    plt.ylim(-1,1)  # y軸の範囲
     hirosa=np.max(data['realx'][0,0:,1])-np.min(data['realx'][0,0:,1])
     iro=(data['realx'][0,0:,1] - np.min(data['realx'][0,0:,1]))/hirosa
     # print(data['realx'].shape)
@@ -188,7 +192,7 @@ ani = animation.FuncAnimation(fig, animate_y_zn, init_func=init,
                               frames=epochs//baisu, interval=100, blit=True)
 
 ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/y_zn.mp4', writer="ffmpeg")
-#
+
 print('start zn1')
 fig = plt.figure()
 ax=fig.add_subplot(1,1,1)
