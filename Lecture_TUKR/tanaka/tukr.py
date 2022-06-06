@@ -12,7 +12,14 @@ class TUKR:
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
-        self.nb_samples1,self.nb_samples2, self.ob_dim = self.X.shape
+
+        if X.ndim == 3:
+            self.nb_samples1, self.nb_samples2, self.ob_dim = self.X.shape
+        else:
+            self.nb_samples1, self.nb_samples2 = self.X.shape
+            self.ob_dim = 1
+            self.X = X[:,:,None]
+
         self.sigma = sigma
         self.latent_dim1 = latent_dim1
         self.latent_dim2 = latent_dim2
@@ -122,17 +129,18 @@ class TUKR:
 
 
 if __name__ == '__main__':
-    from Lecture_TUKR.tanaka.data_scratch_tanaka import load_kura_tsom
+    from Lecture_TUKR.tanaka.animal import load_data
+    # from Lecture_TUKR.tanaka.data_scratch_tanaka import load_kura_tsom
     # from Lecture_TUKR.tanaka.data_scratch_tanaka import create_rasen
     # from Lecture_TUKR.tanaka.data_scratch_tanaka import create_2d_sin_curve
-    from visualizer import visualize_history
+    from visualizer_animal import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.1 #カーネルの幅
+    sigma = 0.01 #カーネルの幅
     eta = 10  #学習率
-    latent_dim1 = 1 #潜在空間の次元
-    latent_dim2 = 1 #潜在空間の次元
+    latent_dim1 = 2 #潜在空間の次元
+    latent_dim2 = 2 #潜在空間の次元
     alpha = 0.1
     norm = 2
     seed = 4
@@ -143,10 +151,15 @@ if __name__ == '__main__':
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples1 = 10 #データ数
     nb_samples2 = 20
+    data = load_data(retlabel_animal=True, retlabel_feature=True)
     # X = load_iris()
     # X = load_kura_tsom(nb_samples1,nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
     # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
+
+    X = data[0]
+    animal_label = data[1]
+    feature_label = data[2]
 
     tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma, prior='random')
     tukr.fit(epoch, eta,alpha,norm)
@@ -154,7 +167,7 @@ if __name__ == '__main__':
 
     #----------描画部分が実装されたらコメントアウト外す----------
     tukr.calc_approximate_f(resolution=10)
-    visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'],animal_label, feature_label, save_gif=False, filename="tmp")
 
 
 
