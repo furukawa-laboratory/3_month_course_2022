@@ -228,6 +228,7 @@ def graph(y,name,wariai):
     plt.plot(x[start:],y[start:])
     plt.savefig(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/'+name+'.png')
 
+
 def draw_zn1_heatmap(name,i):
     plt.figure()
     # ax.axes.set_aspect('equal')
@@ -252,6 +253,38 @@ def draw_zn1_heatmap(name,i):
         plt.annotate(X1_name[j],(data['zn1'][epochs-1,j,0],data['zn1'][epochs-1,j,1]))
     #plt.text(data['zn1'][i*baisu,:,0],data['zn1'][i*baisu,:,1],'1aaaaaaaaaaaaaaaaaaaa')
     plt.savefig(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/'+name+'.png')
+
+def draw_zn1_heatmap_all():
+    plt.figure(figsize=(60, 30))
+    plt.rcParams["font.size"] = 40
+    fig, axes = plt.subplots(nrows=5, ncols=5, sharex=False)
+    fig.set_figheight(70)
+    fig.set_figwidth(80)
+    con=0
+    for i in range(5):
+        for j in range(5):
+            print(con)
+            axes[i,j].set_title(X2_name[con] + '\n', fontsize='40')  # タイトル
+            axes[i, j].set_xlim(np.min(data['zn1'][epochs - 1, :, 0]), np.max(data['zn1'][epochs - 1, :, 0]))  # x軸の範囲
+            axes[i,j].set_ylim(np.min(data['zn1'][epochs - 1, :, 1]), np.max(data['zn1'][epochs - 1, :, 1]))  # y軸の範囲
+            # hirosa = np.max(data['realx1'][:]) - np.min(data['realx1'][:])
+            # # iro=(data['realx1'][:] - np.min(data['realx1'][:]))/hirosa
+            # # plt.scatter(data['zn1'][epochs-1,:,0],data['zn1'][epochs-1,:,1],c=animal_color)
+            # # y = np.arange(100)
+            cm = plt.get_cmap("Reds")
+            hirosa = np.max(data['heatmap'][con, :]) - np.min(data['heatmap'][con, :])
+            iro = (data['heatmap'][con, :] - np.min(data['heatmap'][con, :])) / hirosa
+            axes[i,j].scatter(data['heatmap_place'][con, :, 0], data['heatmap_place'][con, :, 1], color=cm(iro), s=4000)
+            for k in range(X1_num):
+                axes[i,j].annotate(X1_name[k], (data['zn1'][epochs - 1, k, 0], data['zn1'][epochs - 1, k, 1]),fontsize='30')
+            con=con+1
+            if (con == 21):
+                break
+        if (con == 21):
+            break
+    plt.savefig(ukr_type + '/' + sitaikoto + '/' + str(doko) + '/all_heatmap.png')
+
+
 
 print(data['zk1'].shape)
 
@@ -309,14 +342,14 @@ print(222)
 # ani = animation.FuncAnimation(fig, animate_zk2, init_func=init,
 #                               frames=epochs//baisu, interval=100, blit=True)
 # ani.save(ukr_type+'/'+sitaikoto+'/'+str(doko)+'/zk2.mp4', writer="ffmpeg")
-print('start e')
-#
-for i in e_type:
-    graph(data[i],i,wariai)
-
-for i,target_num in enumerate(X2_name):
-    draw_zn1_heatmap(target_num,i)
-
+# print('start e')
+# #
+# for i in e_type:
+#     graph(data[i],i,wariai)
+# print('start heatmap')
+# for i,target_num in enumerate(X2_name):
+#     draw_zn1_heatmap(target_num,i)
+draw_zn1_heatmap_all()
 
 
 print('owari')
