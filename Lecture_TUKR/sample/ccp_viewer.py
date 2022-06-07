@@ -203,7 +203,7 @@ class TUKR_ccp_viewer:
                     self.__draw_map1_click_point()
                     self.__draw_conditional_map2()
                     self.__draw_label_map1(fig_number)
-                    self.__open_image(fig_number)
+                    # self.__open_image(fig_number)
                     self.__draw_bar_map(fig_number[0])
                 elif self.action1==0 and self.action2==1: # map1: conditional map2: marginal
                     # 各マップのコンポーネントプレーンの計算
@@ -224,7 +224,7 @@ class TUKR_ccp_viewer:
                     self.__draw_map1_click_point()
                     self.__draw_map2_click_point()
                     self.__draw_label_map1(fig_number)
-                    self.__open_image(fig_number)
+                    # self.__open_image(fig_number)
                     self.__draw_bar_map(fig_number[0])
             elif event.inaxes == self.Map2.axes:  # map2がクリックされた時
                 # クリック位置取得
