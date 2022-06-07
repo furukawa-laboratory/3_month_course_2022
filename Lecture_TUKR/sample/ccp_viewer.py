@@ -91,8 +91,8 @@ class TUKR_ccp_viewer:
                 dict_keys.append(str(self.button_label[i]))
             self.hzdict = dict(zip(dict_keys, values))  # e.g.Deskwork_or_studyingが与えられたら0を返す
 
-        self.cmap = [cm.Greys, cm.Reds, cm.RdPu, cm.Greens, cm.Oranges, cm.PuRd, cm.Purples, cm.YlOrBr, cm.Blues]
-        self.style_number=0
+        # self.cmap = [cm.Greys, cm.Reds, cm.RdPu, cm.Greens, cm.Oranges, cm.PuRd, cm.Purples, cm.YlOrBr, cm.Blues]
+        # self.style_number=0
 
         # コンディショナルコンポーネントプレーンの計算
         self.__calc_conditional_comp(1)
@@ -102,22 +102,21 @@ class TUKR_ccp_viewer:
         self.__calc_marginal_comp(1)
         self.__calc_marginal_comp(2)
 
-
         # ----------描画用---------- #
         self.Mapsize = np.sqrt(y.shape[0])
         if fig_size is None:
-            self.Fig = plt.figure(figsize=(15, 6))
+            self.Fig = plt.figure(figsize=(20, 8))
         else:
             self.Fig = plt.figure(figsize=fig_size)
         plt.subplots_adjust(right=0.7)
-        gs = self.Fig.add_gridspec(3, 5)
-        self.Map1 = self.Fig.add_subplot(gs[:2,:2])
+        gs = self.Fig.add_gridspec(1, 2)
+        self.Map1 = self.Fig.add_subplot(gs[0, 0])
         self.Map1.set_title(self.title_text_1)
-        self.Map2 = self.Fig.add_subplot(gs[:2,2:])
+        self.Map2 = self.Fig.add_subplot(gs[0, 1])
         self.Map2.set_title(self.title_text_2)
-        self.image = self.Fig.add_subplot(gs[2,0])
-        self.Map_bar = self.Fig.add_subplot(gs[2,1:3])
-        self.Map_ob = self.Fig.add_subplot(gs[2,4])
+        # self.image = self.Fig.add_subplot(gs[2,0])
+        # self.Map_bar = self.Fig.add_subplot(gs[2,1:3])
+        # self.Map_ob = self.Fig.add_subplot(gs[2,4])
         if self.Dim!=1:
             rax = plt.axes([0.75, 0.25, 0.1, 0.5], facecolor='lightgoldenrodyellow',aspect='equal')
             if not button_label is None:
@@ -173,7 +172,7 @@ class TUKR_ccp_viewer:
                 click_pos[0, 1] = event.ydata
 
                 self.Map1_click_unit = self.__calc_arg_min_unit(self.Map1_position, click_pos)  # クリックしたところといちばん近いノードがどこかを計算
-                fig_number = self.__calc_arg_sort_unit(click_pos, 10)
+                # fig_number = self.__calc_arg_sort_unit(click_pos, 10)
 
                 if self.map1_t-self.Map1_click_unit==0:#前回と同じところをクリックした or Map2をクリックした
                     self.action1=0
@@ -191,8 +190,8 @@ class TUKR_ccp_viewer:
                     #component planeを描画
                     self.__draw_marginal_map1()
                     self.__draw_marginal_map2()
-                    self.__draw_label_map1(fig_number)
-                    self.__draw_bar_map(fig_number[0])
+                    # self.__draw_label_map1(fig_number)
+                    # self.__draw_bar_map(fig_number[0])
 
                 elif self.action1==1 and self.action2==0: # map1: marginal map2: conditional
                     # 各マップのコンポーネントプレーンの計算
@@ -202,9 +201,9 @@ class TUKR_ccp_viewer:
                     self.__draw_marginal_map1()
                     self.__draw_map1_click_point()
                     self.__draw_conditional_map2()
-                    self.__draw_label_map1(fig_number)
+                    # self.__draw_label_map1(fig_number)
                     # self.__open_image(fig_number)
-                    self.__draw_bar_map(fig_number[0])
+                    # self.__draw_bar_map(fig_number[0])
                 elif self.action1==0 and self.action2==1: # map1: conditional map2: marginal
                     # 各マップのコンポーネントプレーンの計算
                     self.__calc_conditional_comp(1)  # Map2_click_unitを元に計算
@@ -223,9 +222,9 @@ class TUKR_ccp_viewer:
                     self.__draw_conditional_map2()
                     self.__draw_map1_click_point()
                     self.__draw_map2_click_point()
-                    self.__draw_label_map1(fig_number)
+                    # self.__draw_label_map1(fig_number)
                     # self.__open_image(fig_number)
-                    self.__draw_bar_map(fig_number[0])
+                    # self.__draw_bar_map(fig_number[0])
             elif event.inaxes == self.Map2.axes:  # map2がクリックされた時
                 # クリック位置取得
                 click_pos = np.random.rand(1, 2)
@@ -345,18 +344,18 @@ class TUKR_ccp_viewer:
         # 潜在変数の表示
         self.Map1.scatter(self.Winner1[:, 0], self.Winner1[:, 1], c="white", linewidths=0.8, edgecolors="gray", s=8)
         # self.Map1.text(self.Winner1[number[0], 0], self.Winner1[number[0], 1], self.label1[number[0]], size=10, color="red")
+        if not self.label1 is None:  # ラベルを与えばそのラベルを出力,そうでないなら出力しない
+            for i in range(self.Winner1.shape[0]):
+                self.Map1.text(self.Winner1[i, 0], self.Winner1[i, 1], self.label1[i],
+                               size=10, color="red")
         self.Fig.show()
 
     def __draw_label_map1(self,number):
         wine_labels = " "
-        start = (self.Map1_position.max() - self.Map1_position.min()) / 30
-        haba = (self.Map1_position.max() - self.Map1_position.min()) / 20
-        # 潜在変数の表示
-        # self.Map1.text(self.Winner1[number[0], 0], self.Winner1[number[0], 1], self.label1[number[0]], size=10, color="red")
-        for i in range(number.shape[0]):
-            self.Map1.text(self.Map1_position[:,0].max(), self.Map1_position[:,1].max() - start - i * haba,
-                           self.label1[number[i]],
-                           size=8, c='blue')
+        if not self.label1 is None:  # ラベルを与えばそのラベルを出力,そうでないなら出力しない
+            for i in range(self.Winner1.shape[0]):
+                self.Map1.text(self.Winner1[i, 0], self.Winner1[i, 1], self.label1[i],
+                               size=10, color="red")
         self.Fig.show()
 
 
@@ -370,32 +369,31 @@ class TUKR_ccp_viewer:
         self.Map2.scatter(self.Winner2[:, 0], self.Winner2[:, 1], c="white", linewidths=0.8, edgecolors="gray", s=8)
         self.Fig.show()
 
-    def __draw_bar_map(self, number):
-        self.Map_bar.cla()
-        self.Map_bar.set_title(str(self.label1[number]), size=8)
-        X_value = self.X[number, :].reshape(-1)
-        left = np.arange(len(self.label2))
-        self.Map_bar.bar(left, X_value, width=0.4)
-        self.Map_bar.set_xticks(left)
-        self.Map_bar.set_xticklabels(self.label2, fontsize=8, rotation=30)
+    # def __draw_bar_map(self, number):
+    #     self.Map_bar.cla()
+    #     self.Map_bar.set_title(str(self.label1[number]), size=8)
+    #     X_value = self.X[number, :].reshape(-1)
+    #     left = np.arange(len(self.label2))
+    #     self.Map_bar.bar(left, X_value, width=0.4)
+    #     self.Map_bar.set_xticks(left)
+    #     self.Map_bar.set_xticklabels(self.label2, fontsize=8, rotation=30)
+    #
+    #     self.Map_bar.set_ylim(0, self.X.max())
+    #     # self.Map_ob.plot(self.ob_func)
+    #     # y_ticklabel = np.linspace(0, 1, 6)
+    #     # self.Map_bar.set_yticks(y_ticklabel)
+    #     # self.Map_bar.set_yticklabels(y_ticklabel.astype('float16'), fontsize=7, alpha=0.8)
 
-        self.Map_bar.set_ylim(0, self.X.max())
-        # self.Map_ob.plot(self.ob_func)
-        # y_ticklabel = np.linspace(0, 1, 6)
-        # self.Map_bar.set_yticks(y_ticklabel)
-        # self.Map_bar.set_yticklabels(y_ticklabel.astype('float16'), fontsize=7, alpha=0.8)
-
-    def __open_image(self, number):
-        plt.cla()
+    # def __open_image(self, number):
+        # plt.cla()
         # 画像の読み込み
-        im = Image.open("fashion_data/snap/"+str(self.label1[number[0]])+".jpg")
-        # # 画像をarrayに変換
-        im_list = np.asarray(im)
-        # # 貼り付け
-        self.image.imshow(im_list)
+        # im = Image.open("fashion_data/snap/"+str(self.label1[number[0]])+".jpg")
+        # 画像をarrayに変換
+        # im_list = np.asarray(im)
+        # 貼り付け
+        # self.image.imshow(im_list)
         # 表示
         # im.show()
-
 
     # ------------------------------ #
     # --- ラベルの描画(マウスオーバ時) - #
@@ -480,7 +478,7 @@ class TUKR_ccp_viewer:
                          vmin=0,vmax=self.X.max(),
                          extent=[self.Map1_position[:, 0].min(), self.Map1_position[:, 0].max(),
                                  self.Map1_position[:, 1].min(), self.Map1_position[:, 1].max()],
-                         cmap=self.cmap[self.style_number],origin='lower')
+                         cmap='Greys',origin='lower')
         # self.Map1.set_xlim(-1, self.Mapsize)
         # self.Map1.set_ylim(-self.Mapsize, 1)
         self.Fig.show()
@@ -508,7 +506,7 @@ class TUKR_ccp_viewer:
                          vmin=0,vmax=self.X.max(),
                          extent=[self.Map1_position[:, 0].min(), self.Map1_position[:, 0].max(),
                                  self.Map1_position[:, 1].min(), self.Map1_position[:, 1].max()],
-                         cmap=self.cmap[self.style_number],origin='lower')
+                         cmap='Greys',origin='lower')
         # self.Map1.set_xlim(-1, self.Mapsize)
         # self.Map1.set_ylim(-self.Mapsize, 1)
         self.Fig.show()

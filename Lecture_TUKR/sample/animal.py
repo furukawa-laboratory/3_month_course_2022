@@ -30,6 +30,7 @@ def load_data(retlabel_animal=True, retlabel_feature=False):
 
 if __name__ == "__main__":  # このファイルを実行した時のみ
     data = load_data(retlabel_animal=True, retlabel_feature=True)
+    X = data[0]
     animal_label = data[1]
     feature_label = data[2]
 
@@ -38,5 +39,6 @@ if __name__ == "__main__":  # このファイルを実行した時のみ
     y = np.load('learning result/Y_history.npy')
     zeta_u = np.load('learning result/zetau_history.npy')
     zeta_v = np.load('learning result/zetau_history.npy')
-    TUKR_ccp_viewer(data, y, u, v, fig_size=None, label1=animal_label, label2=feature_label, button_label=None,
+    viewer = TUKR_ccp_viewer(X, y, u, v, fig_size=None, label1=animal_label, label2=feature_label, button_label=None,
                  title_text_1="animal map", title_text_2="feature map", zeta_1=zeta_u, zeta_2=zeta_v)
+    viewer.draw_map()
