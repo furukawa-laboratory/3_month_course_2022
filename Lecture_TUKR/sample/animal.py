@@ -38,7 +38,7 @@ if __name__ == "__main__":  # このファイルを実行した時のみ
     v = np.load('learning result/v_history.npy')
     y = np.load('learning result/Y_history.npy')
     zeta_u = np.load('learning result/zetau_history.npy')
-    zeta_v = np.load('learning result/zetau_history.npy')
+    zeta_v = np.load('learning result/zetav_history.npy')
     viewer = TUKR_ccp_viewer(X, y, u, v, fig_size=None, label1=animal_label, label2=feature_label, button_label=None,
                  title_text_1="animal map", title_text_2="feature map", zeta_1=zeta_u, zeta_2=zeta_v)
     viewer.draw_map()
