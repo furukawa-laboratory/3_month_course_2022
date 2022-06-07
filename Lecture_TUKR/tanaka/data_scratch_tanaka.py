@@ -38,3 +38,4 @@ if __name__ == '__main__':
     ax_x.scatter(x[:, :, 0].flatten(), x[:, :, 1].flatten(), x[:, :, 2].flatten(), c=x[:, :, 0].flatten())
     ax_x.set_title('Generated three-dimensional data')
     plt.show()
+
