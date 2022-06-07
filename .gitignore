@@ -132,3 +132,11 @@ dmypy.json
 *.DS_Store
 
 .idea/
+
+#iki
+Lecture_TUKR/iki/*/sigma_small/
+Lecture_TUKR/iki/*/kantu/
+Lecture_TUKR/iki/*/kansei/
+Lecture_UKR/iki/*/sigma_small/
+Lecture_TUKR/iki/*/ccp/
+Lecture_TUKR/iki/*/tensor_kakunin/
