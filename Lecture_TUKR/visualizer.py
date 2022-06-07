@@ -29,7 +29,7 @@ def visualize_history(X, Y_history, Z_history, v_history, error_history, save_gi
     # latent_ax = fig.add_subplot(gs[0:2, 1], aspect='equal')
     # error_ax = fig.add_subplot(gs[2, :])
     # num_epoch = len(Y_history)
-    print((num_epoch, int(np.sqrt(Y_history.shape[1])), int(np.sqrt(Y_history.shape[1])), input_dim))
+    # print((num_epoch, int(np.sqrt(Y_history.shape[1])), int(np.sqrt(Y_history.shape[1])), input_dim))
     if input_dim == 3 and xlatent_dim == 2 and ylatent_dim == 2:
         resolution = int(np.sqrt(Y_history.shape[1]))
         # if Y_history.shape[1] == resolution ** 2:
