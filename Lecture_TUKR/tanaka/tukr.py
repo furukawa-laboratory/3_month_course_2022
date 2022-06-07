@@ -8,7 +8,7 @@ from sklearn.datasets import load_iris
 
 
 class TUKR:
-    def __init__(self, X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma, prior='random', Uinit=None, Vinit=None):
+    def __init__(self, X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random', Uinit=None, Vinit=None):
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
@@ -20,7 +20,8 @@ class TUKR:
             self.ob_dim = 1
             self.X = X[:,:,None]
 
-        self.sigma = sigma
+        self.sigma1 = sigma1
+        self.sigma2 = sigma2
         self.latent_dim1 = latent_dim1
         self.latent_dim2 = latent_dim2
         self.alpha = alpha
@@ -28,7 +29,7 @@ class TUKR:
 
         if Uinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.U = np.random.normal(0, 0.1 * self.sigma, size=(self.nb_samples1, self.latent_dim1))
+                self.U = np.random.normal(0, 0.1 * self.sigma1, size=(self.nb_samples1, self.latent_dim1))
                 #(平均,標準偏差,配列のサイズ)
             # else: #ガウス事前分布のとき
             #     U =
@@ -39,7 +40,7 @@ class TUKR:
 
         if Vinit is None:
             if prior == 'random':  # 一様事前分布のとき
-                self.V = np.random.normal(0, 0.1 * self.sigma, size=(self.nb_samples2, self.latent_dim2))
+                self.V = np.random.normal(0, 0.1 * self.sigma2, size=(self.nb_samples2, self.latent_dim2))
                 # (平均,標準偏差,配列のサイズ)
             # else: #ガウス事前分布のとき
             #     V =
@@ -51,8 +52,8 @@ class TUKR:
     def f(self, U, V): #写像の計算
         DistU = jnp.sum((U[:, None, :] - U[None, :, :]) ** 2, axis=2)
         DistV = jnp.sum((V[:, None, :] - V[None, :, :]) ** 2, axis=2)
-        HU = jnp.exp((-1 * DistU) / (2 * (self.sigma) ** 2))
-        HV = jnp.exp((-1 * DistV) / (2 * (self.sigma) ** 2))
+        HU = jnp.exp((-1 * DistU) / (2 * (self.sigma1) ** 2))
+        HV = jnp.exp((-1 * DistV) / (2 * (self.sigma2) ** 2))
         # GU = jnp.sum(HU, axis=1)[:, None]
         # GV = jnp.sum(HV, axis=1)[:, None]
         # RU = HU / GU
@@ -65,8 +66,8 @@ class TUKR:
     def ff(self, U, V, epoch): #写像の計算
         DistU = jnp.sum((U[:, None, :] - self.history['u'][epoch][None, :, :]) ** 2, axis=2)
         DistV = jnp.sum((V[:, None, :] - self.history['v'][epoch][None, :, :]) ** 2, axis=2)
-        HU = jnp.exp((-1 * DistU) / (2 * (self.sigma) ** 2))
-        HV = jnp.exp((-1 * DistV) / (2 * (self.sigma) ** 2))
+        HU = jnp.exp((-1 * DistU) / (2 * (self.sigma1) ** 2))
+        HV = jnp.exp((-1 * DistV) / (2 * (self.sigma2) ** 2))
         # GU = jnp.sum(HU, axis=1)[:, None]
         # GV = jnp.sum(HV, axis=1)[:, None]
         # RU = HU / GU
@@ -137,8 +138,9 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.1 #カーネルの幅
-    eta = 15  #学習率
+    sigma1 = 0.2
+    sigma2 = 0.1 #カーネルの幅
+    eta = 50  #学習率
     latent_dim1 = 2 #潜在空間の次元
     latent_dim2 = 2 #潜在空間の次元
     alpha = 0.1
@@ -161,7 +163,7 @@ if __name__ == '__main__':
     animal_label = data[1]
     feature_label = data[2]
 
-    tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma, prior='random')
+    tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random')
     tukr.fit(epoch, eta,alpha,norm)
     # visualize_history(X, tukr.history['f'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
 
