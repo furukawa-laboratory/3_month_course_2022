@@ -119,7 +119,7 @@ if __name__ == '__main__':
     from visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
-    epoch = 350 #学習回数
+    epoch = 330 #学習回数
     limit = 0.01
     #sigma1 = 2 #uのカーネルの幅
     #sigma2 = 3 #vのカーネル幅
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     tukr.fit(epoch, ueta, veta)
     # np.save('u_history', tukr.history['u'][-1])
     # np.save('v_history', tukr.history['v'][-1])
-    visualize_real_history(load_animal_data(), tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="seed20")
+    visualize_real_history(load_animal_data(), tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=True, filename="animal")
     # visualize_history(X, tukr.history['f'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="iikanzi")
 
     #----------描画部分が実装されたらコメントアウト外す----------

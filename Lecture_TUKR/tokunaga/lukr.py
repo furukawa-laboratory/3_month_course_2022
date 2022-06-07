@@ -146,16 +146,16 @@ if __name__ == '__main__':
     sigma1 = np.log(nb_samples1)/nb_samples1
     sigma2 = np.log(nb_samples2)/nb_samples2
     #X, X_num = load_kura_list(nb_samples1, nb_samples2) #record型の蔵型データ ob_dom=3, L=2
-    X, X_num = load_kura_lost_list(nb_samples1, nb_samples2)
+    X, X_num = load_kura_list(nb_samples1, nb_samples2)
     lukr = List_UKR(X, X_num, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='normal')
     #print(tukr.list_f(tukr.U, tukr.V))
     lukr.fit(epoch, ueta, veta)
     #visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
-    visualize_history(X, lukr.history['f'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="recode_iikanzi")
+    #visualize_history(X, lukr.history['f'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="recode_iikanzi")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    #lukr.calc_approximate_f(resolution=10)
-    #visualize_history(X, X_num, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="record_colormap_dekitenai")
+    lukr.calc_approximate_f(resolution=10)
+    visualize_history(X, X_num, lukr.history['y'], lukr.history['u'], lukr.history['v'], lukr.history['error'], save_gif=False, filename="record_colormap_dekitenai")
 
 
 
