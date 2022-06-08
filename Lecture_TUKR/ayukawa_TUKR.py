@@ -7,9 +7,11 @@ from tqdm import tqdm #プログレスバーを表示させてくれる
 class TUKR:
     def __init__(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
         #--------初期値を設定する．---------
-        self.X = X
+        self.X = X[0][:,:,None]
+        print(self.X.shape)
+        # exit()
         #ここから下は書き換えてね
-        self.nb_xsamples, self.nb_ysamples,self.ob_dim = X.shape
+        self.nb_xsamples, self.nb_ysamples,self.ob_dim = self.X.shape
         self.xsigma, self.ysigma, = xsigma, ysigma
         self.xlatent_dim, self.ylatent_dim = xlatent_dim, ylatent_dim
 
@@ -114,20 +116,24 @@ class TUKR:
 
 if __name__ == '__main__':
     from Lecture_TUKR.data_scratch import load_kura_tsom
+    from Lecture_TUKR.animals import load_data
     # from Lecture_TUKR import create_rasen
     # from Lecture_TUKR import create_2d_sin_curve
     from Lecture_TUKR.visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     ##
-    epoch = 100 #学習回数
-    xsigma = 0.7 #カーネルの幅 フィッティングの強度のイメージ　小さいほどその点が持つ引力？が強くなる
-    ysigma = 0.1 # カーネルの幅
-    eta = 2 #学習率 小さい方がゆっくり学習が進む
-    xlatent_dim = 1 #潜在空間の次元
-    ylatent_dim = 1  # 潜在空間の次元
+    epoch = 500 #学習回数
+    xsigma = 0.2 #カーネルの幅 フィッティングの強度のイメージ　小さいほどその点が持つ引力？が強くなる
+    ysigma = 0.2 # カーネルの幅
+    eta = 1 #学習率 小さい方がゆっくり学習が進む
+    # xlatent_dim = 1 #潜在空間の次元  鞍型データ用
+    # ylatent_dim = 1  # 潜在空間の次元
 
-    alpha = 0
+    xlatent_dim = 2  # 潜在空間の次元
+    ylatent_dim = 2  # 潜在空間の次元
+
+    alpha = 0.001
     norm = 10
 
     seed = 2
@@ -139,7 +145,8 @@ if __name__ == '__main__':
 
     # print(TUKR.history['x'].shape)
 
-    X = load_kura_tsom(nb_xsamples,nb_ysamples) #鞍型データ　ob_dim=3, 真のL=2
+    # X = load_kura_tsom(nb_xsamples, nb_ysamples) #鞍型データ　ob_dim=3, 真のL=2
+    X = load_data(nb_xsamples, nb_ysamples)  # 鞍型データ　ob_dim=3, 真のL=2
     # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 #(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
@@ -149,6 +156,6 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     # print(X.shape)
     ukr.calc_approximate_f(15, epoch)
-    visualize_history(X, ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_history(X[0][:, :, None], ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
 
 

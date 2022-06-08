@@ -18,8 +18,8 @@ def visualize_history(X, Y_history, Z_history, v_history, error_history, save_gi
     gs = fig.add_gridspec(3, 2)
     input_ax = fig.add_subplot(gs[0:2, 0], projection=input_projection_type)
     # yinput_ax = fig.add_subplot(gs[0:2, 0], projection=yinput_projection_type)
-    xlatent_ax = fig.add_subplot(gs[0:2, 0], aspect='equal')
-    ylatent_ax = fig.add_subplot(gs[0:2, 1], aspect='equal')
+    xlatent_ax = fig.add_subplot(gs[0, 1], aspect='equal')
+    ylatent_ax = fig.add_subplot(gs[1, 1], aspect='equal')
     error_ax = fig.add_subplot(gs[2, :])
     num_epoch = len(Y_history)
 
@@ -69,21 +69,11 @@ def update_graph(epoch, observable_drawer, xlatent_drawer, ylatent_drawer, X, Y_
     error_ax.cla()
 
     Y, Z, v = Y_history[epoch], Z_history[epoch], v_history[epoch]
-    colormap = X[:, :, 0]
-    # print(input_ax)
-    # print('----------------------------------')
-    # print(X.shape)
-    # print('----------------------------------')
-    # print(Y.shape)
-    # print('----------------------------------')
-    # print(v.shape)
-    # print('----------------------------------')
-    # print(colormap.shape)
-    # print('----------------------------------')
-    #observable_drawer(input_ax, X, Y, v, colormap)
-    xlatent_drawer(xlatent_ax, Z, X[:,0,0])
-    # ylatent_drawer(ylatent_ax, v, X[0,:,1]) #鞍型データ用
-    ylatent_drawer(ylatent_ax, v, X[0,:,0])
+    colormap = X[:, 0]
+
+    observable_drawer(input_ax, X, Y, v, colormap)
+    xlatent_drawer(xlatent_ax, Z, X[:,0,0], colormap)
+    ylatent_drawer(ylatent_ax, v, X[0,:,1], colormap)
     draw_error(error_ax, error_history, epoch)
 
 
@@ -108,10 +98,10 @@ def draw_observable_2D(ax, X, Y, colormap):
 def draw_latent_2D(ax, Z, colormap):
     ax.set_xlim(-1.1, 1.1)
     ax.set_ylim(-1.1, 1.1)
-    ax.scatter(Z[:, 0], Z[:, 1], c=colormap)
+    ax.scatter(Z[:, 0], Z[:, 1], c='blue')
 
 
-def draw_latent_1D(ax, Z, X):
+def draw_latent_1D(ax, Z, X, colormap):
     # ax.scatter(Z, np.zeros(Z.shape), c='blueviolet')
 
     ax.scatter(Z, np.zeros(Z.shape), c=X)
