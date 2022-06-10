@@ -149,12 +149,12 @@ class UKR:
 
 
 if __name__ == '__main__':
-    # from Lecture_UKR.data import create_kura
-    # from Lecture_UKR.data import create_rasen
+    from Lecture_UKR.data import create_kura
+    from Lecture_UKR.data import create_rasen
     # from Lecture_UKR.data import create_2d_sin_curve
     from Lecture_TUKR.visualizer import visualize_history
     from Lecture_TUKR.data_scratch import load_kura_tsom
-    # from Lecture_TUKR.animal import load_date
+    from Lecture_TUKR.animal import load_date
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 100 #学習回数
@@ -186,4 +186,4 @@ if __name__ == '__main__':
     ukr.calc_approximate_fu(resolution=10)
     # ukr.calc_approximate_fv(resolution=10)
     # visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR動物", label1=animal_label, label2=feature_label)
-    visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR2", zzz=zzz)
+    visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR", zzz=zzz)
