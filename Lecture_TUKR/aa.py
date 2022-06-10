@@ -14,30 +14,29 @@ def load_angle_resized_data():
     # file_path = os.path.join(directory_path, file_name)
 
     dir_name = dir_list[0]
-    user_name = '/A_01_'
     img = []
     file_list = os.listdir(datastore_name + dir_name)
     print(dir_name)
     for file_name in dir_list:
         if '-' in file_name:
             if '-5' == file_name:
-                image = np.array(Image.open(datastore_name + file_name + user_name + '-05' + '.jpg'))
+                image = np.array(Image.open(datastore_name + file_name + '/A_01_-05' + '.jpg'))
                 img.append(image)
             else:
-                image = np.array(Image.open(datastore_name + file_name + user_name + file_name + '.jpg'))
+                image = np.array(Image.open(datastore_name + file_name + '/A_01_' + file_name + '.jpg'))
                 img.append(image)
 
 
         elif '0' == file_name:
-            image = np.array(Image.open(datastore_name + file_name + user_name + file_name + '.jpg'))
+            image = np.array(Image.open(datastore_name + file_name + '/A_01_' + file_name + '.jpg'))
             img.append(image)
 
         else:
             if '5' == file_name:
-                image = np.array(Image.open(datastore_name + file_name + user_name + '+05' + '.jpg'))
+                image = np.array(Image.open(datastore_name + file_name + '/A_01_+05' + '.jpg'))
                 img.append(image)
             else:
-                image = np.array(Image.open(datastore_name + file_name + user_name + '+' + file_name + '.jpg'))
+                image = np.array(Image.open(datastore_name + file_name + '/A_01_+' + file_name + '.jpg'))
                 img.append(image)
 
     # img = cv2.imread(datastore_name + file_name)
