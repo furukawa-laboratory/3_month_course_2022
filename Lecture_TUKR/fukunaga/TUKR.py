@@ -1,7 +1,7 @@
 import numpy as np
 
 from tqdm import tqdm #プログレスバーを表示させてくれる
-import jax,jaxlib
+import jax
 import jax.numpy as jnp
 
 
@@ -149,13 +149,10 @@ class UKR:
 
 
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
-    from Lecture_UKR.data import create_rasen
     # from Lecture_UKR.data import create_2d_sin_curve
-    from Lecture_TUKR.visualizer import visualize_history
-    from Lecture_TUKR.data_scratch import load_kura_tsom
-    from Lecture_TUKR.animal import load_date
-
+    from Lecture_TUKR.fukunaga.visualizer import visualize_history
+    from Lecture_TUKR.fukunaga.data_scratch import load_kura_tsom
+    from Lecture_TUKR.fukunaga.animal import load_date
     #各種パラメータ変えて遊んでみてね．
     epoch = 100 #学習回数
     sigma1 = 0.2 #カーネルの幅
