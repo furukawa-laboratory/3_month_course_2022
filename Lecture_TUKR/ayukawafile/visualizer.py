@@ -5,7 +5,7 @@ from matplotlib.animation import FuncAnimation
 STEP = 150
 
 
-def visualize_history(X, Y_history, Z_history, v_history, error_history, save_gif=False, filename="tmp"):
+def visualize_history(X, Y_history, Z_history, v_history, error_history, datalabel, save_gif=False, filename="tmp"):
     input_dim, xlatent_dim = X.shape[2], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -18,8 +18,8 @@ def visualize_history(X, Y_history, Z_history, v_history, error_history, save_gi
     gs = fig.add_gridspec(3, 2)
     input_ax = fig.add_subplot(gs[0:2, 0], projection=input_projection_type)
     # yinput_ax = fig.add_subplot(gs[0:2, 0], projection=yinput_projection_type)
-    xlatent_ax = fig.add_subplot(gs[0, 1], aspect='equal')
-    ylatent_ax = fig.add_subplot(gs[1, 1], aspect='equal')
+    xlatent_ax = fig.add_subplot(gs[0:2, 0], aspect='equal')
+    ylatent_ax = fig.add_subplot(gs[0:2, 1], aspect='equal')
     error_ax = fig.add_subplot(gs[2, :])
     num_epoch = len(Y_history)
 
@@ -52,14 +52,14 @@ def visualize_history(X, Y_history, Z_history, v_history, error_history, save_gi
         repeat=True,
         interval=50,
         fargs=(observable_drawer, xlatent_drawer, ylatent_drawer, X, Y_history, Z_history, v_history, error_history, fig,
-               input_ax, xlatent_ax, ylatent_ax, error_ax, num_epoch))
+               input_ax, xlatent_ax, ylatent_ax, error_ax, num_epoch, datalabel))
     plt.show()
     if save_gif:
         ani.save(f"{filename}.mp4", writer='ffmpeg')
 
 
 def update_graph(epoch, observable_drawer, xlatent_drawer, ylatent_drawer, X, Y_history,
-                 Z_history, v_history, error_history, fig, input_ax, xlatent_ax, ylatent_ax, error_ax, num_epoch):
+                 Z_history, v_history, error_history, fig, input_ax, xlatent_ax, ylatent_ax, error_ax, num_epoch, datalabel):
     fig.suptitle(f"epoch: {epoch}")
     input_ax.cla()
 
@@ -69,11 +69,21 @@ def update_graph(epoch, observable_drawer, xlatent_drawer, ylatent_drawer, X, Y_
     error_ax.cla()
 
     Y, Z, v = Y_history[epoch], Z_history[epoch], v_history[epoch]
-    colormap = X[:, 0]
-
-    observable_drawer(input_ax, X, Y, v, colormap)
-    xlatent_drawer(xlatent_ax, Z, X[:,0,0], colormap)
-    ylatent_drawer(ylatent_ax, v, X[0,:,1], colormap)
+    colormap = X[:, :, 0]
+    # print(input_ax)
+    # print('----------------------------------')
+    # print(X.shape)
+    # print('----------------------------------')
+    # print(Y.shape)
+    # print('----------------------------------')
+    # print(v.shape)
+    # print('----------------------------------')
+    # print(colormap.shape)
+    # print('----------------------------------')
+    #observable_drawer(input_ax, X, Y, v, colormap)
+    xlatent_drawer(xlatent_ax, Z, X[:,0,0], datalabel[1])
+    # ylatent_drawer(ylatent_ax, v, X[0,:,1]) #鞍型データ用
+    ylatent_drawer(ylatent_ax, v, X[0,:,0], datalabel[2])
     draw_error(error_ax, error_history, epoch)
 
 
@@ -91,17 +101,26 @@ def draw_observable_3D(ax, X, Y, Z, colormap):
 
 
 def draw_observable_2D(ax, X, Y, colormap):
-    ax.scatter(X[:, 0], X[:, 1], c=colormap)
+    ax.scatter(X[:, 0], X[:, 1], c='blue')
     ax.plot(Y[:, 0], Y[:, 1], c='black')
 
 
-def draw_latent_2D(ax, Z, colormap):
+def draw_latent_2D(ax, Z, colormap, label):
+    roop=Z.shape[0]
+    # print(Z.shape[0])
     ax.set_xlim(-1.1, 1.1)
     ax.set_ylim(-1.1, 1.1)
-    ax.scatter(Z[:, 0], Z[:, 1], c='blue')
+    ax.scatter(Z[:, 0], Z[:, 1], c='blue', s=10)
+
+    for i in range(roop):
+        ax.annotate(label[i], xy=(Z[i, 0], Z[i, 1]), size=10, color="black")
 
 
-def draw_latent_1D(ax, Z, X, colormap):
+
+
+    #ax.annotate("animal", xy = (Z[:, 0], Z[:, 1]), size = 15, color = "red")
+
+def draw_latent_1D(ax, Z, X):
     # ax.scatter(Z, np.zeros(Z.shape), c='blueviolet')
 
     ax.scatter(Z, np.zeros(Z.shape), c=X)

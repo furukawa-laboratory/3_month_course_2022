@@ -15,3 +15,5 @@ lion
 horse
 zebra
 cattle
+KING
+SLAVE
