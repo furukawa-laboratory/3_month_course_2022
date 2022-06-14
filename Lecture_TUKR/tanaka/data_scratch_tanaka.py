@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
 
 def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=False):
     # z1 = np.random.rand(xsamples)/2
@@ -20,7 +21,7 @@ def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=False):
 
     if missing_rate == 0 or missing_rate == None:
         if retz:
-            return x, truez
+            return x, truez, z1, z2
         else:
             return x
 

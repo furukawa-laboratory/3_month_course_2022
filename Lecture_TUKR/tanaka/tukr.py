@@ -29,10 +29,10 @@ class TUKR:
 
         if Uinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.U = np.random.normal(0, 0.1 * self.sigma1, size=(self.nb_samples1, self.latent_dim1))
+                self.U = np.random.uniform(-0.1, 0.1, size=(self.nb_samples1, self.latent_dim1))
                 #(平均,標準偏差,配列のサイズ)
-            # else: #ガウス事前分布のとき
-            #     U =
+            else: #ガウス事前分布のとき
+                self.U = np.random.uniform(0, 0.1 * self.sigma1, (self.nb_samples1, self.latent_dim1))
         else: #Zの初期値が与えられた時
             self.U = Uinit
 
@@ -40,10 +40,10 @@ class TUKR:
 
         if Vinit is None:
             if prior == 'random':  # 一様事前分布のとき
-                self.V = np.random.normal(0, 0.1 * self.sigma2, size=(self.nb_samples2, self.latent_dim2))
+                self.V = np.random.normal(-0.1, 0.1 , size=(self.nb_samples2, self.latent_dim2))
                 # (平均,標準偏差,配列のサイズ)
-            # else: #ガウス事前分布のとき
-            #     V =
+            else: #ガウス事前分布のとき
+                self.V = np.random.normal(0, 0.1 * self.sigma2, (self.nb_samples2, self.latent_dim2))
         else:  # Zの初期値が与えられた時
             self.V = Vinit
 
@@ -130,11 +130,12 @@ class TUKR:
 
 
 if __name__ == '__main__':
-    from Lecture_TUKR.tanaka.animal import load_data
-    # from Lecture_TUKR.tanaka.data_scratch_tanaka import load_kura_tsom
+    # from Lecture_TUKR.tanaka.animal import load_data
+    from Lecture_TUKR.tanaka.data_scratch_tanaka import load_kura_tsom
     # from Lecture_TUKR.tanaka.data_scratch_tanaka import create_rasen
     # from Lecture_TUKR.tanaka.data_scratch_tanaka import create_2d_sin_curve
-    from visualizer_animal import visualize_history
+    from visualizer import visualize_history
+    # from visualizer_animal import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
@@ -152,24 +153,22 @@ if __name__ == '__main__':
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples1 = 10 #データ数
-    nb_samples2 = 20
-    data = load_data(retlabel_animal=True, retlabel_feature=True)
+    nb_samples2 = 20 #データ数
+    # data = load_data(retlabel_animal=True, retlabel_feature=True)
     # X = load_iris()
-    # X = load_kura_tsom(nb_samples1,nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
+    X = load_kura_tsom(nb_samples1,nb_samples2) #鞍型データ　ob_dim=3, 真のL=2
     # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
 
-    X = data[0]
-    animal_label = data[1]
-    feature_label = data[2]
-
+    # X = data[0]
+    # animal_label = data[1]
+    # feature_label = data[2]
+    allZ =[truez,z1,z2]
     tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random')
-    tukr.fit(epoch, eta,alpha,norm)
+    tukr.fit(epoch, eta, alpha, norm)
     # visualize_history(X, tukr.history['f'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
     tukr.calc_approximate_f(resolution=10)
-    visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'],animal_label, feature_label, save_gif=False, filename="tmp")
-
-
-
+    # visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'],animal_label, feature_label, save_gif=False, filename="tmp")
+    visualize_history(X, tukr.history['y'], tukr.history['u'],tukr.history['v'], tukr.history['error'], save_gif=False, filename="tmp")
