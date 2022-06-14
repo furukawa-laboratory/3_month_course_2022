@@ -149,7 +149,7 @@ if __name__ == '__main__':
     tukr.fit(epoch, ueta, veta)
     # np.save('u_history', tukr.history['u'][-1])
     # np.save('v_history', tukr.history['v'][-1])
-    visualize_real_history(load_animal_data(), tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=True, filename="animal")
+    visualize_real_history(load_animal_data(), tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="animal")
     # visualize_history(X, tukr.history['f'], tukr.history['u'], tukr.history['v'], tukr.history['error'], save_gif=False, filename="iikanzi")
 
     #----------描画部分が実装されたらコメントアウト外す----------
