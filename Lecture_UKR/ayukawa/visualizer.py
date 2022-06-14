@@ -48,7 +48,7 @@ def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
 
     Y, Z= Y_history[epoch], Z_history[epoch]
     colormap = X[:, 0]
-
+    print(X.shape)
     observable_drawer(input_ax, X, Y, colormap)
     latent_drawer(latent_ax, Z, colormap)
     draw_error(error_ax, error_history, epoch)
