@@ -7,7 +7,8 @@ from tqdm import tqdm #プログレスバーを表示させてくれる
 class TUKR:
     def __init__(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
         #--------初期値を設定する．---------
-        self.X = X[0][:,:,None]
+        # self.X = X[0][ :, :, None]
+        self.X = X
         print(self.X.shape)
         # exit()
         #ここから下は書き換えてね
@@ -115,24 +116,26 @@ class TUKR:
 
 
 if __name__ == '__main__':
-    from Lecture_TUKR.ayukawafile.animals import load_data
-    # from Lecture_TUKR import create_rasen
-    # from Lecture_TUKR import create_2d_sin_curve
-    from Lecture_TUKR.ayukawafile.visualizer import visualize_history
+    from Lecture_TUKR.ayukawafile.data_scratch import load_kura_tsom
+    from Lecture_TUKR.ayukawafile.visualizer_kura import visualize_history    #kura
+
+    # from Lecture_TUKR.ayukawafile.animals import load_data
+    # from Lecture_TUKR.ayukawafile.visualizer import visualize_history  #animal
+
 
     #各種パラメータ変えて遊んでみてね．
     ##
-    epoch = 500 #学習回数
+    epoch = 300 #学習回数
     xsigma = 0.3 #カーネルの幅 フィッティングの強度のイメージ　小さいほどその点が持つ引力？が強くなる
     ysigma = 0.3 # カーネルの幅
-    eta = 4 #学習率 小さい方がゆっくり学習が進む
-    # xlatent_dim = 1 #潜在空間の次元  鞍型データ用
-    # ylatent_dim = 1  # 潜在空間の次元
+    eta = 0.5 #学習率 小さい方がゆっくり学習が進む
+    xlatent_dim = 1 #潜在空間の次元  鞍型データ用
+    ylatent_dim = 1  # 潜在空間の次元
 
-    xlatent_dim = 2  # 潜在空間の次元
-    ylatent_dim = 2  # 潜在空間の次元
+    # xlatent_dim = 2  # 潜在空間の次元
+    # ylatent_dim = 2  # 潜在空間の次元  animal
 
-    alpha = 0.0005
+    alpha = 0.0001
     norm = 10
 
     seed = 2
@@ -144,14 +147,9 @@ if __name__ == '__main__':
 
     # print(TUKR.history['x'].shape)
 
-    # X = load_kura_tsom(nb_xsamples, nb_ysamples) #鞍型データ　ob_dim=3, 真のL=2
-    X = load_data(nb_xsamples, nb_ysamples)  # 鞍型データ　ob_dim=3, 真のL=2
-    # print(X[1][1])
-    # print()
-    # print(X[2])
-    # exit()
-    # X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
-    # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
+    X = load_kura_tsom(nb_xsamples, nb_ysamples) #鞍型データ　ob_dim=3, 真のL=2
+    # X = load_data(nb_xsamples, nb_ysamples)   #animal
+
 #(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
     ukr = TUKR(X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
@@ -159,6 +157,8 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     # print(X.shape)
     ukr.calc_approximate_f(15, epoch)
-    visualize_history(X[0][:, :, None], ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], X, save_gif=False, filename="tmp")
-
+    #animal
+    # visualize_history(X[0][:, :, None], ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], X, save_gif=False, filename="tmp")
+    #kura
+    visualize_history(X, ukr.history['x'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
 
