@@ -132,4 +132,5 @@ dmypy.json
 *.DS_Store
 
 .idea/
-カオナシ/datastore
+face_project/datastore/
+Lecture_UKR/fukunaga/datestore/
