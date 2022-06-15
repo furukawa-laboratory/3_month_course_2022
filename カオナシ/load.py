@@ -1,3 +1,4 @@
+#ikidayo
 import numpy as np
 from PIL import Image
 img = np.array(Image.open('/Users/furukawashuushi/Desktop/-5/A_01_-05.jpg'))
