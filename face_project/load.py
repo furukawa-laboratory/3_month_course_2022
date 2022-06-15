@@ -70,6 +70,7 @@ def load_angle_resized_same_angle_data():
 def load_angle_resized_data_TUKR():
     datastore_name = '../datastore/Angle_resized/'
     dir_list = os.listdir(datastore_name)
+    print("後で消す")
     #file_name = '/-5/A_01_-05.jpg'
     user_list = os.listdir(datastore_name+'-5/')
     # directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
