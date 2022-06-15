@@ -1,6 +1,6 @@
 import numpy as np
 # from tqdm import tqdm #プログレスバーを表示させてくれる
-import jax
+import jax, jaxlib
 import jax.numpy as jnp
 
 
@@ -103,9 +103,14 @@ def create_zeta_2D(Z, resolution): #fのメッシュの描画用に潜在空間�
 
 
 if __name__ == '__main__':
+    from Lecture_UKR.fukunaga.data import create_kura
+    from Lecture_UKR.fukunaga.data import create_rasen
+    from Lecture_UKR.fukunaga.data import create_2d_sin_curve
     from visualizer import visualize_history
-    from カオナシ.fukunaga.PCA import x_PCA
-
+    from Lecture_UKR.fukunaga.animal import load_date
+    from Lecture_UKR.fukunaga.coffee import load_date
+    from Lecture_UKR.fukunaga.PCA import x_PCA
+    from Lecture_UKR.fukunaga.PCA import x_tsne
     #各種パラメータ変えて遊んでみてね．
     epoch = 500 #学習回数
     sigma = 0.1 #カーネルの幅
