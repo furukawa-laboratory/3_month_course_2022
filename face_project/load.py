@@ -87,8 +87,13 @@ def load_angle_resized_data_TUKR():
     #     user_name = user_list[i][0:5]
     #     print(user_name)
     # exit()
+    z1_color = []
+    z2_color = []
+    for file_name in dir_list:
+        z1_color.append(int(file_name))
     for i in range(90):
         name = user_list[i][0:5]
+        z2_color.append(int(user_list[i][2:4]))
         for file_name in dir_list:
             if '-' in file_name:
                 if '-5' == file_name:
@@ -125,7 +130,7 @@ def load_angle_resized_data_TUKR():
     #         plt.show()
     #     exit()
 
-    return IMG
+    return IMG, z1_color, z2_color
 
 # print(load_angle_resized_data_TUKR().shape)
 # 徳永だよー

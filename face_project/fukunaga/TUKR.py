@@ -3,7 +3,7 @@ import numpy as np
 from tqdm import tqdm #プログレスバーを表示させてくれる
 import jax
 import jax.numpy as jnp
-
+from face_project.load import load_angle_resized_data_TUKR
 
 class UKR:
     def __init__(self, X, latent_dim, sigma1, sigma2, prior='random', Uinit=None, Vinit=None):
@@ -168,12 +168,18 @@ if __name__ == '__main__':
     #入力データ（詳しくはdata.pyを除いてみると良い）
     xsamples = 20 #データ数
     ysamples = 10
-    X = x_PCA().reshape(90, 33, 3)
-    truez = np.concatenate((x1[:, :, np.newaxis], x2[:, :, np.newaxis]), axis=2)
-    zzz = [X, X[0], X[1]]
+    X, z1_color, z2_color = x_PCA()
+    X = X.reshape(90, 33, 3)
+    z1_color = np.array(z1_color)
+    z2_color = np.array(z2_color)
+    z1 = np.concatenate((z1_color, z2_color), axis=0)
+    z2 = np.concatenate((z1_color, z2_color), axis=0)
+    print(z1_color)
+
+    truez = np.concatenate((z1[:, :, np.newaxis], z2[:, :, np.newaxis]), axis=2)
     # X = load_kura_tsom(xsamples, ysamples) #鞍型データ　ob_dim=3, 真のL=2
     # X, truez, z1, z2 = load_kura_tsom(xsamples, ysamples, retz=True)
-    # zzz = [truez, z1, z2]
+    zzz = [truez, z1, z2]
     # X = load_date()[0][:, :, None]
     # animal_label = load_date(retlabel_animal=True)[1]
     # feature_label = load_date(retlabel_feature=True)[2]
