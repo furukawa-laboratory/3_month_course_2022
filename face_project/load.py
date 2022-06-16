@@ -1,4 +1,5 @@
 #福永参上
+#また参上
 import numpy as np
 from PIL import Image
 # img = np.array(Image.open('/Users/furukawashuushi/Desktop/-5/A_01_-05.jpg'))
@@ -128,3 +129,4 @@ def load_angle_resized_data_TUKR():
     return IMG
 
 # print(load_angle_resized_data_TUKR().shape)
+# 徳永だよー
