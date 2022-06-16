@@ -5,9 +5,12 @@ from tqdm import tqdm
 import jax
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
+import sklearn
+from sklearn.decomposition import PCA
+
 
 class UKR:
-    def __init__(self, X, latent_dim, sigma, prior='random', Zinit=None):
+    def __init__(self, X, latent_dim, sigma, limit, prior='random', Zinit=None):
         #--------初期値を設定する．---------
         self.X = X
         #ここから下は書き換えてね
@@ -17,9 +20,9 @@ class UKR:
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                Z = np.random.uniform(-0.001, 0.001, self.nb_samples*latent_dim).reshape(self.nb_samples,self.latent_dim)
+                Z = np.random.uniform(-limit, limit, self.nb_samples*latent_dim).reshape(self.nb_samples,self.latent_dim)
             else: #ガウス事前分布のとき
-                Z = np.random.normal(0, 0.001, self.nb_samples*latent_dim).reshape(self.nb_samples, self.latent_dim)
+                Z = np.random.normal(0, limit, self.nb_samples*latent_dim).reshape(self.nb_samples, self.latent_dim)
         else: #Zの初期値が与えられた時
             Z = Zinit
         self.Z = Z
@@ -136,8 +139,9 @@ class UKR:
          self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
          #self.history['y'] = np.zeros((nb_epoch, self.X.shape[0], self.ob_dim))
          for epoch in tqdm(range(nb_epoch)):
-             zeta = create_zeta_2D(self.history['z'][epoch], resolution)
-             #zeta = create_zeta_1D(self.history['z'][epoch])
+             create_zeta = [None, create_zeta_1D, create_zeta_2D][self.latent_dim]
+             zeta = create_zeta(self.history['z'][epoch], resolution)
+             #zeta = create_zeta_1D(self.history['z'][epoch], resolution)
              Y = self.f(zeta, self.history['z'][epoch])
              self.history['y'][epoch] = Y
          return self.history['y']
@@ -175,30 +179,35 @@ def create_zeta_2D(Z, resolution): #fのメッシュの描画用に潜在空間�
 
     return zeta
 
-def create_zeta_1D(Z):
+def create_zeta_1D(Z, resolution):
     zmax = np.amax(Z)
     zmin = np.amin(Z)
-    zeta = np.linspace(zmin, zmax, Z.shape[0]).reshape(-1, 1)
+    zeta = np.linspace(zmin, zmax, resolution).reshape(-1, 1)
 
     return zeta
 
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
-    from Lecture_UKR.data import create_rasen
+    from Lecture_UKR.tokunaga.data import create_kura
+    #from Lecture_UKR.data import create_rasen
     from Lecture_UKR.tokunaga.data import create_2d_sin_curve
     from Lecture_UKR.tokunaga.data import create_big_kura
     from Lecture_UKR.tokunaga.data import create_cluster
-    from Lecture_UKR.tokunaga.load import load_data
+    from Lecture_UKR.tokunaga.load import load_animal_data
+    from Lecture_UKR.tokunaga.load import load_coffee_data
+    from Lecture_UKR.tokunaga.load import load_angle_resized_data
+    from Lecture_UKR.tokunaga.load import load_one_angle_resized_data
     from visualizer import visualize_history
     from visualizer import visualize_real_history
+    from visualizer import visualize_angle_history
 
     #各種パラメータ変えて遊んでみてね．
-    epoch = 300 #学習回数
-    sigma = 0.22 #カーネルの幅
-    eta = 50 #学習率
-    latent_dim = 1 #潜在空間の次元
+    epoch = 500 #学習回数
+    sigma = 30 #カーネルの幅
+    eta = 500 #学習率
+    latent_dim = 2 #潜在空間の次元
+    limit = 0.3
 
-    seed = 20
+    seed = 4
     np.random.seed(seed)
 
 
@@ -209,15 +218,24 @@ if __name__ == '__main__':
     #X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     #X = create_big_kura(nb_samples)
     #X = create_cluster(nb_samples)
-    X = load_data()[0]
-    ukr = UKR(X, latent_dim, sigma, prior='random')
+    #X = load_animal_data()[0].T
+    #X = load_animal_data()[0]
+    #X = load_coffee_data()
+    Xs, img_filename = load_angle_resized_data()
+    #Xs, img_filename = load_one_angle_resized_data()
+    Xsk = Xs.reshape(Xs.shape[0], -1)
+    Xsk = (Xsk - Xsk.mean(axis=0))/np.std(Xsk, axis=1, keepdims=True)
+    pca = PCA(n_components=3)
+    X = pca.fit_transform(Xsk)
+    # cont = X/np.sum(X)*100
+    # comcont = [np.sum(cont[:i+1])for i in range(len(X))]
+    ukr = UKR(X, latent_dim, sigma, limit, prior='random')
     ukr.fit(epoch, eta)
-    visualize_real_history(load_data(), ukr.history['z'], ukr.history['error'], save_gif=True, filename="seed20")
+    #visualize_real_history(X, ukr.history['z'], ukr.history['error'], save_gif=False, filename="seed20")
     #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
-
     #----------描画部分が実装されたらコメントアウト外す----------
-    #ukr.calc_approximate_f(resolution=10)
-    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    ukr.calc_approximate_f(resolution=20)
+    visualize_angle_history(X, img_filename, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="face0")
 
 
 

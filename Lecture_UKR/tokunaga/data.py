@@ -6,7 +6,7 @@ def create_kura(nb_samples, noise_scale=0.05):
     X = np.zeros((nb_samples,3))
     X[:, 0] = z1
     X[:, 1] = z2
-    X[:, 2] = 0.5 * (z1 ** 2 - z2 ** 2)
+    X[:, 2] = 1.2 * (z1 ** 2 - z2 ** 2)
     X += np.random.normal(loc=0, scale=noise_scale, size=X.shape)
     return X
 
