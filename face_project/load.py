@@ -128,3 +128,4 @@ def load_angle_resized_data_TUKR():
     return IMG
 
 # print(load_angle_resized_data_TUKR().shape)
+# 徳永だよー
