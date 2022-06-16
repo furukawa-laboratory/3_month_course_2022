@@ -1,3 +1,4 @@
+#福永参上
 import numpy as np
 from PIL import Image
 # img = np.array(Image.open('/Users/furukawashuushi/Desktop/-5/A_01_-05.jpg'))
@@ -68,7 +69,8 @@ def load_angle_resized_same_angle_data():
     return np.array(img)
 # print(load_angle_resized_same_angle_data())
 def load_angle_resized_data_TUKR():
-    datastore_name = '../datastore/Angle_resized/'
+    datastore_name = '../' \
+                     'qdatastore/Angle_resized/'
     dir_list = os.listdir(datastore_name)
     #file_name = '/-5/A_01_-05.jpg'
     user_list = os.listdir(datastore_name+'-5/')
