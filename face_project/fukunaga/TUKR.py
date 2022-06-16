@@ -168,7 +168,9 @@ if __name__ == '__main__':
     #入力データ（詳しくはdata.pyを除いてみると良い）
     xsamples = 20 #データ数
     ysamples = 10
-    X = x_PCA()
+    X = x_PCA().reshape(90, 33, 3)
+    truez = np.concatenate((x1[:, :, np.newaxis], x2[:, :, np.newaxis]), axis=2)
+    zzz = [X, X[0], X[1]]
     # X = load_kura_tsom(xsamples, ysamples) #鞍型データ　ob_dim=3, 真のL=2
     # X, truez, z1, z2 = load_kura_tsom(xsamples, ysamples, retz=True)
     # zzz = [truez, z1, z2]
@@ -180,10 +182,11 @@ if __name__ == '__main__':
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     ukr = UKR(X, latent_dim, sigma1, sigma2, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
-    #visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_fu(resolution=10)
     # ukr.calc_approximate_fv(resolution=10)
     # visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR動物", label1=animal_label, label2=feature_label)
     visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR", zzz=zzz)
+    # visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR")

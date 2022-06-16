@@ -7,12 +7,13 @@ from face_project.load import load_angle_resized_data_TUKR
 import matplotlib.pyplot as plt
 def x_PCA():
     # x = load_angle_resized_data()
-    #x = load_angle_resized_same_angle_data()
+    # x = load_angle_resized_same_angle_data()
     x = load_angle_resized_data_TUKR()
+    x = x.reshape(x.shape[0]*x.shape[1], x.shape[2]*x.shape[3])
     # print(x)
     pca = PCA(n_components=3)
     x_2d = pca.fit_transform(x.reshape(x.shape[0], -1))
-    # print(x_2d)
+    print(x_2d.shape)
     return x_2d
 def x_tsne():
     x = load_angle_resized_data()

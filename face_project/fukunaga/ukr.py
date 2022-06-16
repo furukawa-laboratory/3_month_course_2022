@@ -1,5 +1,5 @@
 import numpy as np
-# from tqdm import tqdm #プログレスバーを表示させてくれる
+from tqdm import tqdm #プログレスバーを表示させてくれる
 import jax
 import jax.numpy as jnp
 
@@ -70,7 +70,7 @@ class UKR:
     def calc_approximate_f(self, resolution): #fのメッシュ描画用，resolution:一辺の代表点の数
         nb_epoch = self.history['z'].shape[0]
         self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
-        for epoch in range(nb_epoch):
+        for epoch in tqdm(range(nb_epoch)):
             create_zeta = [None, create_zeta_1D, create_zeta_2D][self.latent_dim]
             zeta = create_zeta(self.Z, resolution)
             Y = self.f(zeta, self.history['z'][epoch])
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     epoch = 500 #学習回数
     sigma = 0.1 #カーネルの幅
     eta = 0.00000005#学習率
-    latent_dim = 1 #潜在空間の次元
+    latent_dim = 2 #潜在空間の次元
     alpha = 0.0001
     norm = 8
     seed = 4
