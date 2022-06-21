@@ -94,9 +94,9 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     ##
-    epoch = 150 #学習回数
+    epoch = 500 #学習回数
     sigma = 0.4 #カーネルの幅
-    eta = 0.000001 #学習率
+    eta = 0.0000001 #学習率
     latent_dim = 1 #潜在空間の次元
 
     alpha = 0
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     ukr.fit(epoch, eta, alpha, norm)
     #visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=100)
+    ukr.calc_approximate_f(resolution=200)
     visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 

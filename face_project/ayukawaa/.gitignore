@@ -134,3 +134,8 @@ dmypy.json
 .idea/
 face_project/ayukawaa/datastore/
 Lecture_UKR/fukunaga/datestore/
+face_project/datastore/
+*.jpeg
+*.png
+*.jpg
+
