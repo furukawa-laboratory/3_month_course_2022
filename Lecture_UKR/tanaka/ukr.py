@@ -56,7 +56,7 @@ class UKR:
         for epoch in tqdm(range(nb_epoch)):
 
             dEdx = jax.grad(self.E,argnums=0)(self.Z,self.X,self.alpha,self.norm)
-            self.Z = self.Z - (eta) * dEdx
+            self.Z = self.Z - eta * dEdx
 
            # Zの更新
 
@@ -81,29 +81,27 @@ class UKR:
         a = np.linspace(np.min(Z), np.max(Z), resolution)
         b = np.linspace(np.min(Z), np.max(Z), resolution)
         A,B = np.meshgrid(a,b)
-        # A = np.meshgrid(a)
         aa = A.reshape(-1)
         bb = B.reshape(-1)
         zeta = np.concatenate([aa[:,None],bb[:,None]],axis=1)
-        #zeta = np.concatenate(aa[:,None],axis=0)
 
         return zeta
 
 
 if __name__ == '__main__':
     from Lecture_UKR.tanaka.data import create_kura
-    # from Lecture_UKR.tanaka.data import create_rasen
-    # from Lecture_UKR.tanaka.data import create_2d_sin_curve
+    from Lecture_UKR.tanaka.data import create_rasen
+    from Lecture_UKR.tanaka.data import create_2d_sin_curve
     from visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.03 #カーネルの幅
-    eta = 0.1  #学習率
+    sigma = 0.2 #カーネルの幅
+    eta = 1  #学習率
     latent_dim = 2 #潜在空間の次元
     alpha = 0.1
     norm = 2
-    seed = 3
+    seed = 4
     resolution = 100
     np.random.seed(seed)
 
@@ -117,11 +115,11 @@ if __name__ == '__main__':
 
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta)
-    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="mp4")
+    # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="mp4")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    #ukr.calc_approximate_f(resolution)
-    #visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    ukr.calc_approximate_f(resolution)
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
 

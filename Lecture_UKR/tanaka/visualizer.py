@@ -59,11 +59,11 @@ def draw_observable_3D(ax, X, Y, colormap):
     ax.set_zlim(-1, 1)
     if len(Y.shape) == 3:
          ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
-         ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
+         # ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
     else:
         ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
 # ax.plot(Y[:, 0], Y[:, 1], Y[:, 2], color='black')
-    ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
+# ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
 
 
 def draw_observable_2D(ax, X, Y, colormap):
@@ -81,7 +81,7 @@ def draw_latent_1D(ax, Z, colormap):
     ax.set_xlim(np.max(Z), np.min(Z))
     ax.set_ylim(np.max(Z), np.min(Z))
     ax.scatter(Z, np.zeros(Z.shape), c=colormap)
-    #ax.set_ylim(-1, 1)
+    ax.set_ylim(-1, 1)
 
 def draw_error(ax, error_history, epoch):
     ax.set_title("error_function", fontsize=8)
