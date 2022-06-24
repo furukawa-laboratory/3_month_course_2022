@@ -114,4 +114,3 @@ if __name__ == '__main__':
     visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 
-
