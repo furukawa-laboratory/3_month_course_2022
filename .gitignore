@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# for Mac
+*.DS_Store
+
+.idea/
+face_project/datastore/
+Lecture_UKR/fukunaga/datestore/
+face_project/tanaka/datestore/
+
