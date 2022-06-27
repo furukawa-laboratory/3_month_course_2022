@@ -163,6 +163,7 @@ if __name__ == '__main__':
     # X = data[0]
     # animal_label = data[1]
     # feature_label = data[2]
+    X, truez, z1, z2 = load_kura_tsom(nb_samples1, nb_samples2, retz=True)
     allZ =[truez,z1,z2]
     tukr = TUKR(X, nb_samples1, nb_samples2, latent_dim1, latent_dim2, sigma1, sigma2, prior='random')
     tukr.fit(epoch, eta, alpha, norm)
