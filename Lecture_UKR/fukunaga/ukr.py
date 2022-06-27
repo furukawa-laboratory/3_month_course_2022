@@ -92,8 +92,8 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 200 #学習回数
-    sigma = 0.02 #カーネルの幅
-    eta = 0.2 #学習率
+    sigma = 0.1 #カーネルの幅
+    eta = 1 #学習率
     latent_dim = 1 #潜在空間の次元
     alpha = 0.1
     norm = 2
