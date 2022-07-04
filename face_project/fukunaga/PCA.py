@@ -12,8 +12,9 @@ def x_PCA():
     # print(x)
     pca = PCA(n_components=3)
     x_2d = pca.fit_transform(x.reshape(x.shape[0], -1))
-    # print(x_2d)
+    print(x_2d)
     return x_2d
+x_PCA()
 def x_tsne():
     x = load_angle_resized_data()
     tsne = TSNE(n_components=3, random_state=0)
