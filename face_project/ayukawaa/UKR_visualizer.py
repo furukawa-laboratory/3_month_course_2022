@@ -5,7 +5,8 @@ from matplotlib.animation import FuncAnimation
 STEP = 150
 
 
-def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, filename="tmp"):
+def visualize_history(X: object, Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
+        # X, Y_history, Z_history, error_history, save_gif=False, filename="tmp"):
     input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -39,6 +40,46 @@ def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, fi
         ani.save(f"{filename}.mp4", writer='ffmpeg')
 
 
+#描画なし
+def visualize_new_history(X:object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
+
+        # X, Y_history, Z_history, error_history, save_gif=False, filename="tmp"):
+    # input_dim = X.shape[1]
+    latent_dim = Z_history[0].shape[1]
+    input_projection_type = '3d' \
+        # if input_dim > 2 else 'rectilinear'
+
+    fig = plt.figure(figsize=(10, 8))
+    gs = fig.add_gridspec(3, 2)
+    input_ax = fig.add_subplot(gs[0:2, 0], projection=input_projection_type)
+    latent_ax = fig.add_subplot(gs[0:2, 1], aspect='equal')
+    error_ax = fig.add_subplot(gs[2, :])
+    # num_epoch = len(Y_history)
+
+    # if latent_dim == 2:
+        # resolution = int(np.sqrt(Y_history.shape[1]))
+        # if Y_history.shape[1] == resolution ** 2:
+        #     Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
+
+    # observable_drawer = [None, None, draw_observable_2D,
+    #                     draw_observable_3D][input_dim]
+    latent_drawer = [None, draw_latent_1D, draw_latent_2D][latent_dim]
+
+    ani = FuncAnimation(
+        fig,
+        update_new_graph,
+        # frames=num_epoch,  # // STEP,
+        repeat=True,
+        interval=50,
+        fargs=(latent_drawer, X, Z_history, error_history, fig, latent_ax, error_ax))
+
+    plt.show()
+    if save_gif:
+        ani.save(f"{filename}.mp4", writer='ffmpeg')
+
+
+
+
 def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
                  Z_history, error_history, fig, input_ax, latent_ax, error_ax, num_epoch):
     fig.suptitle(f"epoch: {epoch}")
@@ -53,6 +94,24 @@ def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
     observable_drawer(input_ax, X, Y, colormap)
     latent_drawer(latent_ax, Z, colormap)
     draw_error(error_ax, error_history, epoch)
+
+
+def update_new_graph(epoch, latent_drawer, X, Z_history, error_history, fig, latent_ax, error_ax):
+    # fig.suptitle(f"epoch: {epoch}")
+    # input_ax.cla()
+    #  input_ax.view_init(azim=(epoch * 400 / num_epoch), elev=30)
+    latent_ax.cla()
+    error_ax.cla()
+
+
+    Z= Z_history[epoch]
+    colormap = X[:, 0]
+
+    # observable_drawer(input_ax, X, Y, colormap)
+    latent_drawer(latent_ax, Z, colormap)
+    draw_error(error_ax, error_history, epoch)
+
+
 
 
 def draw_observable_3D(ax, X, Y, colormap):
