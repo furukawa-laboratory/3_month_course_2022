@@ -14,6 +14,7 @@ def load_kura_tsom(xsamples, ysamples, missing_rate=None,retz=False):
     #ノイズを加えたい時はここをいじる,locがガウス分布の平均、scaleが分散,size何個ノイズを作るか
     #このノイズを加えることによって三次元空間のデータ点は上下に動く
 
+
     x = np.concatenate((x1[:, :, np.newaxis], x2[:, :, np.newaxis], x3[:, :, np.newaxis]), axis=2)
     truez = np.concatenate((z1_repeated[:, :, np.newaxis], z2_repeated[:, :, np.newaxis]), axis=2)
 
