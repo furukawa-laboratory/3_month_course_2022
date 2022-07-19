@@ -7,8 +7,8 @@ from PIL import Image
 # print(img.shape)
 import os
 
-def load_angle_resized_data():
-    datastore_name = '../datastore/Angle_resized/'
+def load_angle_resized_data(face_num):
+    datastore_name = 'datastore/Angle_resized/'
     dir_list = os.listdir(datastore_name)
     #file_name = '/-5/A_01_-05.jpg'
 
@@ -16,7 +16,7 @@ def load_angle_resized_data():
     # file_path = os.path.join(directory_path, file_name)
 
     dir_name = dir_list[0]
-    user_name = '/A_01_'
+    user_name = '/A_' + face_num +'_'
     img = []
     file_list = os.listdir(datastore_name + dir_name)
     # print(dir_name)
@@ -49,7 +49,7 @@ def load_angle_resized_data():
     # plt.show()
     return np.array(img)
 def load_angle_resized_same_angle_data():
-    datastore_name = '../datastore/Angle_resized/'
+    datastore_name = 'datastore/Angle_resized/'
 
     dir_list = os.listdir(datastore_name)
     # print(os.listdir(path='.'))
@@ -70,7 +70,7 @@ def load_angle_resized_same_angle_data():
     return np.array(img)
 # print(load_angle_resized_same_angle_data())
 def load_angle_resized_data_TUKR():
-    datastore_name = 'datastore/Angle_resized/'
+    datastore_name ='datastore/Angle_resized/'
     dir_list = os.listdir(datastore_name)
     #file_name = '/-5/A_01_-05.jpg'
     user_list = os.listdir(datastore_name+'-5/')
