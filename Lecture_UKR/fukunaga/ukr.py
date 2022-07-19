@@ -85,8 +85,8 @@ def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に�
 
 
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
-    from Lecture_UKR.data import create_rasen
+    # from Lecture_UKR.data import create_kura
+    # from Lecture_UKR.data import create_rasen
     from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
 
