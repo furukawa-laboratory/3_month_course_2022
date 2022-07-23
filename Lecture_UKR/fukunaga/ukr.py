@@ -108,24 +108,24 @@ if __name__ == '__main__':
     from data import create_kura
     from animal import load_date
     #各種パラメータ変えて遊んでみてね．
-    epoch = 200 #学習回数
+    epoch = 100 #学習回数
     sigma = 0.1 #カーネルの幅
     eta = 0.5#学習率
     latent_dim = 2 #潜在空間の次元
-    alpha = 0.1
-    norm = 2
+    alpha = 0.000000001
+    norm = 0
     seed = 4
     np.random.seed(seed)
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples = 100 #データ数
-    # X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
+    X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
     # X = x_PCA()
     # X = x_tsne()
     #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
     # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
-    X = load_date()[0]
-    animal_label = load_date(retlabel_animal=True)[1]
+    # X = load_date()[0]
+    # animal_label = load_date(retlabel_animal=True)[1]
     # coffee_label = load_date(retlabel_coffee=True)[1]
     # print(load_date(retlabel_animal=True)[1])
 
@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(resolution=30)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/eta = 0_5")
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/epoch1000L0")
 
 
 
