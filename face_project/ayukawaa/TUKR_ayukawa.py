@@ -2,20 +2,30 @@ import numpy as np
 import jax
 import jax.numpy as jnp
 from tqdm import tqdm #プログレスバーを表示させてくれる
-
+from matplotlib import pyplot as plt
+from sklearn.decomposition import PCA #主成分分析
+from face_project.load import load_angle_resized_data
+from face_project.load import load_angle_resized_same_angle_data
+from sklearn.manifold import TSNE
+from face_project.load import load_angle_resized_data_TUKR
 
 class TUKR:
     def __init__(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
         #--------初期値を設定する．---------
         # self.X = X[0][ :, :, None]
         self.X = X
-        print(self.X.shape)
         # exit()
+        print(self.X.shape)
         #ここから下は書き換えてね
-        self.nb_xsamples, self.nb_ysamples,self.ob_dim = self.X.shape
+        self.nb_xsamples= self.X.shape[0]
+        self.nb_ysamples
+        self.ob_dim
+
         self.xsigma, self.ysigma, = xsigma, ysigma
         self.xlatent_dim, self.ylatent_dim = xlatent_dim, ylatent_dim
 
+
+        # print(self.nb_xsamples, self.nb_ysamples, self.ob_dim)
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
                 self.U = np.random.uniform(low=-0.001, high=0.001, size=(self.nb_xsamples, self.xlatent_dim))
@@ -141,12 +151,13 @@ if __name__ == '__main__':
     # from Lecture_TUKR.ayukawafile.data_scratch import load_kura_tsom
     # from Lecture_TUKR.ayukawafile.visualizer_kura import visualize_history    #kura
 
-    from UKR_visualizer import visualize_history
-    from face_project.ayukawaa.PCA_ayu import PCA_1
-
     # from Lecture_TUKR.ayukawafile.animals import load_data
     # from Lecture_TUKR.ayukawafile.visualizer import visualize_history  #animal
 
+    from UKR_visualizer import visualize_history
+    from face_project.load import load_angle_resized_same_angle_data
+    # from face_project.load import load_angle_resized_data_TUKR
+    from face_project.ayukawaa.PCA_ayu import PCA_1
 
     #各種パラメータ変えて遊んでみてね．
     ##
@@ -159,20 +170,41 @@ if __name__ == '__main__':
 
     # xlatent_dim = 2  # 潜在空間の次元
     # ylatent_dim = 2  # 潜在空間の次元  animal
-
     alpha = 0.0001
     norm = 10
-
     seed = 2
+    jedi = 30 #PCAの次元
+    r = 4
     np.random.seed(seed)
 
+    # print(load_angle_resized_data_TUKR().shape)
+    # print(load_angle_resized_data_TUKR())
+
+
     #入力データ（詳しくはdata.pyを除いてみると良い）
-    nb_xsamples = 20 #データ数
-    nb_ysamples = 20
+    nb_xsamples = load_angle_resized_data_TUKR().shape[0] #データ数
+    nb_ysamples = load_angle_resized_data_TUKR().shape[1]
+
+    # print(nb_xsamples)
+    # print()
+    # print(nb_ysamples)
+
 
     # print(TUKR.history['x'].shape)
 
-    X = PCA_1() #鞍型データ　ob_dim=3, 真のL=2
+    pca = PCA(n_components = jedi)  # PCA を行ったり PCA の結果を格納したりするための変数を、pca として宣言 n_componentsで主成分数を定義
+    # x = load_angle_resized_data()
+    x = load_angle_resized_data_TUKR()
+    df = x.reshape(x.shape[0], -1)#(90,33,64,64)
+    print(df)
+    # pca.fit(load_angle_resized_data)# PCA を実行
+    # PCA_ans = pca.transform(load_angle_resized_data)
+    pca.fit(df)
+    kiyo = pca.explained_variance_ratio_
+    PCA_ans = pca.transform(df)
+
+
+    X = PCA_ans #鞍型データ　ob_dim=3, 真のL=2
     # X = load_data(nb_xsamples, nb_ysamples)   #animal
 
 #(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):

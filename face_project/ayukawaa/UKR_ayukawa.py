@@ -120,12 +120,12 @@ if __name__ == '__main__':
     epoch = 500 #学習回数
     sigma = 0.2 #カーネルの幅
     eta = 0.0000001 #学習率
-    latent_dim = 1 #潜在空間の次元
+    latent_dim = 2 #潜在空間の次元
     alpha = 0.000000001
     norm = 10
     seed = 2
-    jedi = 30 #PCAの次元
-    r = 3
+    jedi = 3 #PCAの次元
+    r = 5
     np.random.seed(seed)
 
     pca = PCA(n_components = jedi)  # PCA を行ったり PCA の結果を格納したりするための変数を、pca として宣言 n_componentsで主成分数を定義
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(resolution=200)
     # visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
-    # visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR顔tsne")
+    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR顔tsne")
     # visualize_new_history(X, ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 

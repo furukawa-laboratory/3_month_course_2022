@@ -15,7 +15,7 @@ class UKR:
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.Z = np.random.uniform(0, self.sigma*0.001, (self.nb_samples, self.latent_dim))
+                self.Z = np.random.uniform(0, self.sigma*0.0001, (self.nb_samples, self.latent_dim))
                 # Z1_vec = np.random.uniform(low=-1, high=1, size=Z)
                 # Z1_colum_vec = np.random.uniform(low=-1, high=1, size=[Z, 1])
             # else: #ガウス事前分布のとき
@@ -33,7 +33,7 @@ class UKR:
 
     def E(self, Z, X, alpha, norm): #目的関数の計算
         E = np.sum((X - self.kernel(Z,Z))**2)
-        R = alpha * jnp.sum(jnp.abs(Z ** norm))
+        R = alpha * jnp.sum(jnp.abs(Z ** norm)) #
         E = E / self.nb_samples + R / self.nb_samples
 
         return E
@@ -82,21 +82,21 @@ def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に�
 
 
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
-    from Lecture_UKR.data import create_rasen
-    from Lecture_UKR.data import create_2d_sin_curve
+    from Lecture_UKR.ayukawa.data import create_kura
+    # from Lecture_UKR.data import create_rasen
+    # from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
 
     #各種パラメータ変えて遊んでみてね．
     ##
     epoch = 300 #学習回数
-    sigma = 0.4 #カーネルの幅
-    eta = 2 #学習率
+    sigma = 0.2 #カーネルの幅
+    eta = 4 #学習率
     latent_dim = 2 #潜在空間の次元
 
-    alpha = 0
+    alpha = 0.05 #正則化項の重み
     norm = 10
-
+    # omomi = 1
     seed = 2
     np.random.seed(seed)
 
@@ -110,8 +110,8 @@ if __name__ == '__main__':
     ukr.fit(epoch, eta, alpha, norm)
     #visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=10)
+    ukr.calc_approximate_f(resolution=20)
+    # visualize_history(X, ukr.history['y'][epoch-2:epoch-1], ukr.history['z'][epoch-2:epoch-1], ukr.history['error'][epoch-2:epoch-1], save_gif=True, filename="tmp")
     visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
-
 
 
