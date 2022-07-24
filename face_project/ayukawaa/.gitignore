@@ -140,4 +140,5 @@ face_project/datastore/
 *.jpeg
 *.png
 *.jpg
+face_project/load.py
 

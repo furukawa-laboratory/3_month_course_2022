@@ -133,4 +133,6 @@ dmypy.json
 
 .idea/
 face_project/datastore/
+face_project/load.py/
 Lecture_UKR/fukunaga/datestore/
+face_project/load.py
