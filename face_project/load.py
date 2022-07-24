@@ -15,10 +15,10 @@ def load_angle_resized_data():
     # directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
     # file_path = os.path.join(directory_path, file_name)
 
-    dir_name = dir_list[0]
-    user_name = '/A_01_'
+    # dir_name = dir_list[0]
+    user_name = '/A_19_'
     img = []
-    file_list = os.listdir(datastore_name + dir_name)
+    # file_list = os.listdir(datastore_name + dir_name)
     # print(dir_name)
     for file_name in dir_list:
         if '-' in file_name:
