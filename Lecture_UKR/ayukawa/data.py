@@ -8,6 +8,7 @@ def create_kura(nb_samples, noise_scale=0.05):
     X[:, 1] = z2
     X[:, 2] = 0.5 * (z1 ** 2 - z2 ** 2)
     X += np.random.normal(loc=0, scale=noise_scale, size=X.shape)
+    print(X.shape)
     return X
 
 def create_rasen(nb_samples):

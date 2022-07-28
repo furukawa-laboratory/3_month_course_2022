@@ -4,7 +4,7 @@ from matplotlib.animation import FuncAnimation
 
 STEP = 150
 
-
+# X, ukr.history['kernel'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
 def visualize_history(X, Y_history, Z_history, v_history, error_history, save_gif=False, filename="tmp"):
     input_dim, xlatent_dim = X.shape[2], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
@@ -81,6 +81,9 @@ def draw_observable_3D(ax, X, Y, Z, colormap):
     Z=np.tile(X[:, :, 0],(1))#zを縦に２０回繰り返そう
     ax.scatter(X[:, :, 0], X[:, :, 1], X[:, :, 2], c=X[:, :, 0])
     # ax.set_zlim(-1, 1)
+    # print(Y.shape)
+    #
+    # exit()
     if len(Y.shape) == 3:
         ax.plot_wireframe(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
         # ax.scatter(Y[:, :, 0], Y[:, :, 1], Y[:, :, 2], color='black')
@@ -98,7 +101,7 @@ def draw_observable_2D(ax, X, Y, colormap):
 def draw_latent_2D(ax, Z, colormap):
     ax.set_xlim(-1.1, 1.1)
     ax.set_ylim(-1.1, 1.1)
-    exit()
+    # exit()
     ax.scatter(Z[:, 0], Z[:, 1], c='blue', s=1000)
 
 

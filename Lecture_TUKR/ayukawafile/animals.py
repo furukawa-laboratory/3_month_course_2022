@@ -25,4 +25,5 @@ def load_data(retlabel_animal=True, retlabel_feature=True):
         label_feature = np.genfromtxt(label_path, dtype=str)
         return_objects.append(label_feature)
 
+    # print(np.array(return_objects).shape)
     return return_objects
