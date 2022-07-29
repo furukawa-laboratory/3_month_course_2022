@@ -3,6 +3,21 @@ from tqdm import tqdm #プログレスバーを表示させてくれる
 import jax
 import jax.numpy as jnp
 from matplotlib import pyplot as plt
+from sklearn import preprocessing
+# from face_project.fukunaga.UKR_visualizer import visualize_history
+from face_project.fukunaga.UKR_visualizer import visualize_history_obs
+from face_project.fukunaga.UKR_visualizer import visualize_PNG_obs
+from face_project.fukunaga.UKR_visualizer import visualize_history_no_obs
+from face_project.fukunaga.UKR_visualizer import visualize_PNG_no_obs
+# from face_project.fukunaga.PCA import x_PCA
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MaxAbsScaler
+from face_project.fukunaga.load import load_angle_resized_data
+from sklearn.manifold import TSNE
+from face_project.fukunaga.load import load_angle_resized_same_angle_data
+from face_project.fukunaga.load import load_angle_resized_data_TUKR
+
 
 class UKR:
     def __init__(self, X, latent_dim, sigma, prior='random', Zinit=None):
@@ -16,13 +31,14 @@ class UKR:
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.Z =np.random.normal(0, self.sigma*0.00001, (self.nb_samples, self.latent_dim))
+                self.Z = np.random.normal(0, self.sigma*0.00001, (self.nb_samples, self.latent_dim))
             else: #ガウス事前分布のとき
-                self.Z =np.random.normal(self.nb_samples*self.latent_dim).reshape(self.nb_samples, self.latent_dim)
+                self.Z = np.random.normal(self.nb_samples*self.latent_dim).reshape(self.nb_samples, self.latent_dim)
         else: #Zの初期値が与えられた時
             self.Z = Zinit
 
         self.history = {}
+        # print(self.Z)
     def f(self, Z1, Z2):
         d = np.sum((Z1[:, None, :]-Z2[None, :, :])**2, axis=2)
         H = -1*(d/(2*self.sigma**2))
@@ -101,26 +117,41 @@ def create_zeta_2D(Z, resolution): #fのメッシュの描画用に潜在空間�
 
     return zeta
 
+def img(r, latent_dim):
+    if latent_dim == 1:
+        Y = ukr.calc_approximate_f(resolution=r*r)
+    else:
+        Y = ukr.calc_approximate_f(resolution=r)
+    Y_inv = pca.inverse_transform(Y)
+    # print(Y_inv.shape)
+    fig = plt.figure(figsize=(10, 10), dpi = 80)
+    gs = fig.add_gridspec(r, r)
+    for i in range(r**2):
+        ax = fig.add_subplot(gs[i // r, i % r])
+        img = Y_inv[i, :]
+        img = img.reshape(64, 64)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        plt.imshow(img, cmap='gray')
+
+
+    plt.show()
 
 if __name__ == '__main__':
-    from face_project.fukunaga.UKR_visualizer import visualize_history
-    # from face_project.fukunaga.PCA import x_PCA
-    ###########################PCA
-    from sklearn.decomposition import PCA
-    from face_project.fukunaga.load import load_angle_resized_data
-    from sklearn.manifold import TSNE
-    from face_project.fukunaga.load import load_angle_resized_same_angle_data
-    from face_project.fukunaga.load import load_angle_resized_data_TUKR
 
-    x = load_angle_resized_data('10')
-    # x = load_angle_resized_same_angle_data('0')
-    pca = PCA(n_components=3)
+    ###########################PCA
+
+
+    # x = load_angle_resized_data('72')
+    x = load_angle_resized_same_angle_data('0')
+    pca = PCA(n_components=50)
     # print(78789789789)
     # print(x.shape)
     # print(x.reshape(x.shape[0], -1).shape)
     # print(88888888)
 
     x_2d = pca.fit_transform(x.reshape(x.shape[0], -1))
+    # print(x_2d.shape)
 
     X = x_2d
     # 寄与率
@@ -129,49 +160,56 @@ if __name__ == '__main__':
     ccr = np.add.accumulate(cr)
     print(ccr)
     #各種パラメータ変えて遊んでみてね．
-    epoch = 200 #学習回数
-    sigma = 1 #カーネルの幅
+    epoch = 300 #学習回数
+    sigma = 0.8 #カーネルの幅
     eta = 0.00001#学習率
-    latent_dim = 1 #潜在空間の次元
-    alpha = 0.001
+    latent_dim = 2 #潜在空間の次元
+    alpha = 0.000001
     norm = 10
-    seed = 4
+    seed = 20
     np.random.seed(seed)
+    r = 10
 
     #入力データ（詳しくはdata.pyを除いてみると良い）
     nb_samples = 100 #データ数
-    # X = create_kura(nb_samples) #鞍型データ　ob_dim=3, 真のL=2
     #X = x_PCA()
-    # X = x_tsne()
-    #X = create_rasen(nb_samples) #らせん型データ　ob_dim=3, 真のL=1
-    # X = create_2d_sin_curve(nb_samples) #sin型データ　ob_dim=2, 真のL=1
     # X = load_date()[0]
-    # animal_label = load_date(retlabel_animal=True)[1]
-    # coffee_label = load_date(retlabel_coffee=True)[1]
-    # print(load_date(retlabel_animal=True)[1])
 
-    ukr = UKR(X, latent_dim, sigma, prior='random')
+    #########PCA初期化######
+    # z = load_angle_resized_data('72')
+    # z = load_angle_resized_same_angle_data('0')
+    pca_creat = PCA(n_components=latent_dim)
+    z_ini = pca_creat.fit_transform(x.reshape(x.shape[0], -1))
+    # preprocessing.MinMaxScaler(feature_range=(0, 0.1), copy=True)
+    # mmscaler = preprocessing.MinMaxScaler()  # インスタンスの作成
+    mmscaler = MinMaxScaler(feature_range=(-0.1, 0.1), copy=True)
+
+    mmscaler.fit(z_ini)  # xの最大・最小を計算
+    z_nor = mmscaler.transform(z_ini)
+
+    # print(z_nor)
+    ##############################
+    ukr = UKR(X, latent_dim, sigma, prior='random', Zinit=z_nor)
     ukr.fit(epoch, eta, alpha, norm)
     # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR動物1")
     # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR動物1", label=coffee_label)
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=30)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR1顔10")
+    ukr.calc_approximate_f(resolution=20)
+    #########観測空間あり#############
+    # visualize_history_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/1UKRPCA66")
+    # visualize_PNG_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR2angl-45")
+
+    ############観測空間なし#####################
+    visualize_history_no_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR1顔10")
+    # visualize_PNG_no_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR1顔10")
+##-------------画像出力----------#
+    img(r, latent_dim)
 
 
 
-    r = 10
-    Y = ukr.calc_approximate_f(resolution=r**2)
-    Y_inv = pca.inverse_transform(Y)
-    # print(Y_inv.shape)
-    fig = plt.figure(figsize=(10, 10), dpi = 80)
-    gs = fig.add_gridspec(r, r)
-    for i in range(r**2):
-        fig.add_subplot(gs[i // r, i % r])
-        img = Y_inv[i, :]
-        img = img.reshape(64, 64)
 
-        plt.imshow(img, cmap='gray')
 
-    plt.show()
+
+
+
