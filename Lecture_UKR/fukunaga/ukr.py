@@ -104,6 +104,7 @@ def create_zeta_2D(Z, resolution): #fのメッシュの描画用に潜在空間�
 
 if __name__ == '__main__':
     from visualizer import visualize_history
+    from visualizer import visualize_PNG_obs
     # from カオナシ.fukunaga.PCA import x_PCA
     from data import create_kura
     from animal import load_date
@@ -137,6 +138,7 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(resolution=30)
     visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/epoch1000L0")
+    visualize_PNG_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/epoch1000L0")
 
 
 
