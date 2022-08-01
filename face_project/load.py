@@ -16,7 +16,7 @@ def load_angle_resized_data():
     # file_path = os.path.join(directory_path, file_name)
 
     # dir_name = dir_list[0]
-    user_name = '/A_19_'
+    user_name = '/A_01_'
     img = []
     # file_list = os.listdir(datastore_name + dir_name)
     # print(dir_name)
