@@ -4,7 +4,7 @@ from matplotlib.animation import FuncAnimation
 
 STEP = 150
 ###########観測空間なし#########################################################
-def visualize_history_no_obs(X: object,Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
+def visualize_history_no_obs(X: object,Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp", label = None) -> object:
     latent_dim = Z_history[0].shape[1]
     # input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -30,13 +30,13 @@ def visualize_history_no_obs(X: object,Y_history: object, Z_history: object, err
         frames=num_epoch,  # // STEP,
         repeat=True,
         interval=50,
-        fargs=(latent_drawer, Y_history, Z_history, error_history, fig, latent_ax, error_ax, num_epoch, X))
+        fargs=(latent_drawer, Y_history, Z_history, error_history, fig, latent_ax, error_ax, num_epoch, X, label))#, angle))
 
     plt.show()
     if save_gif:
         ani.save(f"{filename}.mp4", writer='ffmpeg')
 
-def visualize_PNG_no_obs(X: object,Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
+def visualize_PNG_no_obs(angle, X: object,Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
     latent_dim = Z_history[0].shape[1]
     # input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -48,7 +48,10 @@ def visualize_PNG_no_obs(X: object,Y_history: object, Z_history: object, error_h
     num_epoch = len(Y_history)
 
     latent_drawer = [None, draw_latent_1D, draw_latent_2D][latent_dim]
-    colormap = X[:, 0]
+    # colormap = X[:, 0]
+    colormap = np.zeros(angle.shape[0])
+    for i in range(angle.shape[0]):
+        colormap[i] = int(angle[i])
 
     latent_drawer(latent_ax, Z_history[-1], colormap)
     draw_error(error_ax, error_history, num_epoch-1)
@@ -58,7 +61,7 @@ def visualize_PNG_no_obs(X: object,Y_history: object, Z_history: object, error_h
         fig.savefig(f"{filename}.png")
 
 def update_graph1(epoch,latent_drawer,Y_history,
-                 Z_history, error_history, fig, latent_ax, error_ax, num_epoch, X):
+                 Z_history, error_history, fig, latent_ax, error_ax, num_epoch, X, label):#, angle):
     fig.suptitle(f"epoch: {epoch}")
     # input_ax.cla()
     #  input_ax.view_init(azim=(epoch * 400 / num_epoch), elev=30)
@@ -67,14 +70,17 @@ def update_graph1(epoch,latent_drawer,Y_history,
 
     Y, Z= Y_history[epoch], Z_history[epoch]
     colormap = X[:, 0]
+    # colormap = np.zeros(angle.shape[0])
+    # for i in range(angle.shape[0]):
+    #     colormap[i] = int(angle[i])
 
     # observable_drawer(input_ax, X, Y, colormap)
-    latent_drawer(latent_ax, Z, colormap)
+    latent_drawer(latent_ax, Z, colormap, label)
     draw_error(error_ax, error_history, epoch)
 
 
 ###########観測空間あり#################################################################################
-def visualize_history_obs(X: object, Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
+def visualize_history_obs(X: object, Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp", label = None) -> object:
     input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -101,12 +107,12 @@ def visualize_history_obs(X: object, Y_history: object, Z_history: object, error
         repeat=False,
         interval=50,
         fargs=(observable_drawer, latent_drawer, X, Y_history, Z_history, error_history, fig,
-               input_ax, latent_ax, error_ax, num_epoch))
+               input_ax, latent_ax, error_ax, num_epoch, label)) #,angle))
 
     plt.show()
     if save_gif:
         ani.save(f"{filename}.mp4", writer='ffmpeg')
-def visualize_PNG_obs(X: object, Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
+def visualize_PNG_obs(angle,X: object, Y_history: object, Z_history: object, error_history: object, save_gif: object = False, filename: object = "tmp") -> object:
     input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
     input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
 
@@ -127,7 +133,10 @@ def visualize_PNG_obs(X: object, Y_history: object, Z_history: object, error_his
                      draw_observable_3D][input_dim]
 
     latent_drawer = [None, draw_latent_1D, draw_latent_2D][latent_dim]
-    colormap = X[:, 0]
+    # colormap = X[:, 0]
+    colormap = np.zeros(angle.shape[0])
+    for i in range(angle.shape[0]):
+        colormap[i] = int(angle[i])
 
 
     observable_drawer(input_ax, X, Y_history[-1], colormap)
@@ -139,7 +148,7 @@ def visualize_PNG_obs(X: object, Y_history: object, Z_history: object, error_his
     if save_gif:
         fig.savefig(f"{filename}.png")
 def update_graph2(epoch,observable_drawer, latent_drawer, X, Y_history,
-                 Z_history, error_history, fig, input_ax, latent_ax, error_ax, num_epoch):
+                 Z_history, error_history, fig, input_ax, latent_ax, error_ax, num_epoch, label):#,angle):
     fig.suptitle(f"epoch: {epoch}")
     input_ax.cla()
     #  input_ax.view_init(azim=(epoch * 400 / num_epoch), elev=30)
@@ -149,8 +158,12 @@ def update_graph2(epoch,observable_drawer, latent_drawer, X, Y_history,
     Y, Z= Y_history[epoch], Z_history[epoch]
     colormap = X[:, 0]
 
+    # colormap = np.zeros(angle.shape[0])
+    # for i in range(angle.shape[0]):
+    #     colormap[i] = int(angle[i])
+
     observable_drawer(input_ax, X, Y, colormap)
-    latent_drawer(latent_ax, Z, colormap)
+    latent_drawer(latent_ax, Z, colormap, label)
     draw_error(error_ax, error_history, epoch)
 
 ####################################################################################################
@@ -224,14 +237,14 @@ def draw_observable_2D(ax, X, Y, colormap):
     ax.plot(Y[:, 0], Y[:, 1], c='black')
 
 
-def draw_latent_2D(ax, Z, colormap):
+def draw_latent_2D(ax, Z, colormap, label):
     # ax.set_xlim(-2.1, 2.1)
     # ax.set_ylim(-2.1, 2.1)
     ax.set_xlim(np.min(Z), np.max(Z))
     ax.set_ylim(np.min(Z), np.max(Z))
     ax.scatter(Z[:, 0], Z[:, 1], c=colormap)
-    # for i in range (Z.shape[0]):
-    #      ax.annotate(label[i], xy = (Z[i, 0], Z[i, 1]))
+    for i in range (Z.shape[0]):
+         ax.annotate(label[i], xy = (Z[i, 0], Z[i, 1]))
 
 
 def draw_latent_1D(ax, Z, colormap):

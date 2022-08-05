@@ -40,7 +40,7 @@ class UKR:
 
         if Uinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.U = np.random.uniform(low=-0.001, high=0.001, size=(self.xsamples, self.latent_dim1))
+                self.U = np.random.uniform(low=-0.01, high=0.01, size=(self.xsamples, self.latent_dim1))
 
 
             else: #ガウス事前分布のとき
@@ -51,10 +51,10 @@ class UKR:
         self.history = {}
         if Vinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.V = -np.random.uniform(low=-0.001, high=0.001, size=(self.ysamples, self.latent_dim2))
+                self.V = np.random.uniform(low=-0.01, high=0.01, size=(self.ysamples, self.latent_dim2))
 
             else: #ガウス事前分布のとき
-                self.V = -np.random.normal(self.ysamples*self.latent_dim2).reshape(self.ysamples, self.latent_dim2)
+                self.V = np.random.normal(self.ysamples*self.latent_dim2).reshape(self.ysamples, self.latent_dim2)
         else: #Zの初期値が与えられた時
             self.V = Vinit
 
@@ -117,6 +117,8 @@ class UKR:
         self.history['error'] = np.zeros(nb_epoch)
 
         for epoch in tqdm(np.arange(nb_epoch)):
+            # self.history['u'][epoch] = self.U  #初期値を確認する時
+            # self.history['v'][epoch] = self.V
             dEdu = jax.grad(self.E, argnums=0)(self.U, self.V, self.X, alpha, norm)
             self.U = self.U - eta * dEdu
             dEdv = jax.grad(self.E, argnums=1)(self.U, self.V, self.X, alpha, norm)
@@ -178,7 +180,7 @@ class UKR:
         # zetav = np.concatenate([xx[:, None], yy[:, None]], axis=1)
 
         # zeta = np.concatenate([uxx[:, None], uyy[:, None]], axis=1)
-        return v_y
+        return v_y*0.7
 def img(l, r):
     Y = ukr.calc_approximate_fu(resolutionu=l, resolutionv=r)
     # print(Y.shape)
@@ -188,12 +190,15 @@ def img(l, r):
     # exit()
     fig = plt.figure(figsize=(8, 8))
 
-    gs = fig.add_gridspec(l, r)
+    gs = fig.add_gridspec(l**2, l*r)
     for i in range(l):
-        for j in range(r):
+        for j in range(l*r):
             ax = fig.add_subplot(gs[i, j])
-            img = Y_inv[i, j, :]
+            img = Y_inv[i*l+(j//r), j%r, :]
+            # print(img.shape)
             img = img.reshape(64, 64)
+            # print(img.shape)
+            # exit()
             plt.imshow(img, cmap='gray')
             ax.set_xticks([])
             ax.set_yticks([])
@@ -208,24 +213,24 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     epoch = 500 #学習回数
-    sigma1 = 0.8 #カーネルの幅
-    sigma2 = 0.8
-    eta = 0.00001 #学習率
+    sigma1 = 0.5 #カーネルの幅
+    sigma2 = 1
+    eta = 0.000003 #学習率
     latent_dim1 = 2 #潜在空間の次元
     latent_dim2 = 1
-    alpha = 0.00001
+    alpha = 0.1
     norm = 10
-    seed = 4
-    ncom = 100
+    seed = 20
+    ncom = 200
     np.random.seed(seed)
-    l = 10
-    r = 13
+    l = 3
+    r = 3
 
 
 
 
 
-    x_ori, z1_color, z2_color = load_angle_resized_data_TUKR()
+    x_ori, z1_color, z2_color , label= load_angle_resized_data_TUKR()
     x = x_ori.reshape(x_ori.shape[0] * x_ori.shape[1], x_ori.shape[2] * x_ori.shape[3])
     # print(x)
     pca = PCA(n_components = ncom)
@@ -240,11 +245,11 @@ if __name__ == '__main__':
     # print(x_2d.shape)
     # return x_2d
     # return x_2d, z1_color, z2_color
-    X, z1_color, z2_color = x_2d,z1_color,z2_color
+    X, z1_color, z2_color = x_2d, z1_color, z2_color
     cr = pca.explained_variance_ratio_
     # 累積寄与率
     ccr = np.add.accumulate(cr)
-    # print(ccr)
+    print(ccr)
     # ---------------　PCA初期化---------------------
     # print(x_ori.shape)
     uu = x_ori[:, 0, :]
@@ -256,8 +261,11 @@ if __name__ == '__main__':
     # print(vv_reshape.shape)
     pca_creatu = PCA(n_components=latent_dim1)
     pca_creatv = PCA(n_components=latent_dim2)
+    # print(uu_reshape.reshape(uu.shape[0], -1).shape)
+    # print(vv_reshape.reshape(vv.shape[0], -1).shape)
     u_ini = pca_creatu.fit_transform(uu_reshape.reshape(uu.shape[0], -1))
     v_ini = pca_creatv.fit_transform(vv_reshape.reshape(vv.shape[0], -1))
+    # exit()
 #------------タッカー分解--------------
     # x_sec = x_ori.reshape(90, 33, -1)
     # print(x_sec.shape)
@@ -283,9 +291,9 @@ if __name__ == '__main__':
     # print(v_ini.shape)
 
     mmscaler.fit(u_ini)  # xの最大・最小を計算
-    u_nor = mmscaler.transform(u_ini)
+    u_nor = -mmscaler.transform(u_ini)
     mmscaler.fit(v_ini)  # xの最大・最小を計算
-    v_nor = mmscaler.transform(v_ini)
+    v_nor = -mmscaler.transform(v_ini)
 
     # --------------------------------------------------
 
@@ -315,16 +323,16 @@ if __name__ == '__main__':
     # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_fu(resolutionu=l, resolutionv=r)
+    ukr.calc_approximate_fu(resolutionu=5, resolutionv=5)
     # ukr.calc_approximate_fv(resolution=10)
     # visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR動物", label1=animal_label, label2=feature_label)
     # visualize_history(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR顔4", zzz=zzz)
     #-----------------観測空間あり---------------#
-    # visualize_history_obs(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR顔3", zzz=zzz)
-    # visualize_PNG_obs(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKRpca3", zzz=zzz)
+    # visualize_history_obs(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/zemi8TUKRPCA3", zzz=zzz, label=label)
+    # visualize_PNG_obs(X, ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKRpca3", zzz=zzz)
     #-----------------観測空間なし---------------#
-    visualize_history_no_obs(ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKR-n", zzz=zzz)
-    # visualize_PNG_no_obs(ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKRpca100", zzz=zzz)
+    visualize_history_no_obs(ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/seedzemi8TUKRPCA200", zzz=zzz)
+    # visualize_PNG_no_obs(ukr.history['y'], ukr.history['u'], ukr.history['v'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/TUKRpca100", zzz=zzz)
 
 #---------画像出力------------
     img(l, r)

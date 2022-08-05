@@ -31,7 +31,7 @@ class UKR:
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.Z = np.random.normal(0, self.sigma*0.00001, (self.nb_samples, self.latent_dim))
+                self.Z = -np.random.normal(0, 0.02, (self.nb_samples, self.latent_dim))
             else: #ガウス事前分布のとき
                 self.Z = np.random.normal(self.nb_samples*self.latent_dim).reshape(self.nb_samples, self.latent_dim)
         else: #Zの初期値が与えられた時
@@ -69,6 +69,7 @@ class UKR:
         self.history['error'] = np.zeros(nb_epoch)
 
         for epoch in range(nb_epoch):
+            self.history['z'][epoch] = self.Z   #初期化状態を見る時
             dEdx = jax.grad(self.E, argnums=0)(self.Z, self.X, alpha, norm)
             self.Z = self.Z -eta * dEdx
 
@@ -78,7 +79,7 @@ class UKR:
 
 
             # 学習過程記録用
-            self.history['z'][epoch] =self.Z
+            # self.history['z'][epoch] = self.Z
             self.history['f'][epoch] =self.f(self.Z, self.Z)
             self.history['error'][epoch] =self.E(self.Z, self.X, alpha, norm)
 
@@ -142,9 +143,9 @@ if __name__ == '__main__':
     ###########################PCA
 
 
-    # x = load_angle_resized_data('72')
-    x = load_angle_resized_same_angle_data('0')
-    pca = PCA(n_components=50)
+    # x, angle = load_angle_resized_data('01')
+    x, label = load_angle_resized_same_angle_data('0')
+    pca = PCA(n_components=3)
     # print(78789789789)
     # print(x.shape)
     # print(x.reshape(x.shape[0], -1).shape)
@@ -160,11 +161,11 @@ if __name__ == '__main__':
     ccr = np.add.accumulate(cr)
     print(ccr)
     #各種パラメータ変えて遊んでみてね．
-    epoch = 300 #学習回数
-    sigma = 0.8 #カーネルの幅
+    epoch = 1000 #学習回数
+    sigma = 1 #カーネルの幅
     eta = 0.00001#学習率
     latent_dim = 2 #潜在空間の次元
-    alpha = 0.000001
+    alpha = 0.00001
     norm = 10
     seed = 20
     np.random.seed(seed)
@@ -176,35 +177,57 @@ if __name__ == '__main__':
     # X = load_date()[0]
 
     #########PCA初期化######
-    # z = load_angle_resized_data('72')
-    # z = load_angle_resized_same_angle_data('0')
-    pca_creat = PCA(n_components=latent_dim)
-    z_ini = pca_creat.fit_transform(x.reshape(x.shape[0], -1))
-    # preprocessing.MinMaxScaler(feature_range=(0, 0.1), copy=True)
-    # mmscaler = preprocessing.MinMaxScaler()  # インスタンスの作成
+    # z, an = load_angle_resized_data('01')
+    z,la = load_angle_resized_same_angle_data('0')
+    pca_creat = PCA(n_components=1)
+    z_ini = pca_creat.fit_transform(z.reshape(z.shape[0], -1))
+    # print(z_ini.shape)
+    # exit()
     mmscaler = MinMaxScaler(feature_range=(-0.1, 0.1), copy=True)
+    mmscaler.fit(z_ini)
+    z_ini = mmscaler.transform(z_ini)
 
-    mmscaler.fit(z_ini)  # xの最大・最小を計算
-    z_nor = mmscaler.transform(z_ini)
+    zero = np.zeros((90, 1))
+    # print(zero)
+    zero = np.random.normal(0, 0.0000000001, (90, 1))
+    # lin = np.linspace(-1, 1, 90).reshape([90, 1])
+
+    # print(lin.shape)
+    z_ini = np.concatenate([z_ini, zero], axis=1)
+    import matplotlib.pyplot as plt
+    plt.scatter(z_ini[:,0],z_ini[:,1])
+    plt.show()
+    # print(z_ini.shape)
+    # exit()
+
+    # mmscaler = MinMaxScaler(feature_range=(-0.1, 0.1), copy=True)
+
+    # mmscaler.fit(z_ini)  # xの最大・最小を計算
+    # z_nor = mmscaler.transform(z_ini)
+    # plt.scatter(z_nor[:, 0], z_nor[:, 1])
+    # plt.show()
+
 
     # print(z_nor)
     ##############################
-    ukr = UKR(X, latent_dim, sigma, prior='random', Zinit=z_nor)
+    ukr = UKR(X, latent_dim, sigma, prior='random', Zinit=z_ini)
     ukr.fit(epoch, eta, alpha, norm)
     # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR動物1")
     # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR動物1", label=coffee_label)
 
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=20)
+    ukr.calc_approximate_f(resolution=15)
     #########観測空間あり#############
-    # visualize_history_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/1UKRPCA66")
-    # visualize_PNG_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR2angl-45")
+    visualize_history_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/2ZeminewPCA0_0000001", label=label)
+    # visualize_PNG_obs(an, X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR2angl-45")
 
     ############観測空間なし#####################
-    visualize_history_no_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR1顔10")
-    # visualize_PNG_no_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR1顔10")
+    # visualize_history_no_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'],  save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/2Zemi0PCA3PCAL2", label=label)
+    # visualize_PNG_no_obs(an, X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR1顔10")
 ##-------------画像出力----------#
-    img(r, latent_dim)
+    # plt.scatter(ukr.history['z'][-1][:,0], ukr.history['z'][-1][:,1])
+    # plt.show()
+    # img(r, latent_dim)
 
 
 

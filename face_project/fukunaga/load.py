@@ -18,38 +18,48 @@ def load_angle_resized_data(face_num):
     dir_name = dir_list[0]
     user_name = '/A_' + face_num + '_'
     img = []
+    angle =[]
     file_list = os.listdir(datastore_name + dir_name)
     # print(dir_name)
     for file_name in dir_list:
+
         if '-' in file_name:
             if '-5' == file_name:
                 image = np.array(Image.open(datastore_name + file_name + user_name + '-05' + '.jpg'))
                 img.append(image)
+                angle.append(file_name)
             else:
                 image = np.array(Image.open(datastore_name + file_name + user_name + file_name + '.jpg'))
                 img.append(image)
+                angle.append(file_name)
 
 
         elif '0' == file_name:
             image = np.array(Image.open(datastore_name + file_name + user_name + file_name + '.jpg'))
             img.append(image)
+            angle.append(file_name)
 
         else:
             if '5' == file_name:
                 image = np.array(Image.open(datastore_name + file_name + user_name + '+05' + '.jpg'))
                 img.append(image)
+                angle.append(file_name)
             else:
                 image = np.array(Image.open(datastore_name + file_name + user_name + '+' + file_name + '.jpg'))
                 img.append(image)
+                angle.append(file_name)
 
     # img = cv2.imread(datastore_name + file_name)
     #
     # print(img)
     # plt.imshow(img)
     # plt.show()
-    return np.array(img)
+    # An = np.array(angle)
+    # An = An.reshape(33)
+    return np.array(img), np.array(angle)
 def load_angle_resized_same_angle_data(angle):
     datastore_name = '../datastore/Angle_resized/'
+    user_list = os.listdir(datastore_name + '-5/')
 
     dir_list = os.listdir(datastore_name)
     # print(os.listdir(path='.'))
@@ -61,13 +71,18 @@ def load_angle_resized_same_angle_data(angle):
 
     # dir_name = dir_list[0]
     dir_name = angle
+    label = []
 
     img = []
     file_list = os.listdir(datastore_name + dir_name)
+
     for user_name in file_list:
         image = np.array(Image.open(datastore_name + dir_name + '/' + user_name))
         img.append(image)
-    return np.array(img)
+        # print(user_name)
+        # exit()
+        label.append(user_name[2:4])
+    return np.array(img), label
 # print(load_angle_resized_same_angle_data())
 def load_angle_resized_data_TUKR():
     datastore_name = '../datastore/Angle_resized/'
@@ -89,10 +104,12 @@ def load_angle_resized_data_TUKR():
     # exit()
     z1_color = []#いらないときは消してね
     z2_color = []#いらないときは消してね
+    label = []
     for file_name in dir_list:
         z1_color.append(int(file_name))#いらないときは消してね
     for i in range(90):
         name = user_list[i][0:5]
+        label.append(user_list[i][2:4])
         z2_color.append(int(user_list[i][2:4]))#いらないときは消してね
         for file_name in dir_list:
             if '-' in file_name:
@@ -118,11 +135,15 @@ def load_angle_resized_data_TUKR():
 
     # img = cv2.imread(datastore_name + file_name)
     #
-    # print(img)
+
     # plt.imshow(img)
     # plt.show()
     IMG = np.array(img)
+
     IMG = np.array(list(np.array_split(IMG, len(user_list))))
+    # print(IMG.shape)
+    # exit()
+
     import matplotlib.pyplot as plt
     # for i in range(90):
     #     for j in range(33):
@@ -130,7 +151,7 @@ def load_angle_resized_data_TUKR():
     #         plt.show()
     #     exit()
 
-    return IMG, z1_color, z2_color
+    return IMG, z1_color, z2_color, label
 #顔と角度で色分けするためにz1_color, z2_colorを付け加えたよ〜
 # 使わないときはほっといてね〜
 # print(load_angle_resized_data_TUKR().shape)
