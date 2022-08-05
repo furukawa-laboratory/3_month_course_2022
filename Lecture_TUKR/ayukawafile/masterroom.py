@@ -24,7 +24,7 @@ from Lecture_TUKR.ayukawafile.visualizer import visualize_history
 # 各種パラメータ変えて遊んでみてね．
 ##
 UKR_epoch = 500  # 学習回数
-TUKR_epoch = 300
+TUKR_epoch = 30
 sigma = 0.2  # カーネルの幅
 xsigma = 0.2  # カーネルの幅 フィッティングの強度のイメージ　小さいほどその点が持つ引力？が強くなる
 ysigma = 0.2
