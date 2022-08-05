@@ -1,0 +1,221 @@
+#福永参上
+#また参上
+import numpy as np
+from PIL import Image
+# img = np.array(Image.open('/Users/furukawashuushi/Desktop/-5/A_01_-05.jpg'))
+# print(img.ndim)
+# print(img.shape)
+import os
+
+def load_angle_resized_data(face_num):
+    datastore_name = '../datastore/Angle_resized/'
+    dir_list = os.listdir(datastore_name)
+    #file_name = '/-5/A_01_-05.jpg'
+
+    # directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
+    # file_path = os.path.join(directory_path, file_name)
+
+    dir_name = dir_list[0]
+    user_name = '/A_' + face_num + '_'
+    img = []
+    angle =[]
+    file_list = os.listdir(datastore_name + dir_name)
+    # print(dir_name)
+    for file_name in dir_list:
+
+        if '-' in file_name:
+            if '-5' == file_name:
+                image = np.array(Image.open(datastore_name + file_name + user_name + '-05' + '.jpg'))
+                img.append(image)
+                angle.append(file_name)
+            else:
+                image = np.array(Image.open(datastore_name + file_name + user_name + file_name + '.jpg'))
+                img.append(image)
+                angle.append(file_name)
+
+
+        elif '0' == file_name:
+            image = np.array(Image.open(datastore_name + file_name + user_name + file_name + '.jpg'))
+            img.append(image)
+            angle.append(file_name)
+
+        else:
+            if '5' == file_name:
+                image = np.array(Image.open(datastore_name + file_name + user_name + '+05' + '.jpg'))
+                img.append(image)
+                angle.append(file_name)
+            else:
+                image = np.array(Image.open(datastore_name + file_name + user_name + '+' + file_name + '.jpg'))
+                img.append(image)
+                angle.append(file_name)
+
+    # img = cv2.imread(datastore_name + file_name)
+    #
+    # print(img)
+    # plt.imshow(img)
+    # plt.show()
+    # An = np.array(angle)
+    # An = An.reshape(33)
+    return np.array(img), np.array(angle)
+def load_angle_resized_same_angle_data(angle):
+    datastore_name = '../datastore/Angle_resized/'
+    user_list = os.listdir(datastore_name + '-5/')
+
+    dir_list = os.listdir(datastore_name)
+    # print(os.listdir(path='.'))
+    # exit()
+    #file_name = '/-5/A_01_-05.jpg'
+
+    # directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
+    # file_path = os.path.join(directory_path, file_name)
+
+    # dir_name = dir_list[0]
+    dir_name = angle
+    label = []
+
+    img = []
+    file_list = os.listdir(datastore_name + dir_name)
+
+    for user_name in file_list:
+        image = np.array(Image.open(datastore_name + dir_name + '/' + user_name))
+        img.append(image)
+        # print(user_name)
+        # exit()
+        label.append(user_name[2:4])
+    return np.array(img), label
+# print(load_angle_resized_same_angle_data())
+def load_angle_resized_data_TUKR():
+    datastore_name = '../datastore/Angle_resized/'
+    dir_list = os.listdir(datastore_name)
+    # file_name = '/-5/A_01_-05.jpg'
+    user_list = os.listdir(datastore_name+'-5/')
+    # directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
+    # file_path = os.path.join(directory_path, file_name)
+
+    dir_name = dir_list[0]
+    # user_name = user_list[0]
+    img = []
+    # file_list = os.listdir(datastore_name + dir_name)
+    # print(user_list[0][0:5])
+    # print(user_list)
+    # for i in range(90):
+    #     user_name = user_list[i][0:5]
+    #     print(user_name)
+    # exit()
+    z1_color = []#いらないときは消してね
+    z2_color = []#いらないときは消してね
+    label = []
+    for file_name in dir_list:
+        z1_color.append(int(file_name))#いらないときは消してね
+    for i in range(90):
+        name = user_list[i][0:5]
+        label.append(user_list[i][2:4])
+        z2_color.append(int(user_list[i][2:4]))#いらないときは消してね
+        for file_name in dir_list:
+            if '-' in file_name:
+                if '-5' == file_name:
+                    image = np.array(Image.open(datastore_name + file_name + '/' + name + '-05' + '.jpg'))
+                    img.append(image)
+                else:
+                    image = np.array(Image.open(datastore_name + file_name + '/' +name + file_name + '.jpg'))
+                    img.append(image)
+
+
+            elif '0' == file_name:
+                image = np.array(Image.open(datastore_name + file_name +'/' + name + file_name + '.jpg'))
+                img.append(image)
+
+            else:
+                if '5' == file_name:
+                    image = np.array(Image.open(datastore_name + file_name +'/' + name + '+05' + '.jpg'))
+                    img.append(image)
+                else:
+                    image = np.array(Image.open(datastore_name + file_name +'/' + name + '+' + file_name + '.jpg'))
+                    img.append(image)
+
+    # img = cv2.imread(datastore_name + file_name)
+    #
+
+    # plt.imshow(img)
+    # plt.show()
+    IMG = np.array(img)
+
+    IMG = np.array(list(np.array_split(IMG, len(user_list))))
+    # print(IMG.shape)
+    # exit()
+
+    import matplotlib.pyplot as plt
+    # for i in range(90):
+    #     for j in range(33):
+    #         plt.imshow(IMG[i,j],cmap='gray')
+    #         plt.show()
+    #     exit()
+
+    return IMG, z1_color, z2_color, label
+#顔と角度で色分けするためにz1_color, z2_colorを付け加えたよ〜
+# 使わないときはほっといてね〜
+# print(load_angle_resized_data_TUKR().shape)
+# 徳永だよー
+
+def load_angle_resized_data_num4():
+    datastore_name = '../datastore/Angle_resized/'
+    dir_list = os.listdir(datastore_name)
+    # file_name = '/-5/A_01_-05.jpg'
+    user_list = os.listdir(datastore_name+'-5/')
+    # directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
+    # file_path = os.path.join(directory_path, file_name)
+
+    dir_name = dir_list[0]
+    # user_name = user_list[0]
+    img = []
+    # file_list = os.listdir(datastore_name + dir_name)
+    # print(user_list[0][0:5])
+    # print(user_list)
+    # for i in range(90):
+    #     user_name = user_list[i][0:5]
+    #     print(user_name)
+    # exit()
+    z1_color = []#いらないときは消してね
+    z2_color = []#いらないときは消してね
+    for file_name in dir_list:
+        z1_color.append(int(file_name))#いらないときは消してね
+    for i in range(90):
+        name = user_list[i][0:5]
+        z2_color.append(int(user_list[i][2:4]))#いらないときは消してね
+        for file_name in dir_list:
+            if '-' in file_name:
+                if '-5' == file_name:
+                    image = np.array(Image.open(datastore_name + file_name + '/' + name + '-05' + '.jpg'))
+                    img.append(image)
+                else:
+                    image = np.array(Image.open(datastore_name + file_name + '/' +name + file_name + '.jpg'))
+                    img.append(image)
+
+
+            elif '0' == file_name:
+                image = np.array(Image.open(datastore_name + file_name +'/' + name + file_name + '.jpg'))
+                img.append(image)
+
+            else:
+                if '5' == file_name:
+                    image = np.array(Image.open(datastore_name + file_name +'/' + name + '+05' + '.jpg'))
+                    img.append(image)
+                else:
+                    image = np.array(Image.open(datastore_name + file_name +'/' + name + '+' + file_name + '.jpg'))
+                    img.append(image)
+
+    # img = cv2.imread(datastore_name + file_name)
+    #
+    # print(img)
+    # plt.imshow(img)
+    # plt.show()
+    IMG = np.array(img)
+    IMG = np.array(list(np.array_split(IMG, len(user_list))))
+    import matplotlib.pyplot as plt
+    # for i in range(90):
+    #     for j in range(33):
+    #         plt.imshow(IMG[i,j],cmap='gray')
+    #         plt.show()
+    #     exit()
+
+    return IMG, z1_color, z2_color
