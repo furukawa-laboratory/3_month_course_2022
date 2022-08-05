@@ -60,41 +60,58 @@ class UKR:
         nb_epoch = self.history['z'].shape[0]
         self.history['y'] = np.zeros((nb_epoch, resolution ** self.latent_dim, self.ob_dim))
         for epoch in tqdm(range(nb_epoch)):
+            create_zeta = [None, create_zeta_1D, create_zeta_2D][self.latent_dim]
             zeta = create_zeta(self.Z, resolution)
             Y = self.kernel(zeta, self.history['z'][epoch])
             self.history['y'][epoch] = Y
         return self.history['y']
 
-
-def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
+def create_zeta_1D(Z, resolution):  # fのメッシュの描画用に潜在空間に代表点zetaを作る．
     z_x = np.linspace(np.min(Z), np.max(Z), resolution).reshape(-1, 1)
+    return z_x
+
+def create_zeta_2D(Z, resolution):  # fのメッシュの描画用に潜在空間に代表点zetaを作る．
+    z_x = np.linspace(np.min(Z), np.max(Z), resolution)
     z_y = np.linspace(np.min(Z), np.max(Z), resolution)
     XX, YY = np.meshgrid(z_x, z_y)
     xx = XX.reshape(-1)
     yy = YY.reshape(-1)
     zeta = np.concatenate([xx[:, None], yy[:, None]], axis=1)
-
-
-
-
-
     return zeta
 
 
+
+
+# def create_zeta(Z, resolution): #fのメッシュの描画用に潜在空間に代表点zetaを作る．
+#     z_x = np.linspace(np.min(Z), np.max(Z), resolution).reshape(-1, 1)
+#     z_y = np.linspace(np.min(Z), np.max(Z), resolution)
+#     XX, YY = np.meshgrid(z_x, z_y)
+#     xx = XX.reshape(-1)
+#     yy = YY.reshape(-1)
+#     zeta = np.concatenate([xx[:, None], yy[:, None]], axis=1)
+
+
+
+
+
+    # return zeta
+
+
 if __name__ == '__main__':
-    from Lecture_UKR.data import create_kura
-    from Lecture_UKR.data import create_rasen
-    from Lecture_UKR.data import create_2d_sin_curve
+    from Lecture_UKR.ayukawa.data import create_kura
+    # from Lecture_UKR.data import create_rasen
+    # from Lecture_UKR.data import create_2d_sin_curve
     from visualizer import visualize_history
+    from visualizer import visualize_fig_history
 
     #各種パラメータ変えて遊んでみてね．
     ##
     epoch = 300 #学習回数
-    sigma = 0.4 #カーネルの幅
+    sigma = 0.5#カーネルの幅
     eta = 2 #学習率
     latent_dim = 2 #潜在空間の次元
 
-    alpha = 0
+    alpha = 0.05
     norm = 10
 
     seed = 2
@@ -111,7 +128,7 @@ if __name__ == '__main__':
     #visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(resolution=10)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
-
+    # visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    visualize_fig_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
 

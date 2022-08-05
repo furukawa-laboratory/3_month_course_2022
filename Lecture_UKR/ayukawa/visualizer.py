@@ -36,6 +36,43 @@ def visualize_history(X, Y_history, Z_history, error_history, save_gif=False, fi
     plt.show()
     if save_gif:
         ani.save(f"{filename}.mp4", writer='ffmpeg')
+#                           X, Y_history, Z_history, error_history, save_gif=False, filename="tmp"
+
+def visualize_fig_history(X, Y_history, Z_history, error_history,save_gif=True, filename="tmp"):
+    input_dim, latent_dim = X.shape[1], Z_history[0].shape[1]
+    input_projection_type = '3d' if input_dim > 2 else 'rectilinear'
+
+    # ylatent_dim = v_history[0].shape[1]
+
+    fig = plt.figure(figsize=(10, 8))
+    gs = fig.add_gridspec(3, 2)
+
+    input_ax = fig.add_subplot(gs[0:2, 0], projection=input_projection_type)
+    latent_ax = fig.add_subplot(gs[0:2, 1], aspect='equal')
+    error_ax = fig.add_subplot(gs[2, :])
+    num_epoch = len(Y_history)
+
+
+    if input_dim == 3 and latent_dim == 2:
+        resolution = int(np.sqrt(Y_history.shape[1]))
+        if Y_history.shape[1] == resolution ** 2:
+            Y_history = np.array(Y_history).reshape((num_epoch, resolution, resolution, input_dim))
+
+
+    colormap = X[:, 0]
+
+    observable_drawer = [None, None, draw_observable_2D,
+                         draw_observable_3D][input_dim]
+    latent_drawer = [None, draw_latent_1D, draw_latent_2D][latent_dim]
+    latent_drawer(latent_ax, Z_history[-1], colormap)
+    observable_drawer(input_ax, X, Y_history[-1], colormap)
+    draw_error(error_ax, error_history, num_epoch-1)
+
+
+    plt.show()
+    if save_gif:
+        fig.savefig(f"{filename}.png")
+
 
 
 def update_graph(epoch, observable_drawer, latent_drawer, X, Y_history,
