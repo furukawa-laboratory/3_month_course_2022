@@ -120,12 +120,12 @@ if __name__ == '__main__':
     epoch = 500 #学習回数
     sigma = 0.2 #カーネルの幅
     eta = 0.0000001 #学習率
-    latent_dim = 1 #潜在空間の次元
+    latent_dim = 2 #潜在空間の次元
     alpha = 0.0000001
     norm = 10
     seed = 2
-    jedi = 3 #PCAの次元
-    r = 5
+    jedi = 30 #PCAの次元
+    r = 10
     np.random.seed(seed)
 
     pca = PCA(n_components = jedi)  # PCA を行ったり PCA の結果を格納したりするための変数を、pca として宣言 n_componentsで主成分数を定義
@@ -151,8 +151,8 @@ if __name__ == '__main__':
     ukr.fit(epoch, eta, alpha, norm)
     #visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
     #----------描画部分が実装されたらコメントアウト外す----------
-    ukr.calc_approximate_f(resolution=200)
-    visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
+    # ukr.calc_approximate_f(resolution = r**2)
+    # visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
     # visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR顔tsne")
     # visualize_new_history(X, ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp")
 
@@ -177,28 +177,36 @@ if __name__ == '__main__':
 
 
 
+    # if latent_dim == 1:
+    #     Y = ukr.calc_approximate_f(resolution=r*r)
+    # else:
+    #     Y = ukr.calc_approximate_f(resolution=r)
+    # Y_inv = pca.inverse_transform(Y)
+    # # print(Y_inv.shape)
+    # fig = plt.figure(figsize=(10, 10), dpi = 80)
+    # gs = fig.add_gridspec(r, r)
+    # for i in range(r**2):
+    #     ax = fig.add_subplot(gs[i // r, i % r])
+    #     img = Y_inv[i, :]
+    #     img = img.reshape(64, 64)
+    #     ax.set_xticks([])
+    #     ax.set_yticks([])
+    #     plt.imshow(img, cmap='gray')
+    #
+    #
+    # plt.show()
 
-
-    Y = ukr.calc_approximate_fig(resolution = r**2)
-    # Y_inv =pca.inverse_transform(Y)
-    # print(Y_inv.shape)
+    Y = ukr.calc_approximate_fig(resolution = r)
 
     Y_inv = pca.inverse_transform(Y)
     fig = plt.figure(figsize=(10, 10), dpi = 80)
     gs = fig.add_gridspec(r, r)
-    # print(Y_inv.shape)
-    # print()
-    # print(Y.shape)
-    # exit()
+
     for i in range(r**2):
-        # Y_inv = pca.inverse_transform(ukr.calc_approximate_f(resolution=200)[i])
-        # Y_inv = pca.inverse_transform(ukr.history["y"][i])
         fig.add_subplot(gs[i // r, i % r])
         img = Y_inv[epoch-1, i, :]
-        # print(img.shape)
-        # exit()
         img = img.reshape(64, 64)
-
+        print(i)
         plt.imshow(img, cmap='gray')
 
     plt.show()
