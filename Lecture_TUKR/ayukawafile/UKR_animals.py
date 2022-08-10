@@ -3,8 +3,8 @@ import os
 
 
 def load_UKR_data(retlabel_animal=True, retlabel_feature=True):
-    datastore_name = 'datastore/animal'
-    file_name = 'features.txt'
+    datastore_name = 'datastore/task'
+    file_name = ''
 
     directory_path = os.path.join(os.path.dirname(__file__), datastore_name)
     file_path = os.path.join(directory_path, file_name)

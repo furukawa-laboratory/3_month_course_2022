@@ -46,6 +46,8 @@ class UKR:
     def kernel(self, Z1, Z2): #写像の計算
             Mom = jnp.sum((Z1[:, None, :] - Z2[None, :, :]) ** 2, axis=2)
             Chi = jnp.exp(-1/(2*self.sigma**2)*Mom)
+            print(self.X.shape)
+            print(Chi.shape)
             f = (Chi@self.X)/jnp.sum(Chi, axis=1, keepdims=True)
             return f
     def E(self, Z, X, alpha, norm): #目的関数の計算
