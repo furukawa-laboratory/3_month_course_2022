@@ -31,7 +31,7 @@ class UKR:
 
         if Zinit is None:
             if prior == 'random': #一様事前分布のとき
-                self.Z = -np.random.normal(0, 0.02, (self.nb_samples, self.latent_dim))
+                self.Z = -np.random.normal(0, self.sigma*0.1, (self.nb_samples, self.latent_dim))
             else: #ガウス事前分布のとき
                 self.Z = np.random.normal(self.nb_samples*self.latent_dim).reshape(self.nb_samples, self.latent_dim)
         else: #Zの初期値が与えられた時
@@ -57,8 +57,11 @@ class UKR:
 
     def E(self, Z, X, alpha, norm): #目的関数の計算
         E = jnp.sum((X - self.f(Z,Z))**2)
-        R = alpha*jnp.sum(jnp.abs(Z**norm))
+        R = alpha*jnp.sum(Z**norm)
         E = E/self.nb_samples + R/self.nb_samples
+
+        # print(E/self.nb_samples)
+        # print(R/self.nb_samples)
 
         return E
 
@@ -72,8 +75,11 @@ class UKR:
             self.history['z'][epoch] = self.Z   #初期化状態を見る時
             dEdx = jax.grad(self.E, argnums=0)(self.Z, self.X, alpha, norm)
             self.Z = self.Z -eta * dEdx
+            # print(dEdx)
 
            # Zの更新
+
+
 
 
 
@@ -161,11 +167,11 @@ if __name__ == '__main__':
     ccr = np.add.accumulate(cr)
     print(ccr)
     #各種パラメータ変えて遊んでみてね．
-    epoch = 1000 #学習回数
-    sigma = 1 #カーネルの幅
-    eta = 0.00001#学習率
+    epoch = 250 #学習回数
+    sigma = 0.1 #カーネルの幅
+    eta = 0.0000001#学習率
     latent_dim = 2 #潜在空間の次元
-    alpha = 0.00001
+    alpha = 0.5
     norm = 10
     seed = 20
     np.random.seed(seed)
@@ -179,11 +185,11 @@ if __name__ == '__main__':
     #########PCA初期化######
     # z, an = load_angle_resized_data('01')
     z,la = load_angle_resized_same_angle_data('0')
-    pca_creat = PCA(n_components=1)
+    pca_creat = PCA(n_components=2)
     z_ini = pca_creat.fit_transform(z.reshape(z.shape[0], -1))
     # print(z_ini.shape)
     # exit()
-    mmscaler = MinMaxScaler(feature_range=(-0.1, 0.1), copy=True)
+    mmscaler = MinMaxScaler(feature_range=(-sigma*0.1, sigma*0.1), copy=True)
     mmscaler.fit(z_ini)
     z_ini = mmscaler.transform(z_ini)
 
@@ -193,10 +199,10 @@ if __name__ == '__main__':
     # lin = np.linspace(-1, 1, 90).reshape([90, 1])
 
     # print(lin.shape)
-    z_ini = np.concatenate([z_ini, zero], axis=1)
+    # z_ini = np.concatenate([z_ini, zero], axis=1)
     import matplotlib.pyplot as plt
-    plt.scatter(z_ini[:,0],z_ini[:,1])
-    plt.show()
+    # plt.scatter(z_ini[:,0],z_ini[:,1])
+    # plt.show()
     # print(z_ini.shape)
     # exit()
 
@@ -218,8 +224,8 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(resolution=15)
     #########観測空間あり#############
-    visualize_history_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/2ZeminewPCA0_0000001", label=label)
-    # visualize_PNG_obs(an, X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR2angl-45")
+    visualize_history_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/2ZeminewPCA0_0000001", label=label)
+    # visualize_PNG_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR2angl-45")
 
     ############観測空間なし#####################
     # visualize_history_no_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'],  save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/2Zemi0PCA3PCAL2", label=label)

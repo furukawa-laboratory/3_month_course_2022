@@ -58,7 +58,7 @@ def load_angle_resized_data(face_num):
     # An = An.reshape(33)
     return np.array(img), np.array(angle)
 def load_angle_resized_same_angle_data(angle):
-    datastore_name = '../datastore/Angle_resized/'
+    datastore_name = 'datastore/Angle_resized/'
     user_list = os.listdir(datastore_name + '-5/')
 
     dir_list = os.listdir(datastore_name)
