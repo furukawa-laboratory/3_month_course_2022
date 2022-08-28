@@ -93,7 +93,7 @@ if __name__ == '__main__':
     ukr = UKR(X, latent_dim, sigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
     # visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="tmp", label = animal_label)
-    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=True, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR_animal", label=animal_label)
+    visualize_history(X, ukr.history['f'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/UKR_animal", label=animal_label)
 
     #----------描画部分が実装されたらコメントアウト外す----------
     #ukr.calc_approximate_f(resolution=100)
