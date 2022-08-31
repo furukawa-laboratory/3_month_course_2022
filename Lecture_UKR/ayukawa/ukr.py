@@ -26,6 +26,13 @@ class UKR:
 
     def kernel(self, Z1, Z2): #写像の計算
             Mom = jnp.sum((Z1[:, None, :] - Z2[None, :, :]) ** 2, axis=2)
+            print(Z1.shape)
+            Z_1 = Z1[:, None, :]
+            print(Z_1.shape)
+            print(Z2.shape)
+            Z_2 = Z2[None, :, :]
+            print(Z_2.shape)
+            exit()
             Chi = jnp.exp(-1/(2*self.sigma**2)*Mom)
             f = (Chi@self.X)/jnp.sum(Chi, axis=1, keepdims=True)
 
@@ -89,7 +96,7 @@ if __name__ == '__main__':
 
     #各種パラメータ変えて遊んでみてね．
     ##
-    epoch = 30000 #学習回数
+    epoch = 1 #学習回数
     sigma = 1 #カーネルの幅
     eta = 0.2 #学習率
     latent_dim = 2 #潜在空間の次元
