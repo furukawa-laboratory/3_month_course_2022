@@ -13,17 +13,20 @@ class SOM:
         self.sigmamin = sigmamin
         self.zeta = create_Zeta2D()
         self.Y = np.random.uniform(-1, 1, X.shape[0]*self.input_dim).reshape(X.shape[0], self.input_dim)
+        # print(self.X.shape)
+        # print(self.Y.shape)
 
 
 
     def argmin_Z(self):
 
         Dist = np.sum((self.Y[:, None, :] - self.X[None, :, :])**2, axis=2)
-        # print(1111111111)
+        # print(Dist.shape)
         # print(self.Y)
         K_star = np.argmin(Dist, axis=0)
+        # print(K_star.shape)
         self.Z = self.zeta[K_star]
-        # print(self.Z)
+        # print(self.Z.shape)
 
 
 
@@ -36,7 +39,7 @@ class SOM:
         h = np.exp(H)
         bunshi = h@self.X
         bunbo = np.sum(h, axis=1, keepdims=True)
-        # print(h)
+        print(bunbo)
         self.Y = bunshi/bunbo
         # print(222222222222222)
         # print(self.Y)
