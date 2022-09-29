@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Furukawa Laboratory</title>
+	<!-- <meta name="keywords" content="ã­ã¼ã¯ã¼ã" /> -->
+	<meta name="description" content="ä¹å·å·¥æ¥­å¤§å­¦ å¤å·ç ç©¶å®¤ã®ãã¼ã ãã¼ã¸ã§ãã" />
+	<meta http-equiv="Content-Language" content="ja" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<link href="share/css/set/import.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="share/css/share.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="index.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon" />
+	<script type='text/javascript' src='share/js/jquery.js'></script>
+	<script type="text/javascript" src="share/js/jquery.min.js"></script>
+	<script type="text/javascript" src="share/js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="share/js/slides.min.jquery.js"></script>
+	<script type="text/javascript" src="share/js/default.js"></script>
+	<script>
+		$(function () {
+			$('#slides').slides({
+				preload: true,
+				preloadImage: 'index/img/loading.gif',
+				play: 5000,
+				pause: 100,
+				hoverPause: true
+			});
+		});
+	</script>
+	<style type="text/css">
+		.auto-style1 {
+			margin-top: 57px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="wrapper">
+		<div id="header" class="clearfix">
+			<a href="index.html" title=""><img src="index/img/logo.png" alt="" /></a>
+			<ul id="gNavi" class="clearfix">
+				<li class="firstItem"><a href="contact.html" title="">ãåãåãã</a></li>
+				<li><a href="data.html" title="">å¬éè³æ</a></li>
+				<li><a href="member.html" title="">ã¹ã¿ãã</a></li>
+				<li><a href="publications.html" title="">æ¥­ç¸¾ãªã¹ã</a></li>
+				<li><a href="admission.html" title="">é²å­¦å¸æã®çæ§ã¸</a></li>
+				<li class="lastItem"><a href="myresearch.html" title="">ç ç©¶ç´¹ä»</a></li>
+			</ul><!-- ul#gNavi END -->
+		</div><!-- div#header END -->
+
+		<div id="bgColor">
+			<div id="contact-form">
+				<a href="https://forms.gle/YZ5dLmdCaynNWZGP8" target="_blank" class="btn btn-c"><span>ç´æ¥è©±ãèãããæ¹ã¯ã³ãã©ï¼</span><br>
+					ã©ãè¦å­¦ã«ç³ãè¾¼ã ></a>
+			</div>
+			<div id="mainImgBox">
+
+				<div id="slides">
+					<div class="slides_container">
+						<img src="index/slide/img01.jpg" width="960" height="500" alt="Slide 1">
+
+						<img src="index/slide/img02.jpg" width="960" height="500" alt="Slide 2">
+
+						<img src="index/slide/img03.jpg" width="960" height="500" alt="Slide 3">
+
+						<img src="index/slide/img04.jpg" width="960" height="500" alt="Slide 4">
+
+						<a href="#" title="photo4">
+							<img src="index/slide/img05.jpg" width="960" height="500" alt="Slide 5"></a>
+
+					</div>
+				</div>
+
+				<div id="mainMessageBox">
+					<strong>ç¥ã®æºæµããã®æåã®ä¸æ»´ãæ±ãã¦</strong>
+					<span>&nbsp;&nbsp;æ¬ç ç©¶å®¤å¨ä½ã®æ ¹åºã«æµãããã¼ããä¸è¨ã§è¡¨ãã¨ãããªãã°ãè³åç¥è½ã®åçãæ¢ãï¼ãããå¿ç¨ãããã¨ãããã¨ã«ãªãã§ãããï¼ <br><br>
+						&nbsp;&nbsp;è³ãæ¬è³ªçã«ã©ã®ãããªåé¡ãè§£ãã¦ããã®ãã¨ãããã¨ãçè«çã«æããã«ãï¼ãããã¢ã«ã´ãªãºã ã¨ãã¦åæ§ç¯ãã¦ããï¼ã¨ããã®ãç§ãã¡ã®ã¢ãã­ã¼ãã§ãï¼<br><br>
+						&nbsp;&nbsp;åæã«ï¼ãã®éç¨ã§å¾ãããææãç¤¾ä¼ã«å½¹ç«ã¤æè¡ã¨ãã¦çºå±ããããã¨ãï¼è³ç§å­¦ã®åéã¸ãã£ã¼ãããã¯ãã¦ããããã¨ãèãã¦ãã¾ãï¼<br><br>
+						<b>keywords:</b> <br>
+						<b>ã¢ã«ã´ãªãºã éçºï¼æ©æ¢°å­¦ç¿ï¼ãã¼ã¿è§£æï¼AI</b></span>
+				</div><!-- div#mainMessageBox END -->
+
+			</div><!-- div#mainImgBox END -->
+		</div><!-- div#bgColor END -->
+		<div style="margin:50px;">
+		</div>
+		<div id="mainContents" class="auto-style1">
+			<!-- ã ã¼ãã¼äºå®å° -->
+			<div align="center">
+				<iframe width="960" height="540" src="https://www.youtube.com/embed/3R3yBoYT0SY" frameborder="0"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen></iframe>
+
+				<!-- <iframe width="960" height="540" src="http://www.youtube.com/embed/36hjxdRxwrk?rel=0" frameborder="0" allowfullscreen></iframe> -->
+				<!-- <iframe
+					src="http://www.youtube.com/embed?listType=playlist&list=PL3rH0bXXFTW2mlTL65WrgMlibkFjVzGFf&rel=0; autoplay=1;loop=1;theme=dark"
+					width="960" height="540" frameborder="0" allowfullscreen="allowfullscreen"></iframe> -->
+				<!-- <img src="index/img/movie.png" alt="" hspace="" vspace="50" /> -->
+			</div>
+			<div style="margin:50px;">
+			</div>
+			<div class="clearfix">
+				<div id="bannerContainer">
+					<div id="tweetBox">
+						<a class="twitter-timeline" data-width="300" data-height="400" data-theme="light"
+							href="https://twitter.com/FI_Laboratory?ref_src=twsrc%5Etfw">Tweets by FI_Laboratory</a>
+						<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+					</div><!-- div#bannerBox END -->
+
+					<div id="newTopics">
+						<strong>TOPICS</strong>
+						<div id="topics">
+							<script language="JavaScript" src="./tmp/sezinfo/data/sample.js"></script>
+							<script language="JavaScript" type="text/javascript">
+								for (i = 0; i < info.length; i++) {
+									var date = info[i][2].split("/");
+									document.write('<p><b>ã»' + info[i][0] + '</b><font color=#888888>[' + date[0] + '/' + date[1] + '/' + date[2] + ']</font> <br /><font color=#444444></p>');
+									document.write('<p>ã' + info[i][1] + '</font></p><br>');
+								}
+							</script>
+							<noscript>
+								<font color="red">JavaScriptãæå¹ã«ãã¦ä¸ãã</font>
+							</noscript>
+							<Div Align="right" style="text-align:right;color:#aaaaaa;background-color:#ffffff;">
+								<small><a href="./tmp/sezinfo/resist.html">
+										<font color="#aaaaaa">edit (affiliate only)</font>
+									</a></small>
+							</Div>
+						</div><!-- div#newTopics END -->
+					</div>
+					<div id="bannerBox">
+						<ul>
+							<li class="firstItem"><a href="http://www.kyutech.ac.jp/" title=""><img src="index/img/banner_3.jpg"
+										alt="" /></a></li>
+							<li><a href="http://www.lsse.kyutech.ac.jp/" title=""><img src="index/img/banner_4.png" alt="" /></a>
+							</li>
+							<li><a href="http://www.brain.kyutech.ac.jp/brain_j/nyushi/nyushi.html" title="" target=â_blankâ><img
+										src="index/img/banner_2.png" alt="" /></a></li>
+							<!-- <li><a href="http://www.brain.kyutech.ac.jp/gp06/" title=""><img src="index/img/banner_1.jpg" alt="" /></a></li> -->
+							<li class="firstItem"><a href="http://www.researchgate.net/profile/Tetsuo_Furukawa" title=""><img
+										src="index/img/banner_5.png" alt="" /></a></li>
+							<li><a href="http://yumenavi.info/lecture.aspx?GNKCD=g004486" title=""><img src="index/img/banner_6.png"
+										alt="" /></a></li>
+						</ul>
+					</div><!-- div#bannerBox END -->
+				</div><!-- div.clearfix END -->
+			</div><!-- div#mainContents END -->
+			<div id="footer">
+				<p id="copyright">Copyright (C) f-lab. All Rights Reserved.</p>
+			</div><!-- div#footer END -->
+		</div><!-- div#wrapper -->
+
+</body>
+
+</html>
+

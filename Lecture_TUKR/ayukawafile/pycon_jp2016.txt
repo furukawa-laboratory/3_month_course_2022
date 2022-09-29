@@ -1,0 +1,1977 @@
+
+
+<!DOCTYPE html>
+<html lang="ja">
+    
+<!-- Mirrored from pycon.jp/2016/ja/schedule/talks/list/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 28 Jun 2020 03:19:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+        <meta charset="utf-8" />
+        <title>Talk | PyCon JP 2016 in TOKYO</title>
+        
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+
+        
+    <link rel="stylesheet" href="https://pycon.jp/2016/site_media/static/cache/css/a69b123b6daf.css" type="text/css" />
+
+    
+        <link rel="stylesheet" href="https://pycon.jp/2016/site_media/static/cache/css/1bcc69645953.css" type="text/css" media="all" />
+    
+
+    <link rel="stylesheet" href="https://pycon.jp/2016/site_media/static/cache/css/bee9322b754d.css" type="text/css" />
+
+    
+
+
+        
+            <!-- HTML5 shim, for IE6-8 support of HTML elements -->
+            <!--[if lt IE 9]>
+                <script src="/2016/site_media/static/pinax/js/html5shiv.js"></script>
+            <![endif]-->
+        
+
+        
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="https://pycon.jp/2016/site_media/static/img/ogp_logo_2016.png" />
+    <meta property="og:title" content="Talk | PyCon JP 2016 in TOKYO" />
+    <meta property="og:url" content="index.html" />
+    <meta property="og:site_name" content="PyCon JP 2016" />
+    <meta property="og:description" content="PyCon JP 2016" />
+
+
+    <link href="https://pycon.jp/2016/site_media/static/img/favicon.ico" rel="shortcut icon" />
+    <script src="/2016/libs/jquery/1.8.3/jquery.min.js"></script>
+    
+
+<script type="text/javascript" src="https://pycon.jp/2016/site_media/static/cache/js/ea388955cc03.js"></script>
+
+    
+    <style>
+        .page-content .box-content h3 {
+            margin-top: 10px;
+        }
+    </style>
+
+    <meta name="google-site-verification" content="fG_DG4G4eFtBcgIKht-bJKdirGhDa_51X6yeCS8daDs" />
+
+    </head>
+    <body class="" id="">
+        <div class="">
+
+            
+    
+    <header class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="../../../index.html">
+                    <img src="https://pycon.jp/2016/site_media/static/img/pycon2016-logo-small.png" alt="PyCon JP 2016 in Tokyo" width="100">
+                </a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">language <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                
+                                    <li class="active"><a href="index.html"> æ¥æ¬èª </a></li>
+                                
+                                    <li class=""><a href="https://pycon.jp/2016/en/schedule/talks/list/"> English </a></li>
+                                
+                            </ul>
+                        </li>
+                        <!--  -->
+                        
+                        
+
+
+
+<li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-wrench"></span> <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+    
+        <li><a class="login" href="../../../account/login/index.html">ã­ã°ã¤ã³</a></li>
+        <li><a class="signup" href="../../../account/signup/index.html">ä¼å¡ç»é²</a></li>
+    
+    </ul>
+</li>
+
+                        
+                    </ul>
+                    <ul class="nav">
+                        
+                            
+                            
+                            
+                            
+
+    
+        <li class="dropdown ">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                About
+                <b class="caret"></b>
+            </a>
+            
+                
+<ul class="dropdown-menu">
+    
+        <li >
+            <a href="../../../about/what-is-pyconjp/index.html" >PyCon JPã£ã¦ãªã«ï¼</a>
+        </li>
+    
+        <li >
+            <a href="../../../about/code-of-conduct/index.html" >è¡åè¦ç¯</a>
+        </li>
+    
+        <li >
+            <a href="../../../about/summary/index.html" >éå¬æ¦è¦</a>
+        </li>
+    
+        <li >
+            <a href="../../../about/staff/index.html" >ã¹ã¿ããåé</a>
+        </li>
+    
+        <li >
+            <a href="../../../about/theme/index.html" >ä»å¹´ã®ãã¼ãã«ã¤ãã¦</a>
+        </li>
+    
+        <li >
+            <a href="../../../about/staff-list/index.html" >ã¹ã¿ããä¸è¦§</a>
+        </li>
+    
+</ul>
+            
+        </li>
+    
+        <li class="dropdown active">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Events
+                <b class="caret"></b>
+            </a>
+            
+                
+<ul class="dropdown-menu">
+    
+        <li >
+            <a href="../../index.html" >å¨ä½ã¹ã±ã¸ã¥ã¼ã«</a>
+        </li>
+    
+        <li >
+            <a href="../../../keynote/index.html" >åºèª¿è¬æ¼</a>
+        </li>
+    
+        <li >
+            <a href="../../../talks/invited-speaker/index.html" >æå¾è¬æ¼</a>
+        </li>
+    
+        <li class="active">
+            <a href="index.html" >ãã¼ã¯</a>
+        </li>
+    
+        <li >
+            <a href="../../posters/list/index.html" >ãã¹ã¿ã¼</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/lightning-talks/index.html" >ã©ã¤ããã³ã°ãã¼ã¯(LT)</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/tutorial/index.html" >ãã¥ã¼ããªã¢ã«</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/youth-ws/index.html" >Youth Coder Workshop</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/beginners/index.html" >ãã®ãã¼ã»ãã·ã§ã³</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/committee-meeting/index.html" >Commitee Meeting</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/community-booth/index.html" >ã³ãã¥ããã£ãã¼ã¹</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/jobsfair/index.html" >ã¸ã§ããã§ã¢</a>
+        </li>
+    
+        <li >
+            <a href="../../../productfair/index.html" >ãã­ãã¯ããã§ã¢</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/open-space/index.html" >ãªã¼ãã³ã¹ãã¼ã¹</a>
+        </li>
+    
+        <li >
+            <a href="../../../events/sprint/index.html" >ã¹ããªã³ã</a>
+        </li>
+    
+</ul>
+            
+        </li>
+    
+        <li class="dropdown ">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Speakers
+                <b class="caret"></b>
+            </a>
+            
+                
+<ul class="dropdown-menu">
+    
+        <li >
+            <a href="../../../speaker/list.html" >ã¹ãã¼ã«ã¼ä¸è¦§</a>
+        </li>
+    
+        <li >
+            <a href="../../../talks/tips-for-speakers/index.html" >ã¹ãã¼ã«ã¼Tips</a>
+        </li>
+    
+        <li >
+            <a href="../../../talks/speaker-updates/index.html" >Speaker Updates</a>
+        </li>
+    
+        <li >
+            <a href="../../../poster/detail/index.html" >ãã¹ã¿ã¼ã»ãã·ã§ã³å½æ¥æ¡å</a>
+        </li>
+    
+        <li >
+            <a href="#" >--------------</a>
+        </li>
+    
+        <li >
+            <a href="../../../talks/cfp/index.html" >æ¼é¡åé</a>
+        </li>
+    
+        <li >
+            <a href="../../../account/login/index.html" >æ¼é¡ãå¿åããï¼è¦ã­ã°ã¤ã³ï¼</a>
+        </li>
+    
+        <li >
+            <a href="../../../proposals/vote_list/index.html" >å¿åãªã¹ã</a>
+        </li>
+    
+        <li >
+            <a href="../../../talks/howto/index.html" >ãã¼ã¯ã®å¿åæ¹æ³</a>
+        </li>
+    
+        <li >
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScYhkbue5QCQzV3VL7gM-Xfn-9A89ZQJ79GEht145CyFBuwxA/viewform" >Talkã¢ããã¤ã¹ 1on1 ç³è¾¼ã¿</a>
+        </li>
+    
+</ul>
+            
+        </li>
+    
+        <li class="dropdown ">
+            <a href="Sponsors/index.html" class="dropdown-toggle" data-toggle="dropdown">
+                Sponsors
+                <b class="caret"></b>
+            </a>
+            
+                
+<ul class="dropdown-menu">
+    
+        <li >
+            <a href="../../../sponsors/prospectus/index.html" >ã¹ãã³ãµã¼åéè¦é (åéçµäº)</a>
+        </li>
+    
+        <li >
+            <a href="../../../sponsors/apply/index.html" >ã¹ãã³ãµã¼ã«å¿åãã(åéçµäº)</a>
+        </li>
+    
+        <li >
+            <a href="../../../sponsors/index-2.html" >PyCon JPã¹ãã³ãµã¼</a>
+        </li>
+    
+        <li >
+            <a href="../../../sponsors/engineer-support/index.html" >ã¨ã³ã¸ãã¢ãµãã¼ãã¹ãã³ãµã¼ç´¹ä»(åéçµäº)</a>
+        </li>
+    
+        <li >
+            <a href="../../../sponsors/whysponsor/index.html" >ã¹ãã³ãµã¼ã«ãªãã¡ãªãã(åéçµäº)</a>
+        </li>
+    
+        <li >
+            <a href="../../../sponsors/jobs/index.html" >PyCon JP æ±äººãã§ã¢</a>
+        </li>
+    
+        <li >
+            <a href="../../../sponsors/patrons/index.html" >Patronã¹ãã³ãµã¼(åéçµäº)</a>
+        </li>
+    
+</ul>
+            
+        </li>
+    
+        <li class="dropdown ">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Participants
+                <b class="caret"></b>
+            </a>
+            
+                
+<ul class="dropdown-menu">
+    
+        <li >
+            <a href="../../../participants/index.html" >åå ã®æå¼ã</a>
+        </li>
+    
+        <li >
+            <a href="../../../registration/index.html" >PyCon JP 2016 ã¸ã®åå ç»é²</a>
+        </li>
+    
+        <li >
+            <a href="../../../registration/support/index.html" >é æ¹åå èã¸ã®æ¯æ´</a>
+        </li>
+    
+        <li >
+            <a href="../../../registration/app/index.html" >iOSã»Androidç¨ã¬ã¤ãã¢ããª</a>
+        </li>
+    
+</ul>
+            
+        </li>
+    
+        <li class="dropdown ">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Venue
+                <b class="caret"></b>
+            </a>
+            
+                
+<ul class="dropdown-menu">
+    
+        <li >
+            <a href="../../../venue/index.html" >ä¼å ´æå ±</a>
+        </li>
+    
+        <li >
+            <a href="../../../venue/faq/index.html" >ä¼å ´ FAQ</a>
+        </li>
+    
+</ul>
+            
+        </li>
+    
+        <li class="dropdown ">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Reports
+                <b class="caret"></b>
+            </a>
+            
+                
+<ul class="dropdown-menu">
+    
+        <li >
+            <a href="http://pyconjp.blogspot.jp/" >Blog</a>
+        </li>
+    
+        <li >
+            <a href="http://codezine.jp/article/corner/659" >Codezine éå¬ã¬ãã¼ã</a>
+        </li>
+    
+        <li >
+            <a href="../../../reports/entries/index.html" >åå èãã­ã°ã¨ã³ããª</a>
+        </li>
+    
+        <li >
+            <a href="index.html" >ãã¼ã¯ã¹ã©ã¤ã &amp; ãããª</a>
+        </li>
+    
+        <li >
+            <a href="../../../files/32/pyconjp2016survey.html" >åå èã¢ã³ã±ã¼ãéè¨çµæ</a>
+        </li>
+    
+        <li >
+            <a href="../../../reports/after-reports/index.html" >Codezine éå¬å¾ã¬ãã¼ã</a>
+        </li>
+    
+        <li >
+            <a href="https://docs.google.com/spreadsheets/d/1xQHTt1mYrmC3eYnR7_vkzZ6vAKMfx09qOEchXodm3B8/pubhtml" >åæ¯å ±å</a>
+        </li>
+    
+</ul>
+            
+        </li>
+    
+
+                            
+                            
+                        
+                    </ul>
+                </div><!-- /nav-collapse -->
+
+            </div><!-- /container-fluid -->
+        </div><!-- /navbar-inner -->
+
+    </header>
+<!--     <a id="skip" href="#content">ã¡ã¤ã³ãã¼ã¸ã¸æ»ã</a> -->
+    
+
+
+            
+    <div id="content">
+        
+            <div class="page-head">
+            </div>
+            <div class="page-content">
+                
+                <div class="container">
+
+                    <div class="row">
+                        <div class="span9">
+                          <header class="page-content-header">
+                              <h1>
+    Talk
+</h1>
+                              
+
+<ul class="breadcrumb">
+	
+		
+			<li>
+				<a href="#" >Events</a>
+				<span class="divider">/</span>
+			</li>
+		
+	
+		
+			<li class="active">ãã¼ã¯</li>
+		
+	
+</ul>
+
+
+                          </header>
+                            
+                            <div class="box">
+                                <div class="box-content">
+    <h2>Accepted Talk</h2>
+    Category Search<select id="select_category"><option value="">---------</option></select>
+    
+
+
+
+<script type="text/javascript">
+    $(function () {
+        var mdown = $('#content_schedule_detail_talk > div.markdown').html();
+        var converter = new Attacklab.showdown.converter();
+        var html = converter.makeHtml(mdown);
+        $('#content_schedule_detail_talk > div.markdown').html(html);
+    });
+</script>
+
+
+<div id="content_schedule_detail_talk" class="content-box ">
+    
+    <div class="markdown"></div>
+</div>
+
+
+
+    
+        
+            <div class="row presentation_box Science">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/79/index.html">[æå¾è¬æ¼ / Invited Talk] Pythonãå«ãå¤ãã®ãã­ã°ã©ãã³ã°è¨èªãæ±ãå¦çãã¬ã¼ã ã¯ã¼ã¯ã¨ãã¿ã¼ã³&nbsp;(ja)</a></h3>
+                    <h4>Hironori Washizaki in <span class="category">Science</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/hironoriwashizaki/pythonpyconjp-2016"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/ZloCqGLVJCI?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ãPyCon JPåå èã¨æ¥ç¹ãå°ãªãåéã®æ¹ããæå¾ããåå èã¨è¬æ¼èã¨ãäº¤æµã§ããå ´æãæä¾ããããã¨ãç®çã«æå¾è¬æ¼ãè¡ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            10:45 a.m.&ndash;11:30 a.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Business">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/29/index.html">Blockchain for Pythonistas&nbsp;(ja)</a></h3>
+                    <h4>ãã¹ãã¹ã in <span class="category">Business</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/abenben/blockchain-for-pythonistas"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/Q9_i0mbRsvc?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ã¾ãã¯Fintechããã©ããããPythonã¨é¢é£ãæ·±ãã®ããèª¬æãã¾ãã
+ä»ã®ãã¼ã¿åºç¤ã¨ãã­ãã¯ãã§ã¼ã³ã®éãã«ã¤ãã¦èª¬æãã¾ãã
+ãã­ãã¯ãã§ã¼ã³ãç°¡åãªæ¦è¦ã¨ãéèãéèä»¥å¤ã®ååãç´¹ä»ãã¾ãã
+å¾åã¯Pythonæè¡ãå©ç¨ããäºä¾ã¨ä»å¾ã®å¯è½æ§ã«ã¤ãã¦è§£èª¬ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            10:45 a.m.&ndash;11:30 a.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Concurrency">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/22/index.html">ãã¤ã¯ã­ãµã¼ãã¹ãå©ç¨ããå´ã®ããã©ã¼ãã³ã¹åä¸ç­&nbsp;(ja)</a></h3>
+                    <h4>Atsushi Kanaya in <span class="category">Concurrency</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/monotaro-itd-pr/pycon-jp-2016"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/E3ISTXkMhTg?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ãã¤ã¯ã­ãµã¼ãã¹ãå©ç¨ããå´ã¨ãã¦å¦çéåº¦ãåä¸ããããã«ãéåæIOãmultiprocessingãä½¿ã£ãå ´åã®äºä¾ãç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            11 a.m.&ndash;11:45 a.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Science">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/72/index.html">é±æ«ãµã¤ã¨ã³ãã£ã¹ãã®ã¹ã¹ã¡&nbsp;(ja)</a></h3>
+                    <h4>Yuta Kashino in <span class="category">Science</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/yutakashino/pyconjp2016"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/KFXf4pJ_Ko0?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ã¯ã©ã¦ããµã¼ãã¹ç­ã§å®ä¾¡ã«ãªã£ãè¨ç®è³æºï¼å¤§éã«ãããªã¼ãã³ãªãã¼ã¿ï¼ããã¦å¤æ§ãªãªã¼ãã³ã½ã¼ã¹ã®ãã¼ã«ç¾¤ï¼ããããå©ç¨ããã°ï¼å¤åå¤ãé±æ«ã«è¨ç®æ©ä¸ã§ç§å­¦çãªè§£æã»åæãæ¨æ¸¬ãäºæ¸¬ãèªåã®æã§è¡ããã¨ãã§ããæä»£ã«ãªã£ã¦ãã¾ãï¼æ¬ãã¼ã¯ã§ã¯ä»ã®è¨èªã«è¼ã¹ã¦é¬¼ã®ããã«è±ããªã¨ã³ã·ã¹ãã ããã¤ï¼Pythonã®ç§å­¦è¨ç®ã¹ã¿ãã¯ãå±æãï¼ãã©ã¤ãã¼ããã­ã¸ã§ã¯ãã¨ãã¦ãµã¤ã¨ã³ã¹ããããã¨ã«ã¤ãã¦ï¼ç°å¢ã®æ§ç¯æ¹æ³ï¼ã¹ã¿ãã¯ã®ç´¹ä»ï¼ããã¦äºä¾ãæç¤ºãã¾ãï¼è¨ç®ç°å¢ãæ´ãï¼åºç¤ç¥è­ãèãï¼å°ãã®ããæ°ããããã°ï¼ã¿ããªããµã¤ã¨ã³ã¹ã®ãã­ã¸ã§ã¯ããè¡ããã¨ãã§ãã¾ãï¼æ®æ®µã®è·æ¥­ã¯ãã¿ããªã¡ãã£ã¦ãããã¿ããªããè¨ç®æ©ä¸ã§ãµã¤ã¨ã³ã¹ãå¯è½ã«ãªã£ã¦ããããããæä»£ã«ããã®ã§ãï¼ã¿ããªã¡ãã£ã¦ã¿ããªããï¼Pythonã®ç§å­¦è¨ç®ã¹ã¿ãã¯ã¯ãããå¯è½ã«ãããã¨ãæ¬ãã¼ã¯ã§å®æãããã¨ãã§ãããå¹¸ãã§ãï¼
+                    
+                        <h4>
+                            æ°´ææ¥
+                            11 a.m.&ndash;11:45 a.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BestPractices/Patterns">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/32/index.html">Pythonã§ä½ãWebã¯ã­ã¼ã©å¥é&nbsp;(ja)</a></h3>
+                    <h4>Ai Makabi in <span class="category">Best Practices/Patterns</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/amacbee/pythondezuo-ruwebkuroraru-men"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/65tazmN1CPg?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonã®ä»£è¡¨çãªã¯ã­ã¼ã©æ§ç¯ãã¬ã¼ã ã¯ã¼ã¯Scrapyãå©ç¨ãã¦ï¼ç®çã«å¿ããã¯ã­ã¼ã©ãæ§ç¯ããæ¹æ³ã«ã¤ãã¦å­¦ã³ã¾ãï¼çºè¡¨ä¸­ã§ã¯ï¼ã¯ã­ã¼ã«å¯¾è±¡ã®ãµã¤ãããµã¼ãã¹ã«è¿·æããããªããããªãã¯ããã¯ã«ã¤ãã¦è¨åããã¨å±ã«ï¼BeautifulSoup4ã®å©ç¨æ¹æ³ãä¸­å¿ã«ï¼ã¯ã­ã¼ã«ãã¦éãããã¼ã¿ã®æ½åºï¼ã¹ã¯ã¬ã¤ãã³ã°ï¼ã»å å·¥æ¹æ³ã«ã¤ãã¦ãç´¹ä»ãã¾ãï¼
+                    
+                        <h4>
+                            æ°´ææ¥
+                            1 p.m.&ndash;1:45 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Other">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/28/index.html">Pythonã§ä½ãTiny DAW (Digitai Audio Workstation)&nbsp;(ja)</a></h3>
+                    <h4>Ransui Iso in <span class="category">Other</span></h4>
+                    <div>
+                    
+                      <a href="https://youtu.be/JNkuDOGJMNo?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ããæ¥YouTubeãè¦ã¦ããã¨ãã¿ã³ããã£ã±ãã¤ããããã¤ã¹ã§ã©ã¤ãããã©ã¼ãã³ã¹ããã¦ããåç»ãç®ã«çã¾ãã¾ãããèª¿ã¹ã¦ã¿ãã¨novationç¤¾ã®LaunchPadã¨ããããã¤ã¹ãä½¿ã£ã¦ããããã§ããããã¯é¢ç½ããã¨æ©éå¥æãã¾ããããä»å±ãã¦ããDAWã½ããã¦ã§ã¢ã¯ãã­ã¦ã¼ã¹ã«ãå¯¾å¿ããã¬ãã«ã®ãã®ã§ãé£ããã¦ã¨ã¦ãä½¿ãããªãã¾ãããã©ããã¾ããããããã§ããPythonãä½¿ã£ã¦èªåãä½¿ããããDAWãä½ã£ã¦ãã¾ãã°ããã®ã§ãï¼
+                    
+                        <h4>
+                            æ°´ææ¥
+                            1 p.m.&ndash;1:45 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box SystemsAdministration">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/41/index.html">ãã£ãä¸ãã¡ã¤ã«ã® python ã¹ã¯ãªããããå§ãã OSS éçºå¥é&nbsp;(ja)</a></h3>
+                    <h4>Kei Iwasaki in <span class="category">Systems Administration</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/laughk/python-oss-pyconjp-2016slide"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/BtOCoo7-sF8?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    1ãã¡ã¤ã«ã®ã¹ã¯ãªãããæ¸ãæ¨ã¦ãç¨åº¦ã§ããã³ã¼ããæ¸ããªãã£ãã¨ãããããæ¸ããã³ã¼ããå¬éããããã«ãªã£ã¦ã«ãã£ã¦èµ·ãã£ãæè¡çãªè¦éã®åºããã«ã¤ãã¦ãå®éã®ä½é¨ãåã«ãè©±ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            1 p.m.&ndash;1:45 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Usefullibraries">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/54/index.html">ãã¼ã¿åæã¹ã¯ãªããã®ãã¼ã«åå¥é(GUIä»ä¸ã»EXEå)&nbsp;(ja)</a></h3>
+                    <h4>ã©ããã in <span class="category">Useful libraries</span></h4>
+                    <div>
+                    
+                      <a href="https://www.slideshare.net/dondokono/pyconjp-2016"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                    </div>
+                    Pythonã§ä½æãããã¼ã¿åæã¹ã¯ãªããã(Windowsã®)ä¸è¬ã¦ã¼ã¶ã¼ã¸ä½¿ã£ã¦ãããããæã«ãã¦ã¼ã¶ã¼ãPythonãä½¿ããªãã»PCã«Pythonãå¥ã£ã¦ãªãã¨ããç°å¢ã§ããç°¡åãªGUIä½æããEXEã¨ãã¦1ã¤ã®ãã¡ã¤ã«åãã¦åä½ãããæ¹æ³ã«ã¤ãã¦è§£èª¬ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            1 p.m.&ndash;1:45 p.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box WebFrameworks">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/55/index.html">Mezzanine, the best CMS on Python&nbsp;(en)</a></h3>
+                    <h4>Hiroki KIYOHARA in <span class="category">Web Frameworks</span></h4>
+                    <div>
+                    
+                      <a href="https://youtu.be/9quc6beDymA?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Mezzanine http://mezzanine.jupo.org/ is one of CMSs on Python. I&#39;ve used Mezzanine to host djangoproject.jp. On this session, you can learn the best way to host web sites on Python. 
+                    
+                        <h4>
+                            æ°´ææ¥
+                            1 p.m.&ndash;1:45 p.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Usefullibraries">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/8/index.html">Getting started with chatops in python with errbot&nbsp;(en)</a></h3>
+                    <h4>Guillaume Binet in <span class="category">Useful libraries</span></h4>
+                    <div>
+                    
+                      <a href="https://youtu.be/9j2nbAk1XuM?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ChatOps is about bringing your devops tools into your team chatroom. Some common operations implemented with chatops includes deployments, provisioning, monitoring, graphs, development tracking... In this presentation I will present Errbot a chatbot, written and extensible in Python. This talk will show you how to get started and the interesting pythonic features available through the API.
+                    
+                        <h4>
+                            æ°´ææ¥
+                            2 p.m.&ndash;2:30 p.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Science">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/10/index.html">ãã¥ã¼ã©ã«ãããã¯ã¼ã¯ã®ãã¬ã¼ã ã¯ã¼ã¯ã§ããChainerã§å§ããå¯¾è©±Botã®ä½æ&nbsp;(ja)</a></h3>
+                    <h4>Masaya Ogushi in <span class="category">Science</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/Gushi/chat-bot-madebythechainer"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/FCoML_cJzrk?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    2016å¹´ã¯Facebook, LINEãªã©ãAPIãå¬éãå¯¾è©±Botãä½æãã¦èªç±ã«ä½¿ãããä½¿ã£ã¦ããããç°å¢ã«ãªã£ã¦ãã¦ãã¾ããä»åã¯äººå·¥ç¥è½ã®åéã§è©±é¡ã®ãã¥ã¼ã©ã«ãããã¯ã¼ã¯ãä½¿ç¨å¯è½ãªãã¬ã¼ã ã¯ã¼ã¯ã®Chainerãç¨ãã¦å¯¾è©±Botãä½æããææ³ãç´¹ä»ãããã¨ãããã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            2 p.m.&ndash;2:30 p.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box IndustryUses">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/43/index.html">Building a Simple Japanese Content-Based Recommender System in Python&nbsp;(en)</a></h3>
+                    <h4>Charles Vallantin Dulac in <span class="category">Industry Uses</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/charlesvdulac/building-a-simple-japanese-content-based-recommender-system-in-python"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/-xVeMQXMEcg?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Online stores such as Amazon but also news/blogs websites suffer from information overload. Customers can easily get lost in their large variety (millions) of products or articles. Recommendation engines help users narrow down the large variety by presenting possible suggestions. In this talk, I will show how to create a simple Japanese content-based recommendation system in Python for blog posts.
+                    
+                        <h4>
+                            æ°´ææ¥
+                            2 p.m.&ndash;2:45 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Education">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/56/index.html">æ°å­¦çåºç¤ããå­¦ã¶ Deep Learning&nbsp;(ja)</a></h3>
+                    <h4>Junya Kaneko in <span class="category">Education</span></h4>
+                    <div>
+                    
+                      <a href="https://youtu.be/7GoaCheaERU?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ã¿ããªå¤§å¥½ã state of art ã® deep learningããããª æè¡ãä½¿ã£ã¦ã¿ããåãã®ããã«æ²¢å±±ã©ã¤ãã©ãªãåºã¦ãããã­ããã¥ã¼ããªã¢ã«ã¯ã§ãããã§ããçµå±ä½ãã£ã¦ãã®ãããããªãã ãããé«æ ¡çç¨åº¦ã®æ°å­¦ã®ç¥è­ããå§ãã¦ deep learning ãè¡ããã­ã°ã©ã ããä¸»ã« Numpy ãç¨ãã¦ã¹ã¯ã©ããããä½ã£ã¦ã¿ããï¼
+                    
+                        <h4>
+                            æ°´ææ¥
+                            2 p.m.&ndash;2:45 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Usefullibraries">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/48/index.html">ä»äºã§ä½¿ãã¡ãã£ã¨ããã³ã¼ããOSSã¨ãã¦éçºã¡ã³ããã¦ãã - Django Redshift Backend ã®éçº&nbsp;(ja)</a></h3>
+                    <h4>Takayuki Shimizukawa in <span class="category">Useful libraries</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/shimizukawa/why-dont-you-share-your-code-snippet-for-your-jobas-a-open-source-software-pycon-jp-2016"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/1riLQHii8rU?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    AWSã®ãRedshiftãã¯ãPostgresqlãã¼ã¹ã§ä½ããããã¼ã¿ã¦ã§ã¢ãã¦ã¹ã§ãããã¹ã°ã¬ãã¼ã¹ãªã®ã§psqlã§æ¥ç¶ãããPythonã®postgresç¨ãã©ã¤ããä½¿ãã¾ããDjangoããã¹ã°ã¬ç¨ãã©ã¤ãã§ä½¿ãã¾ããã¨æã£ããè²ãåé¡ãã£ããä»äºã§å¿è¦ãªãã§ããã©ããããããªãã®ã§ãDjangoã«ä¸æ£ããªç§ãææ¢ãã§Djangoã®ããã¯ã¨ã³ããä½ã£ã¦ãå¬éãã¦ããã°ã¬ãã«å¯¾å¿ãã¦ããã¹ããæ¸ãã¦ããã¹ãèªååãã¦ãOSSæ´»åã®åæ®µéã§ã©ããã£ã¦é²ãã¦ããã®ããç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            2 p.m.&ndash;2:45 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Packaging">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/6/index.html">ããã±ã¼ã¸ã³ã°ãæ¯ããæè¡&nbsp;(ja)</a></h3>
+                    <h4>aodag in <span class="category">Packaging</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/aodag/pyconjp2016-66284743"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/dEuP2SHGDuI?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    pypiãä¸­å¿ã¨ããããã±ã¼ã¸ã¨ã³ã·ã¹ãã ããpypaãç®¡çãã¦ãããã¼ã«ãé¢é£PEPã®ååãè§£èª¬ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            3:30 p.m.&ndash;4:15 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box WebFrameworks">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/14/index.html">åºç¤ããå­¦ã¶Webã¢ããªã±ã¼ã·ã§ã³ãã¬ã¼ã ã¯ã¼ã¯ã®ä½ãæ¹&nbsp;(ja)</a></h3>
+                    <h4>Masashi Shibata in <span class="category">Web Frameworks</span></h4>
+                    <div>
+                    
+                      <a href="http://c-bata.link/webframework-in-python/slide.html#1"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/S-InxJA5NOg?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonã®Webã¢ããªã±ã¼ã·ã§ã³ãã¬ã¼ã ã¯ã¼ã¯ãéçºããããã«å¿è¦ãªç¥è­ãå®éã®Pythonã®ã³ã¼ãããã¼ã¹ã«è§£èª¬ãã¦ããã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            3:30 p.m.&ndash;4:15 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Mobile">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/47/index.html">PythonistaããPythonistaãç¥ã£ã¦ããããããããªã®æ¬²ããã£ãï¼ iOSã¢ããªéçºç°å¢Pythonistaã&nbsp;(ja)</a></h3>
+                    <h4>Mitsuki Sugiya in <span class="category">Mobile</span></h4>
+                    <div>
+                    
+                      <a href="https://docs.google.com/presentation/d/1gIDZiJne1haJDUb0cucnt87RLsYDFlWztjhb9QF7cRI/edit#slide=id.p"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/OjeHDa4OPvw?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonista ã¯Pythonã§iOSéçºã»å®è¡ããç°å¢ãåããã¢ããªã§ãã
+ãã®talkã§ã¯ãå®éã«Pythonistaã§ä½æããã¢ããªããã¨ã«ãPythonistaã®åºæ¬çãªä½¿ãæ¹ãç¹å¾´ãªã©ãèª¬æãã¦ããã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            3:30 p.m.&ndash;4:15 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BestPractices/Patterns">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/33/index.html">è¤æ°ã®è¨èªãããªããã­ã¸ã§ã¯ããä½ãã¨ãããã¨&nbsp;(ja)</a></h3>
+                    <h4>Kosuke Kusano in <span class="category">Best Practices/Patterns</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/cocuh/pyconjp2016-chimera"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/vOjbMGX5E2M?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    1ã¤ã®ãã­ã¸ã§ã¯ãã1ã¤ã®ãã­ã°ã©ãã³ã°è¨èªã§å®çµãããã¨ãå°ãªããªã£ã¦ãã¾ããè¨èªçã«ã­ã¡ã©(chimera)ãªãã­ã°ã©ãã³ã°ææ³ã«ã¤ãã¦ããã¾ã§ãã¾ãè­°è«ããã¦ãã¾ããã§ãããPythonã¨Rustãç¨ããmulti-threaddingã«ã¤ãã¦åãä¸ããªãããPythonã®ä¸å¾æã¨ããå¦çãä»ã®è¨èªã«å§è­²ããæ¹æ³è«ãè­°è«ããchimeraã«å¯¾ããè­°è«ãæ·±ãããã¨æãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            3:30 p.m.&ndash;4:15 p.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Cloud">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/18/index.html">ç¡æã§ã§ãããCloud9ä¸ã§éçºãã¦Herokuã«ããã­ã¤ããæé ãå±æãã¾ã&nbsp;(ja)</a></h3>
+                    <h4>Takeshi Sugiyama in <span class="category">Cloud</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/soogie/wu-liao-dedekiru-cloud9shang-dekai-fa-siteherokunidepuroisurushou-shun-wogong-you-simasu"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/ie1CyWS31X4?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonãåå¼·ãã¦Webã¢ããªãä½ã£ã¦ã¿ãã¯ãããããµã¼ãã¼ããªãã®ã§ã¹ãããä¼ç¤¾ã®PCããä½¿ãããããªã¢ããªã«ã¯ã§ããªããã¨ããåå¿èã¯å¤ãã¨æãã¾ããããã§ãã®çºè¡¨ã§ã¯Herokuã¨Cloud9ã¨ããã¯ã©ã¦ããµã¼ãã¹ãç¡ææ ã®ç¯å²ã§ä½¿ã£ã¦ãç°¡åãªèµæ¸ç®¡çããããªãWebã¢ããªãç«ã¡ä¸ããæ¹æ³ãé ãè¿½ã£ã¦èª¬æãã¾ããä½¿ç¨ããã®ã¯Python3,django,PostgreSQLã§ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            4:30 p.m.&ndash;5 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Other">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/9/index.html">How Python helped create the visual effects for an Emmy nominated TV show&nbsp;(en)</a></h3>
+                    <h4>Engin Arslan in <span class="category">Other</span></h4>
+                    <div>
+                    
+                      <a href="https://youtu.be/5hUrg-Wk_EM?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Almost all the software packages that are used in VFX have a Python API. From the workings of the studio pipeline to the front-end of VFX production where viewer facing visuals are created, Python facilitates delivery of effects on time and on budget. Learn how specifically Python is leveraged in production to deliver award winning VFX that captivate the imagination of millions of viewers.
+                    
+                        <h4>
+                            æ°´ææ¥
+                            4:30 p.m.&ndash;5 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BigData">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/80/index.html">[æå¾è¬æ¼ / Invited Talk] ç¢ºççãã¥ã¼ã©ã«ãããã®å­¦ç¿ã¨ Chainer ã«ããå®è£&nbsp;(ja)</a></h3>
+                    <h4>Seiya Tokui in <span class="category">Big Data</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/beam2d/learning-stochastic-neural-networks-with-chainer"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/7CPcvLs8iEs?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ãPyCon JPåå èã¨æ¥ç¹ãå°ãªãåéã®æ¹ããæå¾ããåå èã¨è¬æ¼èã¨ãäº¤æµã§ããå ´æãæä¾ããããã¨ãç®çã«æå¾è¬æ¼ãè¡ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            4:30 p.m.&ndash;5:15 p.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Testing">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/53/index.html">Robot Frameworkã§ãã©ã¦ã¶ãã¹ããã£ã¦ã¿ãè©±&nbsp;(ja)</a></h3>
+                    <h4>Yasushi Masuda in <span class="category">Testing</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/YasushiMasuda/taming-robotframework-64319718"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/eWFX7Z79LiM?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonã§æ¸ãããåãå¥ããã¹ããã¬ã¼ã ã¯ã¼ã¯ã Robot Framework ããå­ç¥ã§ããããï¼
+ç°¡åãªãã­ã¹ããã¡ã¤ã«ã§ãã¹ããã¿ã¼ã³ãè¨è¿°ã§ãã è»½å¿«ãã¤æè»ã«ãã¹ãã¹ã¤ã¼ããæ§ç¯ã§ãã¾ãã
+Selenium ãä½¿ã£ããã©ã¦ã¶ãã¹ããã¯ãããè²ããªãã¹ãã«å¿ç¨ã§ãããã¡ããPythonã§æ¡å¼µã§ãã¾ãã
+ãã®è¬æ¼ã§ã¯ã Robot Framework ã®æ©è½ãè§£èª¬ããæ¥­åã§ä½¿ã£ã¦ã¿ãã¨ãã½ã¼ããç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ°´ææ¥
+                            4:30 p.m.&ndash;5:15 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box IndustryUses">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/24/index.html">Pythonã§ã¯ãããfinance hackå¥é&nbsp;(ja)</a></h3>
+                    <h4>driller in <span class="category">Industry Uses</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/drillan/pycon-jp-2016-talk054-en"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã En"/> ã¹ã©ã¤ã En</a>
+                    
+                      <a href="http://www.slideshare.net/drillan/pycon-jp-2016-talk024-ja"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã Ja"/> ã¹ã©ã¤ã Ja</a>
+                    
+                    </div>
+                    éèã¨Pythonã¯ç¸æ§ãè¯ãçµã¿åããã§ãããå½åã§ã¯éèé¢ä¿ã®Pythonistaãæªã å°ãªãå°è±¡ã§ãã
+éèé¢ä¿èãPythonãæ±ãå©ç¹ã¨ãã¦ã¯ããã¼ã¿æ´å½¢ãé«åº¦ãªãã­ã°ã©ã ãæ¸ããã¨ãªããæè»½ã«ã§ããç¹ãããã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            10:45 a.m.&ndash;11:30 a.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box CorePython(Language,Stdlib)">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/19/index.html">You Might Not Want Async (in Python)&nbsp;(en)</a></h3>
+                    <h4>Tzu-ping Chung in <span class="category">Core Python (Language, Stdlib)</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/uranusjr/you-might-not-want-async"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/IBA89nFEQ8U?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Async programming is hotÂ®, but also difficult. Since Python is fundamentally designed for sequential (as in ânot parallelâ) programming, asynchrony doesnât feel natural, and requires more mentally to comprehend than, say, a language that can go async directly (bad pun intended).
+                    
+                        <h4>
+                            æ¨ææ¥
+                            10:45 a.m.&ndash;11:30 a.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BestPractices/Patterns">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/31/index.html">Pythonã§pyftpdlibãä½¿ã£ã¦FTPãµã¼ãã¼ãä½ãéã«ä½¿ã£ããã¯ããã¯ã®ç´¹ä»&nbsp;(ja)</a></h3>
+                    <h4>Shinya Okano in <span class="category">Best Practices/Patterns</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/tokibito/pyconjp2016-pyftplib"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/I954E9wru1M?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonã§ã¡ãã£ã¨ãããã¼ã«ãä½ãéãã³ã¼ãã®æ¸ãæ¹ãããã±ã¼ã¸ã³ã°ãèªåãã¹ãã®ä»æ¹ãªã©ãã©ã®ããã«ãããããèãããã¨æãã¾ãã
+ç§ããã¼ã«ãä½ãéã«ã©ã®ããã«ãã¦ããããå·ä½çã«FTPãµã¼ãã¼ã¢ããªã±ã¼ã·ã§ã³ãä¾ã«ç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            10:45 a.m.&ndash;11:30 a.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Cloud">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/25/index.html">Pythonã§ãPythonãããªãã¦ãä½¿ããæ±ç¨çãªMicroserviceå®è¡ç°å¢&nbsp;(ja)</a></h3>
+                    <h4>Yosuke Suzuki in <span class="category">Cloud</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/yosukesuzuki/nikkei-microservice"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã Ja"/> ã¹ã©ã¤ã Ja</a>
+                    
+                      <a href="https://speakerdeck.com/yosukesuzuki/development-and-infrastructure-for-microservice-architecture"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã En"/> ã¹ã©ã¤ã En</a>
+                    
+                      <a href="https://youtu.be/o7tn_QPeV8w?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    æ¥æ¬çµæ¸æ°è é»å­çã§ã¯Django/Pythonã§ã®WebAPIããMicroserviceã¢ã¼ã­ãã¯ãã£ã¼ãæ¡ç¨ãã¦ãéçºãã¦ãã¾ããDockerã³ã³ããã¼ãElasticBeanstalkä¸ã§åããæ¹å¼ã¯éå¸¸ã«æ±ç¨æ§ãé«ããDjangoä»¥å¤ã®ç°å¢ã§ãå©ç¨ã§ãã¦ãã¾ãããã®æ¹å¼ã«ã¤ãã¦èª¬æãã¤ã¤ãéç¨ä¸ã®å·¥å¤«ãã¡ãªããã»ãã¡ãªããã«ã¤ãã¦è©±ããã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            11 a.m.&ndash;11:45 a.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Science">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/11/index.html">f2pyã¨matplotlibãç¨ãããã©ã¦ã³ç²å­ååå­¦ã®ãªã¢ã«ã¿ã¤ã å¯è¦å &nbsp;(ja)</a></h3>
+                    <h4>Hidemitsu Hayashi in <span class="category">Science</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/HidemitsuHayashi1/pycon-jp-2016-talk011-en"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/FPlT098QrCc?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Fortranè¨èªã§è¨è¿°ããããå¤§æ°ä¸­ã«æµ®éãã¦ãã©ã¦ã³éåããå¾®å°ç²å­ã®éåè§£æãã­ã°ã©ã ããf2pyã«ããPythonãã­ã°ã©ã ã¨çµåããmatplotlibãç¨ãã¦ç²å­éåããªã¢ã«ã¿ã¤ã ã§å¯è¦åããããã®çµæãéåè§£æä¸­ã«ç²å­ã®å¤§ãããå¤§æ°æ¸©åº¦ãå¤æ´å¯è½ã¨ãªãããããã®å¤æ°ã«ä¾å­ãã¦ãã©ã¦ã³éåãå¤åããæ§å­ãè¦è¦çã«ææ¡ããäºãåºæ¥ãæ§ã«ãªã£ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            11 a.m.&ndash;11:45 a.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Other">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/38/index.html">Pythonã§å®ç¾ãã4ã³ãæ¼«ç»ã®åæã»è©è«&nbsp;(ja)</a></h3>
+                    <h4>Shinji Sato in <span class="category">Other</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/esuji/30-41-66333316"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/7EOmp8EcZEc?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    æ¥æ¬ã«éããæµ·å¤ã§ãæ¼«ç»è¡¨ç¾ã¨ãã¦ç¨ããããã4ã³ã(yonkoma)ããè¿å¹´ã§ã¯ã¢ãã¡ã®é¡æã«ããªããã¨ãå¤ããããè¯ãè¡¨ç¾ãèæ®ãã¹ãããã®æè¡è§£æã»åæã»è©è«ãè¡ããèª­èã»æ¼«ç»å®¶ã»ç·¨éèãå«ãã¦ãã®ææãå±æãããã¨ã¯æåçã«å¤§ããªä¾¡å¤ãããã¨è¨ãã¾ããæ¬Talkã§ã¯ããã®åºè«ã¨ãã¦4ã³ãæ¼«ç»ã®ãã¼ã¿ãæãåºãä¸¦ã³ã«ãçµ±è¨ãæ©æ¢°å­¦ç¿ãç¨ããåæãPythonã§ä¸æ°éè²«ã«è¡ãææ³ãç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            1:30 p.m.&ndash;2 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Usefullibraries">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/35/index.html">HTTPãã­ã¯ã·ã©ã¤ãã©ãªproxy2ã®è¨­è¨ã¨å®è£&nbsp;(ja)</a></h3>
+                    <h4>inaz2 in <span class="category">Useful libraries</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/inaz2/httpproxy2"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                    </div>
+                    Pythonã¹ã¯ãªããã§æè»ã«æ¡å¼µå¯è½ãªHTTP(S)ãã­ã¯ã·ã©ã¤ãã©ãªproxy2ãç´¹ä»ããã¨ã¨ãã«ãPythonã§HTTPãã­ã¯ã·ãå®è£ããéã«èæ®ãã¹ãç¹ãHTTPSå¯¾å¿ã®è©³ç´°ã«ã¤ãã¦proxy2ã®å®è£ãäº¤ããªããè§£èª¬ããã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            1:30 p.m.&ndash;2 p.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Education">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/15/index.html">Raspberry Piã§æ¥æ¬ã®å­ä¾ãã¡ã«ãã­ã°ã©ãã³ã°ã®ããã·ã§ã³ãä¼ããã&nbsp;(ja)</a></h3>
+                    <h4>Antoine Choppin in <span class="category">Education</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/AntoineChoppin/raspberrypi-66287390"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã Ja"/> ã¹ã©ã¤ã Ja</a>
+                    
+                      <a href="http://www.slideshare.net/AntoineChoppin/lets-use-raspberry-pi-to-share-our-passion-of-programming-with-kids-of-japan"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã En"/> ã¹ã©ã¤ã En</a>
+                    
+                      <a href="https://youtu.be/m4SrHtHVsSA?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Raspberry Piãé ­è³ã«ãããKanoãã¨è¨ãå­ä¾åãã®ãã½ã³ã³ã«ã¯ããã­ã°ã©ãã³ã°ãå­¦ã¶ããã®Pythonã¢ããªãæ²¢å±±è¼ã£ã¦ãã¾ãããããã®ã¢ããªãæ¥æ¬èªåããæ¥æ¬ã®å­ä¾éã«ã³ã¼ãã®æç±ãä¼ãããã­ã¸ã§ã¯ããç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            1:30 p.m.&ndash;2 p.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BigData">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/20/index.html">Deep Learning with Python &amp; TensorFlow&nbsp;(en)</a></h3>
+                    <h4>Ian Lewis in <span class="category">Big Data</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/ianlewis/deep-learning-with-python-and-tensorflow-1"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/y_zKja1p2Ys?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    TensorFlow is a new Open Source framework created at Google for building Deep Learning applications. I will discuss how it compares to other Python machine learning libraries like Theano or Chainer. Finally, I will discuss how trained TensorFlow models could be deployed into a production system using TensorFlow Serve.
+                    
+                        <h4>
+                            æ¨ææ¥
+                            1:30 p.m.&ndash;2 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BigData">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/75/index.html">ããã°ãã¼ã¿ã¨Pythonã§ã¯ãããéçã®çµ±è¨åæ&nbsp;(ja)</a></h3>
+                    <h4>Shinichi Nakagawa, Ai Makabi in <span class="category">Big Data</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/shinyorke/python-pyconjp-66286163"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/QtnoK16yPNk?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    éççµ±è¨å­¦ãã»ã¤ãã¼ã¡ããªã¯ã¹ãããã³ãé«æ§è½ã¹ãã¼ãã¬ã³ãPITCHf/xãã®ç»å ´ã§è¿å¹´æé«ã®çãä¸ãããã¿ãã¦ããéçã®ããã°ãã¼ã¿ãç¨ãããã¼ã¿åæã»å¯è¦åãPythonã¨ãã®å¨è¾ºæè¡ï¼OSSãªã©ï¼ãç¨ãã¦è¡ãå®è·µä¾ãç´¹ä»ãã¾ã.
+                    
+                        <h4>
+                            æ¨ææ¥
+                            1:30 p.m.&ndash;2 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BigData">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/37/index.html">Pythonã§å¥éããApache Spark&nbsp;(ja)</a></h3>
+                    <h4>Tatsuya Atsumi in <span class="category">Big Data</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/tatsuyaatsumi/pythonapache-spark-at-pycon2016"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/1DAm9Cr23bg?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ç¾å¨ãä¸ççã«æ®åãé²ãã§ããå¤§è¦æ¨¡åæ£å¦çãã¬ã¼ã ã¯ã¼ã¯ã®Apache Sparkã«ã¤ãã¦ããã®åºç¤åã³ãPython APIãéããåç¨®ã©ã¤ãã©ãªã®ä½¿ãæ¹ã«ã¤ãã¦ãSparkã«ã¤ãã¦è§¦ããäºããªãæ¹ã§ããããããã«åºæ¬ããè§£èª¬ãã¾ãã
+Sparkã¯éè¨å¦çã®ãããªå¾æ¥ã®æä½ã®ã»ããæ©æ¢°å­¦ç¿ã®ãããªè¤éãªã¯ã¼ã¯ã­ã¼ãã«ãå¯¾å¿ãã¦ãããããæ§ããªå¤§è¦æ¨¡åæ£å¦çãç°¡åã«å®è£ãããã¨ãå¯è½ã«ãªãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            2:10 p.m.&ndash;2:40 p.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Community">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/40/index.html">import community&nbsp;(en)</a></h3>
+                    <h4>Fernando Masanori Ashikaga in <span class="category">Community</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/fmasanori/import-community-pycon-jp"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/uYIYq22w8U8?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Ten different PyCon&#39;s and three Django Girls in two year&#39;s: lessons on diversity that I learned.  Namibia, UK, Japan, Brazil, Italy, Argentina, Uruguay, Germany, Canada, USA and Spain. 
+                    
+                        <h4>
+                            æ¨ææ¥
+                            2:10 p.m.&ndash;2:40 p.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box DistributedComputing">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/5/index.html">Building Distributed System with Celery on Docker Swarm&nbsp;(en)</a></h3>
+                    <h4>Wei Lin in <span class="category">Distributed Computing</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/wei1234c/building-distributed-system-with-celery-on-docker-swarm"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/TM1a3m65zaA?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    In this talk, the basic mechanisms of Celery and Docker-Swarm will be explained. With Docker-Swarm , a cluster will be built upon two Raspberry Pi machines. Hadoop entry-level &quot;Word Count&quot; program will be re-writen in Python and executed parallelly via Celery on the cluster. An example of distributed system modeling nerual-network will also be explained.
+                    
+                        <h4>
+                            æ¨ææ¥
+                            2:10 p.m.&ndash;2:40 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box PythonInternals">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/51/index.html">Python ãæ¯ããæè¡: ã¢ã¸ã¥ã¼ã«ã»ã¤ã³ãã¼ãã·ã¹ãã ç·¨&nbsp;(ja)</a></h3>
+                    <h4>Nozomu Kaneko in <span class="category">Python Internals</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/knzm/python-module-import-system"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/DOPRfEHwB2Q?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Python ã§æ¸ãããã»ã¨ãã©ãã¹ã¦ã®ãã­ã°ã©ã ã«ã¯ import æãä½¿ããã¦ãã¾ãããæ®æ®µãã¾ããã®ä»çµã¿ãæ°ã«ãããã¨ã¯ãªãã®ã§ã¯ãªãã§ãããããã¢ã¸ã¥ã¼ã«ãã¤ã³ãã¼ãããéã«ã¯ãå®ã¯ãã®èå¾ã§é©åãªã¢ã¸ã¥ã¼ã«ãæ¤ç´¢ãã¦ã­ã¼ãããããã®æ§ããªä»çµã¿ãåãã¦ãã¾ãããã®çºè¡¨ã§ã¯ãã¤ã³ãã¼ããåãä»çµã¿ã«ã¤ãã¦æ¦èª¬ããã¨ã¨ãã« Python ä¸ã§ãããæ¡å¼µããæ¹æ³ã«ã¤ãã¦èª¬æãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            2:10 p.m.&ndash;2:55 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box WebFrameworks">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/27/index.html">Plone5ã®OSSã«ãããé²åã¨é©å¿ ã PyCon (US) 2016 Keynoteã®æ¥æ¬èªã§ã®åæ¼&nbsp;(ja)</a></h3>
+                    <h4>Zenichiro Yasuda, Manabu TERADA in <span class="category">Web Frameworks</span></h4>
+                    <div>
+                    
+                      <a href="https://www.dropbox.com/s/p7l8zzgsvh0g3dz/cewing_pycon2016_keynote_JP.pdf?dl=0"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/_1sXZcsow-g?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Python madeã®ã¨ã³ã¿ã¼ãã©ã¤ãºCMS Ploneã¯15å¹´ã®æ­´å²ãæã¡ã¾ãã æ¬è¬æ¼ã§ã¯ãUSã®PyCon2016ã«ãããCris Ewing (Plone Foundationæå±)ã®ã­ã¼ãã¼ãè¬æ¼&quot;Adaptation in OSS&quot; ãæ¥æ¬èªã§åç¾ãã15å¹´ã®é²åã¨é©å¿ãã©ã®ããã«Plone5ã«çµå®ãããããç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            2:10 p.m.&ndash;2:55 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box CorePython(Language,Stdlib)">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/50/index.html">ã¡ã¿ãã­ã°ã©ãã³ã°Python&nbsp;(ja)</a></h3>
+                    <h4>tell-k in <span class="category">Core Python (Language, Stdlib)</span></h4>
+                    <div>
+                    
+                      <a href="https://tell-k.github.io/pyconjp2016/"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/807SjfhRuUY?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonã§åºæ¥ãã¡ã¿ãã­ã°ã©ãã³ã°ã®æ¦è¦ãä¸éãèª¬æãã¾ããæ®æ®µã¯ãã¾ãæè­ããªããã¬ã¼ã ã¯ã¼ã¯ãã©ã¤ãã©ãªã®ä¸­ã§é§ä½¿ããã¦ããã¡ã¿ãã­ã°ã©ãã³ã°ã®ä¸çãã¯è¦ãã¦ã¿ã¾ãããï¼ æ¬ã»ãã·ã§ã³ã§ã¯ããããPythonã«ãããã¡ã¿ãã­ã°ã©ãã³ã°ã®æ¦è¦ããããããã©ã®ãããªå ´é¢ã§å©ç¨ããã¦ãããããè©±ããã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            3:25 p.m.&ndash;4:10 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box WebFrameworks">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/26/index.html">ã¯ããã¦ä½ãDjangoãã©ã°ã¤ã³&nbsp;(ja)</a></h3>
+                    <h4>Kohki Miki in <span class="category">Web Frameworks</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/giginet/introduction-to-develop-django-plugin"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/otgfnUw3LsE?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Pythonè£½ã®Web Applicationãã¬ã¼ã ã¯ã¼ã¯ã§ããDjangoåãã®ãã©ã°ã¤ã³éçºãé¡æã«ãPythonã©ã¤ãã©ãªããã¹ãã£ã³ã°ããããã®ãã¹ããã©ã¯ãã£ã¹ããä¼ããã¾ãã
+ã¾ããéçºããDjangoãã©ã°ã¤ã³ãè¤æ°ãã¼ã¸ã§ã³ã®Python2, 3ã¨Djangoã«å¯¾å¿ãããã¹ããè¨è¿°ããæ¹æ³ãCIç°å¢ã®æ§ç¯ããã¹ãã£ã³ã°ææ³ãPYPIã¸ã®ãµããããã¾ã§ã®æé ãç´¹ä»ãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            3:25 p.m.&ndash;4:10 p.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box BigData">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/46/index.html">Pythonã§ã¯ãããOpenAI Gymãã¬ã¼ãã³ã°&nbsp;(ja)</a></h3>
+                    <h4>Takahiro Kubo(icoxfog417) in <span class="category">Big Data</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/takahirokubo7792/python-openai-gym"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/u6hkBaWlHxg?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    OpenAI Gymããå­ç¥ã§ãããããããã¯ååã®éã&quot;AI&quot;ããã¬ã¼ãã³ã°ããããã®ã¸ã ã§ãæ§ããªã²ã¼ã ãªã©ã§èªåã®éçºããAIã&quot;ãã¬ã¼ãã³ã°(å­¦ç¿)&quot;ããããã¨ãã§ãã¾ãã
+æ¬ã»ãã·ã§ã³ã§ã¯ãå¼·åå­¦ç¿ãç¨ããAIã®éçºæ¹æ³ã¨ãOpenAI Gymãç¨ãããã¬ã¼ãã³ã°ã®ããæ¹ã«ã¤ãã¦è§£èª¬ãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            3:25 p.m.&ndash;4:10 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Science">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/23/index.html">pandasã«ããæç³»åãã¼ã¿å¦ç&nbsp;(ja)</a></h3>
+                    <h4>Masaaki Horikoshi in <span class="category">Science</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/sinhrks/pyconjp-2016-pandas-niyoru-shi-xi-lie-detachu-li"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/TO0iHGEHLBM?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    ãã¼ã¿åæã©ã¤ãã©ãªã§ããpandasãå©ç¨ãã¦ãæç³»åãã¼ã¿ã®ã°ã«ã¼ãåãéè¨ããµã³ããªã³ã°ãªã©ã®å¦çãç°¡åã»é«éã«è¡ãæ¹æ³ãèª¬æãã¾ããã¾ããçµ±è¨è§£æããã±ã¼ã¸ã§ããstatsmodelsãç¨ãã¦ç°¡åãªæç³»åã¢ããªã³ã°ãè¡ãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            3:25 p.m.&ndash;4:10 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box PythonInternals">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/36/index.html">Building An Interpreter In RPython&nbsp;(en)</a></h3>
+                    <h4>Juozas Kaziukenas in <span class="category">Python Internals</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/juokaz/building-an-interpreter-in-rpython-pycon-japan-2016"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/YfZixND9CI8?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    To understand how dynamic programming languages get executed I set out to build a PHP interpreter. Not a joke, I really did it and it worked! The final result was a well-tested piece of Python code, which could be compiled to be very performant as well. The goal of this talk is to introduce you to the basics of interpreters and the tools available in RPython to build one.
+                    
+                        <h4>
+                            æ¨ææ¥
+                            3:25 p.m.&ndash;4:10 p.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box EmbeddedSystems">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/12/index.html">Pausable Unittest on EFI Stackless Python&nbsp;(ja)</a></h3>
+                    <h4>Masamitsu Murase in <span class="category">Embedded Systems</span></h4>
+                    <div>
+                    
+                      <a href="https://docs.com/user564329/6866/pausable-unittest-on-efi-stackless-python-pycon-jp"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/ddsHRXpShfw?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    çµè¾¼ã¿æ©å¨ãªã©ã®ãã¹ãã§ã¯ãåèµ·åãç¹°ãè¿ããªãããã¹ããå®è¡ããããã¨ãå¤ãããã¾ããä»åéçºããPausable Unittestã©ã¤ãã©ãªãä½¿ãã¨ãæ¨æºã©ã¤ãã©ãªã®unittestã®ããã«ãã¹ããè¨è¿°ã§ãããã¤ããPythonã¤ã³ã¿ããªã¿ãä¸åº¦çµäºããåèµ·åå¾ã«ç¶ããå®è¡ãããå ´åã®ãã¹ãããç°¡åã«è¨è¿°ã§ãã¾ããå®ä¾ãEFIä¸ã«ç§»æ¤ããStackless Pythonãç¨ãã¦èª¬æãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            4:20 p.m.&ndash;4:50 p.m.
+                            in
+                            Room 202
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box IndustryUses">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/39/index.html">Building a data preparation pipeline with Pandas and AWS Lambda&nbsp;(en)</a></h3>
+                    <h4>Fabian Dubois in <span class="category">Industry Uses</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/fabiandubois/pyconjp-building-a-data-preparation-pipeline-with-pandas-and-aws-lambda"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/pc0Xn0uAm34?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    When working on a data project, you will be often be facing messy input files with lots of missing or ill formatted values. Data providers may update manually, making the data source even more error prone. Once you geed the data to a data visualization or a dashboard, this will create many issues. I will show how to create a data preparation pipeline using with Pandas  running on AWS Lambda.
+                    
+                        <h4>
+                            æ¨ææ¥
+                            4:20 p.m.&ndash;4:50 p.m.
+                            in
+                            Room 201
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Databases/NoSQL">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/13/index.html">Python ãã¼ã¿ã¼ãã¼ã¹ãã©ã¤ãã¼ã®ä½ãæ¹&nbsp;(ja)</a></h3>
+                    <h4>Hajime Nakagami in <span class="category">Databases/NoSQL</span></h4>
+                    <div>
+                    
+                      <a href="https://gist.github.com/nakagami/bfbe98d62377f3f4554121ab161ae8c9"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/ax2WmQ_MSXs?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Python ã®ãã¼ã¿ã¼ãã¼ã¹ãã©ã¤ãã¼ãä½ãå ´åã®ã³ããçæç¹ãæ¢å­ã®ãã©ã¤ãã¼ã®ã½ã¼ã¹ã³ã¼ããèª­ãå ´åã®ãã¤ã³ããè§£èª¬ãã¾ã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            4:20 p.m.&ndash;5:05 p.m.
+                            in
+                            Room 205
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box CorePython(Language,Stdlib)">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/52/index.html">åãã³ãã«ã¤ãã¦èããã!&nbsp;(ja)</a></h3>
+                    <h4>Yusuke Miyazaki in <span class="category">Core Python (Language, Stdlib)</span></h4>
+                    <div>
+                    
+                      <a href="http://www.slideshare.net/yusukemiy/ss-66288339"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/nUUT7y3nLgU?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    Python 3.5 ã«å°å¥ãããåãã³ã (Type Hints) ã¯ããã­ã°ã©ã ä¸­ã«åã¢ããã¼ã·ã§ã³ãè¨è¿°ããæ¹æ³ãæ¨æºåããåãã§ãã«ã¼ãªã©ã®ãã¼ã«ã§å©ç¨ã§ããããã«ãªã£ã¦ãã¾ãããã®ã»ãã·ã§ã³ã§ã¯ Python ã®åãã³ãã«ã¤ãã¦ç´¹ä»ããå¾ãä»ã®è¨èªã§ã®åæ§ã®æ©è½ã«ã¤ãã¦ç´¹ä»ããPython ã®åãã³ãã®åªãã¦ããã¨ãããå£ã£ã¦ããã¨ãããæããã«ããä»å¾ã®åãã³ãã®æ´»ç¨æ¹æ³ã«ã¤ãã¦èãã¾ãã
+                    
+                        <h4>
+                            æ¨ææ¥
+                            4:20 p.m.&ndash;5:05 p.m.
+                            in
+                            Room 203
+                        </h4>
+                    
+                </div>
+            </div>
+        
+            <div class="row presentation_box Cloud">
+                <div class="span8 presentation well">
+                    <h3><a href="../../presentation/7/index.html">Sleepy: How to suspend and resume your cpython process from inside&nbsp;(en)</a></h3>
+                    <h4>David Weil in <span class="category">Cloud</span></h4>
+                    <div>
+                    
+                      <a href="https://speakerdeck.com/tenuki/sleepy-how-to-suspend-and-resume-your-cpython-process-from-inside"><img src="https://pycon.jp/2016/site_media/static/img/slide.png" alt="slide" title="ã¹ã©ã¤ã"/> ã¹ã©ã¤ã</a>
+                    
+                      <a href="https://youtu.be/yb1CWDeWCXA?list=PLMkWB0UjwFGlYvIcvKsGhJ7SJIODj_zJZ"><img src="https://pycon.jp/2016/site_media/static/img/video.png" alt="video" title="ãããª"/> ãããª</a>
+                    
+                    </div>
+                    In this talk we&#39;ll propose and explain how it is possible suspend &amp; resume a python process execution from within python using no external-help. Pure-python-ffi-free code.
+
+This kind of tool is useful with the proliferation of cloud serv since they offer restricted execution env in terms of time/mem and process relocation/prio is required. Besides weâll get unexpected debugger improvements.
+                    
+                        <h4>
+                            æ¨ææ¥
+                            4:20 p.m.&ndash;5:05 p.m.
+                            in
+                            Room 204
+                        </h4>
+                    
+                </div>
+            </div>
+        
+    
+    <script>
+        $(function(){
+            var $category = $(".category"), $select_category = $("#select_category"), tmp_array = [];
+            $category.each(function(){
+                var val = $(this).text();
+                if($.inArray(val, tmp_array) === -1){
+                    $select_category.append($('<option>').html(val).val(val.replace(/\s+/g, "")));
+                    tmp_array.push(val);
+                }
+            });
+            var $presentation_box = $(".presentation_box");
+            $select_category.change(function(){
+                var val = $(this).val();
+                if(val !== ""){
+                    $presentation_box.hide();
+                    search_class = 'div[class^="row presentation_box ' + val.replace(/^(\w+)/gi, "$1") + '"]';
+                    $(search_class).show();
+                }else {
+                    $presentation_box.show();
+                }
+            });
+        });
+    </script>
+</div>
+                            </div>
+
+
+    <style>
+    #sns_group {}
+    #sns_group ul{
+        list-style-type: none;
+        display: block;
+        margin: 10px 0;
+        padding-top: 10px;
+        border-top: 1px solid #ccc;
+    }
+    #sns_group li{
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>
+<div id="sns_group">
+    <ul>
+        <li class="twitter">
+            <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+            <script>!function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                if (!d.getElementById(id)) {
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = p + '://platform.twitter.com/widgets.js';
+                    fjs.parentNode.insertBefore(js, fjs);
+                }
+            }(document, 'script', 'twitter-wjs');</script>
+        </li>
+        <li class="facebook">
+            <script>(function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                // The described facebook appid
+                var appID = null;
+
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "http://connect.facebook.net/ja_JP/sdk.js#xfbml=1&appId=" + appID + "&version=v2.0";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-like" data-href="/2016/ja/schedule/talks/list/" data-layout="button_count" data-action="like"
+                 data-show-faces="true" data-share="true"></div>
+        </li>
+        <li class="hatena">
+            <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button"
+               data-hatena-bookmark-layout="standard-balloon" data-hatena-bookmark-lang="ja"
+               title="ãã®ã¨ã³ããªã¼ãã¯ã¦ãªããã¯ãã¼ã¯ã«è¿½å "><img src="https://b.st-hatena.com/images/entry-button/button-only@2x.png"
+                                                 alt="ãã®ã¨ã³ããªã¼ãã¯ã¦ãªããã¯ãã¼ã¯ã«è¿½å " width="20" height="20"
+                                                 style="border: none;"/></a>
+            <script type="text/javascript" src="https://b.st-hatena.com/js/bookmark_button.js" charset="utf-8"
+                    async="async"></script>
+        </li>
+        <li class="google">
+            <script type="text/javascript" src="https://apis.google.com/js/plusone.js">{lang:'ja'}</script>
+            <g:plusone size="medium"></g:plusone>
+        </li>
+    </ul>
+</div>
+
+
+                        </div>
+                        <aside class="span3">
+                            
+                            
+                                
+                                
+                                <div class="sponsor-list">
+                                    <h2>SPONSORS</h2>
+                                    
+                                    
+                                        
+                                            <h3>Diamond</h3>
+                                            
+                                                <a href="http://hunza.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/Hunza_logo.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾ãã³ã¶" />
+                                                </a>
+                                            
+                                        
+                                    
+                                        
+                                            <h3>Platinum</h3>
+                                            
+                                                <a href="https://www.monotaro.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/logo-PyCon.png.100x60_q85.jpg" alt="MonotaRO" />
+                                                </a>
+                                            
+                                                <a href="https://www.gandi.net/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/Gandi_logo_black.jpg.100x60_q85.jpg" alt="Gandi.net" />
+                                                </a>
+                                            
+                                        
+                                    
+                                        
+                                            <h3>Gold</h3>
+                                            
+                                                <a href="http://jxpress.net/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/logo-512.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾JXéä¿¡ç¤¾" />
+                                                </a>
+                                            
+                                                <a href="https://www.theport.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/PORT_ã­ã³.jpg.100x60_q85.jpg" alt="Port" />
+                                                </a>
+                                            
+                                                <a href="https://www.hde.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/hde-logo.jpg.100x60_q85.jpg" alt="æ ªå¼ä¼ç¤¾HDE" />
+                                                </a>
+                                            
+                                                <a href="http://www.e-seikatsu.info/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/ããçæ´»ã­ã´_PyConJP2016.jpg.100x60_q85.jpg" alt="æ ªå¼ä¼ç¤¾ããçæ´»" />
+                                                </a>
+                                            
+                                                <a href="https://shiroyagi.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/shiroyagi.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾ç½ã¤ã®ã³ã¼ãã¬ã¼ã·ã§ã³" />
+                                                </a>
+                                            
+                                                <a href="http://www.nvidia.co.jp/page/home.html">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/NVLogo_2D_2006_08_05.png.100x60_q85.png" alt="NVIDIA" />
+                                                </a>
+                                            
+                                                <a href="https://azure.microsoft.com/ja-jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/MSFT_logo_rgb_C-Gray.png.100x60_q85.png" alt="æ¥æ¬ãã¤ã¯ã­ã½ãã" />
+                                                </a>
+                                            
+                                        
+                                    
+                                        
+                                            <h3>Silver</h3>
+                                            
+                                                <a href="https://iridge.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/logo_320x101.png.100x60_q85.png" alt="iRidge, Inc." />
+                                                </a>
+                                            
+                                                <a href="http://www.beproud.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/beproud_logo_py.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾ãã¼ãã©ã¦ã" />
+                                                </a>
+                                            
+                                                <a href="https://squeeze-inc.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/squeeze-logo-horizontal.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾ SQUEEZE" />
+                                                </a>
+                                            
+                                                <a href="http://tracpath.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/tracpath-logo.png.100x60_q85.png" alt="tracpath.com" />
+                                                </a>
+                                            
+                                                <a href="http://www.nexedi.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/nexedi-jp.logo.image.png.100x60_q85.png" alt="Nexedi" />
+                                                </a>
+                                            
+                                                <a href="http://www.locarise.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/logo-horizontal.png.100x60_q85.png" alt="Locarise" />
+                                                </a>
+                                            
+                                                <a href="https://www.elastic.co/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/elastic-logo-H-full_color.png.100x60_q85.png" alt="Elastic" />
+                                                </a>
+                                            
+                                                <a href="https://eurie.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/eurie_logo_horizontal.png.100x60_q85.jpg" alt="æ ªå¼ä¼ç¤¾ã¦ã¼ãªã¨" />
+                                                </a>
+                                            
+                                                <a href="http://www.nikkei.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/nikkei_logo.png.100x60_q85.jpg" alt="æ¥æ¬çµæ¸æ°èç¤¾" />
+                                                </a>
+                                            
+                                                <a href="http://www.pythonic-exam.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/pythoned.png.100x60_q85.png" alt="Pythonã¨ã³ã¸ãã¢è²ææ¨é²åä¼" />
+                                                </a>
+                                            
+                                                <a href="http://www.mobilefactory.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/short_logoC_mf.jpg.100x60_q85.jpg" alt="ã¢ãã¤ã«ãã¡ã¯ããªã¼" />
+                                                </a>
+                                            
+                                                <a href="https://pay.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/PAY_JP-2.png.100x60_q85.jpg" alt="PAY.JP" />
+                                                </a>
+                                            
+                                                <a href="https://www.cb21.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/Catchball21.jpg.100x60_q85.jpg" alt="ã­ã£ãããã¼ã«ã»ãã¥ã¨ã³ãã£ã¯ã³" />
+                                                </a>
+                                            
+                                                <a href="http://www.silveregg.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/silveregg_Egg-large.png.100x60_q85.png" alt="ã·ã«ãã¼ã¨ãã°ã»ãã¯ãã­ã¸ã¼æ ªå¼ä¼ç¤¾" />
+                                                </a>
+                                            
+                                                <a href="http://yarch.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/yarch.png.100x60_q85.png" alt="ã¯ã¤ã¢ã¼ã" />
+                                                </a>
+                                            
+                                                <a href="https://tarosky.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/Tarosky-logomark_éé.png.100x60_q85.png" alt="ã¿ã­ã¹ã«ã¤æ ªå¼ä¼ç¤¾" />
+                                                </a>
+                                            
+                                                <a href="http://jsl.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/rog_5_L.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾æ¥æ¬ã·ã¹ãã æç " />
+                                                </a>
+                                            
+                                                <a href="http://www.brainpad.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/BP_Logo_1.gif.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾ãã¬ã¤ã³ããã" />
+                                                </a>
+                                            
+                                                <a href="http://www.leadinge.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/leadingedge.JPG.100x60_q85.jpg" alt="æ ªå¼ä¼ç¤¾ãªã¼ãã£ã³ã°ã»ã¨ãã¸ç¤¾" />
+                                                </a>
+                                            
+                                                <a href="http://www.digi-ana.com/index.html">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/150x70_logo.png.100x60_q85.jpg" alt="ãã¸ã¢ãã³ãã¥ãã±ã¼ã·ã§ã³ãºæ ªå¼ä¼ç¤¾" />
+                                                </a>
+                                            
+                                                <a href="https://www.wantedly.com/companies/tis">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/TIS_logomark_hor_1.jpg.100x60_q85.jpg" alt="TISæ ªå¼ä¼ç¤¾" />
+                                                </a>
+                                            
+                                                <a href="http://spherelinks.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/SL_logo_1.png.100x60_q85.jpg" alt="SphereLinks" />
+                                                </a>
+                                            
+                                                <a href="https://zero-start.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/ZEROSTART_logo.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾ã¼ã­ã¹ã¿ã¼ã" />
+                                                </a>
+                                            
+                                                <a href="http://www.cmscom.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/CMScomlogo.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾CMSã³ãã¥ãã±ã¼ã·ã§ã³ãº" />
+                                                </a>
+                                            
+                                                <a href="https://www.nintendo.co.jp/index.html">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/NintendoLogo_RGB_Gray_150mm_1.gif.100x60_q85.png" alt="ä»»å¤©å æ ªå¼ä¼ç¤¾" />
+                                                </a>
+                                            
+                                                <a href="https://www.jetbrains.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/logo_JetBrains_2.png.100x60_q85.png" alt="JetBrains" />
+                                                </a>
+                                            
+                                                <a href="http://python.org/psf">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/PSF-Logo.png.100x60_q85.png" alt="Python Software Foundation" />
+                                                </a>
+                                            
+                                        
+                                    
+                                        
+                                            <h3>Patron</h3>
+                                            
+                                                <a href="http://xn--w8jm5gwcwb7895ahf0b08x.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/npo_fenix_japan.png.100x60_q85.png" alt="NPOæ³äººããã§ããã¯ã¹ã»ã¸ã£ãã³" />
+                                                </a>
+                                            
+                                        
+                                    
+                                        
+                                    
+                                        
+                                            <h3>Media</h3>
+                                            
+                                                <a href="http://codezine.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/czlogo4web.png.100x60_q85.png" alt="CodeZine" />
+                                                </a>
+                                            
+                                                <a href="http://type.jp/et/feature/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/ET_logo_new.jpg.100x60_q85.jpg" alt="ã­ã£ãªã¢ãã¶ã¤ã³ã»ã³ã¿ã¼ãã¨ã³ã¸ãã¢typeã" />
+                                                </a>
+                                            
+                                                <a href="http://togetter.com/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/togetter.png.100x60_q85.png" alt="Togetter" />
+                                                </a>
+                                            
+                                                <a href="https://thinkit.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/thinkittm_HR.png.100x60_q85.png" alt="Think ITï¼ã¤ã³ãã¬ã¹ï¼" />
+                                                </a>
+                                            
+                                                <a href="http://gihyo.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/gihyojp_logo.png.100x60_q85.png" alt="gihyo.jp" />
+                                                </a>
+                                            
+                                                <a href="http://www.oreilly.co.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/orj-logo-2014-bk.png.100x60_q85.jpg" alt="æ ªå¼ä¼ç¤¾ãªã©ã¤ãªã¼ã»ã¸ã£ãã³" />
+                                                </a>
+                                            
+                                                <a href="http://eventdots.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/logo_dots.png.100x60_q85.png" alt="dots." />
+                                                </a>
+                                            
+                                        
+                                    
+                                        
+                                            <h3>Tutorial</h3>
+                                            
+                                                <a href="https://datumstudio.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/ä¼ç¤¾ã­ã´ï¼_å¤§.png.100x60_q85.png" alt="DATUM STUDIO" />
+                                                </a>
+                                            
+                                                <a href="http://www.nvidia.co.jp/page/home.html">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/NVLogo_2D_2006_08_05_1.png.100x60_q85.png" alt="NVIDIA" />
+                                                </a>
+                                            
+                                                <a href="http://sphinx-users.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/sphinxusers.png.100x60_q85.png" alt="Sphinx-Users.jp" />
+                                                </a>
+                                            
+                                                <a href="http://www.beproud.jp/">
+                                                    <img src="https://pycon.jp/2016/site_media/media/sponsor_files/beproud_logo_py_1.png.100x60_q85.png" alt="æ ªå¼ä¼ç¤¾ãã¼ãã©ã¦ã" />
+                                                </a>
+                                            
+                                        
+                                    
+                                </div>
+                                
+                            
+                            
+                        </aside>
+                    </div>
+
+                </div>
+                
+            </div>
+        
+    </div>
+
+    <footer>
+
+
+        <div class="container">
+        
+            <div class="footer-content">
+                <p class="sns">
+                    <a href="https://www.facebook.com/PyConJP"><img src="https://pycon.jp/2016/site_media/static/img/icon-facebook.png"></a>
+                    <a href="https://twitter.com/pyconj"><img src="https://pycon.jp/2016/site_media/static/img/icon-twitter.png"></a>
+                    <a href="http://pyconjp-fellow.herokuapp.com/" title="Join PyCon JP Fellow on Slack!"><img src="https://pycon.jp/2016/site_media/static/img/icon-slack.png"></a>
+                </p>
+                <p class="footer-venue">
+                  <img src="https://pycon.jp/2016/site_media/static/img/pyconjp-logo.png" alt="PyCon JP Committee">
+                  <img src="https://pycon.jp/2016/site_media/static/img/waseda-x200.png" alt="Waseda University"> <br>
+                  ä¸»å¬: ä¸è¬ç¤¾å£æ³äººPyCon JP<span> / </span>
+                  å±å¬: æ©ç¨²ç°å¤§å­¦ã°ã­ã¼ãã«ã½ããã¦ã§ã¢ã¨ã³ã¸ãã¢ãªã³ã°ç ç©¶æ
+                </p>
+                <p>
+                  PyCon JP 2016 in Tokyo is a production of the <a href="http://www.pycon.jp/">PyCon JP Committee</a>. Contact <a href="mailto:2016@pycon.jp">2016@pycon.jp</a>
+                </p>
+                <p class="footer-creativeCommons">
+                  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+                    <img alt="ã¯ãªã¨ã¤ãã£ãã»ã³ã¢ã³ãºã»ã©ã¤ã»ã³ã¹" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+                  </a>
+                  ãã® Webãµã¤ã ã¯
+                  <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+                    ã¯ãªã¨ã¤ãã£ãã»ã³ã¢ã³ãº è¡¨ç¤º 4.0 å½é ã©ã¤ã»ã³ã¹ã®ä¸ã«æä¾ããã¦ãã¾ãã
+                  </a>
+                </p>
+            </div>
+        
+        </div>
+    </footer>
+
+        </div>
+
+        
+    <script src="https://pycon.jp/2016/site_media/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://pycon.jp/2016/site_media/static/pinax/js/theme.js"></script>
+    
+        <script type="text/javascript" src="https://pyconjp.atlassian.net/s/048e172afaa11f8ad9162162d802fb5d-T/fjjzfj/72002/3c610f9ba371815fb16876af3ce547ea/2.0.14/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=ja-JP&amp;collectorId=90f0623a"></script>
+    
+    
+
+
+        
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-46515478-9', 'pycon.jp');
+    ga('send', 'pageview');
+  </script>
+  
+  
+
+    </body>
+
+<!-- Mirrored from pycon.jp/2016/ja/schedule/talks/list/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 28 Jun 2020 03:19:37 GMT -->
+</html>
+

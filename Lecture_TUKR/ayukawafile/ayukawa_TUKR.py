@@ -8,9 +8,10 @@ class TUKR:
     def __init__(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
         #--------初期値を設定する．---------
         # self.X = X[0][ :, :, None]
-        self.X = X
-        # print(self.X.shape)
-        # exit()
+
+        self.X = X[:,:,None]
+        print(self.X.shape)
+        exit()
         #ここから下は書き換えてね
         self.nb_xsamples, self.nb_ysamples,self.ob_dim = self.X.shape
         # self.nb_xsamples = X.shape[0]
@@ -37,15 +38,10 @@ class TUKR:
         ku_u = jnp.exp(-1/(2*self.xsigma**2)*u_u)#(20,20)
         kv_v = jnp.exp(-1/(2*self.ysigma**2)*v_v)#(10,10)
 
-        # granMa = jnp.sum(ku_u, axis=1, keepdims=True)#(20,1,1)
-        # granFa = jnp.sum(kv_v, axis=0, keepdims=True)#(1,10,1)
-        # f = (granMa * granFa * self.X)/(granMa * granFa)
-        # f = ((Chi@self.X)*(Chi@self.X))/jnp.sum(Chiu, axis=1, keepdims=True)*jnp.sum(Childv, axis=1, keepdims=True)
-        # print(ku_u.shape,kv_v.shape,self.X.shape)
+
         f_no_ue = jnp.einsum('ui, vj, ijd -> uvd', ku_u, kv_v, self.X) #(20,10,3)
         f_no_sh = jnp.einsum('ui, vj -> uv', ku_u, kv_v) #(20,10)
-        # print(granMa.shape)
-        # print(granPa.shape)
+
         f = f_no_ue/f_no_sh[:, :, None]
         # print(u_u.shape)
         return f
@@ -120,10 +116,10 @@ class TUKR:
 
 if __name__ == '__main__':
     from Lecture_TUKR.ayukawafile.data_scratch import load_kura_tsom
-    from Lecture_TUKR.ayukawafile.visualizer_kura import visualize_history    #kura
+    # from Lecture_TUKR.ayukawafile.visualizer_kura import visualize_history    #kura
 
     from Lecture_TUKR.ayukawafile.animals import load_data
-    # from Lecture_TUKR.ayukawafile.visualizer import visualize_history  #animal
+    from Lecture_TUKR.ayukawafile.visualizer import visualize_history  #animal
     from Lecture_TUKR.ayukawafile.visualizer import visualize_fig_history
 
     #各種パラメータ変えて遊んでみてね．
@@ -132,11 +128,11 @@ if __name__ == '__main__':
     xsigma = 0.2 #カーネルの幅 フィッティングの強度のイメージ　小さいほどその点が持つ引力？が強くなる
     ysigma = 0.2 # カーネルの幅
     eta = 0.2 #学習率 小さい方がゆっくり学習が進む
-    xlatent_dim = 1 #潜在空間の次元  鞍型データ用
-    ylatent_dim = 1  # 潜在空間の次元
-
-    # xlatent_dim = 2  # 潜在空間の次元
-    # ylatent_dim = 2  # 潜在空間の次元  animal
+    # xlatent_dim = 1 #潜在空間の次元  鞍型データ用
+    # ylatent_dim = 1  # 潜在空間の次元
+    #
+    xlatent_dim = 2  # 潜在空間の次元
+    ylatent_dim = 2  # 潜在空間の次元  animal
 
     alpha = 0.0
     norm = 10
@@ -151,14 +147,14 @@ if __name__ == '__main__':
 
     # print(TUKR.history['f'].shape)
 
-    X = load_kura_tsom(nb_xsamples, nb_ysamples) #鞍型データ　ob_dim=3, 真のL=2
-    # print(X.shape)
-    # exit()
+    # X = load_kura_tsom(nb_xsamples, nb_ysamples) #鞍型データ　ob_dim=3, 真のL=2
     # X = load_data(nb_xsamples, nb_ysamples)   #animal
-    # X = load_data() #animal
+    X = load_data() #animal
+    # print(X)
+    # exit()
 
-#(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
-    ukr = TUKR(X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random')
+    #(self, X, xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random', Zinit=None):
+    ukr = TUKR(X[0], xlatent_dim, ylatent_dim, xsigma, ysigma, prior='random')
     ukr.fit(epoch, eta, alpha, norm)
 
     # visualize_history(X, ukr.history['kernel'], ukr.history['z'], ukr.history['v'], ukr.history['error'], save_gif=False, filename="tmp")
