@@ -132,7 +132,13 @@ dmypy.json
 *.DS_Store
 
 .idea/
-face_project/datastore/
+face_project/ayukawaa/datastore/
 face_project/load.py/
-Lecture_UKR/fukunaga/datestore/
 face_project/load.py
+Lecture_UKR/fukunaga/datestore/
+face_project/datastore/
+*.jpeg
+*.png
+*.jpg
+face_project/load.py
+
