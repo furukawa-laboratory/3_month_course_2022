@@ -138,7 +138,7 @@ if __name__ == '__main__':
     #----------描画部分が実装されたらコメントアウト外す----------
     ukr.calc_approximate_f(resolution=30)
     visualize_history(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False, filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/epoch1000L0")
-    visualize_PNG_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/epoch1000L0")
+    # visualize_PNG_obs(X, ukr.history['y'], ukr.history['z'], ukr.history['error'], save_gif=False,filename="/Users/furukawashuushi/Desktop/3ヶ月コースGIF/epoch1000L0")
 
 
 
